@@ -7,6 +7,6 @@ namespace Hoff.Core.Interfaces
     {
         DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel);
         void GetMemoryStreamLogger();
-        void GetSerialLogger();
+        void GetSerialLogger(string port);
     }
 }

@@ -83,7 +83,6 @@ namespace Hoff.Core.Logging.Tests
             testComponent.DoSomeTestLogging();
         }
 
-
         [TestMethod]
         public void GetMemoryStreamLoggerTest()
         {

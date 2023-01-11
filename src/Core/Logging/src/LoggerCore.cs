@@ -13,18 +13,11 @@ using System.IO;
 using nanoFramework.Hardware.Esp32;
 #endif
 
-
 namespace Hoff.Core.Logging
 {
-   
-
     public class LoggerCore : ILoggerCore
     {
         private static DebugLogger _logger { get; set; }
-        public LoggerCore()
-        {
-
-        }
 
         public DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel)
         {
@@ -38,7 +31,7 @@ namespace Hoff.Core.Logging
             return _logger;
         }
 
-        public void GetSerialLogger()
+        public void GetSerialLogger(string port = null)
         {
             try
             {
@@ -55,10 +48,13 @@ namespace Hoff.Core.Logging
                 // open COM2
                 LogDispatcher.LoggerFactory = new SerialLoggerFactory("COM2");
 #else
-                ///////////////////////////////////////////////////////////////////////////////////////////////////
-                // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
-                // open COM6
-                LogDispatcher.LoggerFactory = new SerialLoggerFactory("COM6");
+              
+                if (port == null)
+                {  
+                   // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
+                    port = "COM6";
+                }
+                LogDispatcher.LoggerFactory = new SerialLoggerFactory(port);
 #endif
 
             }
