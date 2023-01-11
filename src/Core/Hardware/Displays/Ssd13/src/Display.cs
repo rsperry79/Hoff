@@ -13,6 +13,12 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         private static I2cDevice i2CDevice;
         private static Ssd1306 ssdDisplay;
 
+
+        public SSD13Display() : this(null, null)
+        {
+          
+        }
+
         public SSD13Display(object resolution = null, I2cDevice device = null)
         {
             if (i2CDevice == null)
@@ -25,7 +31,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
 
             resolution ??= Ssd13xx.DisplayResolution.OLED128x64;
 
-            ssdDisplay = new Ssd1306(i2CDevice, (Ssd13xx.DisplayResolution)resolution);
+         //   ssdDisplay = new Ssd1306(i2CDevice, (Ssd13xx.DisplayResolution)resolution);
         }
 
         public void DrawDirectLine(DirectLine line)
