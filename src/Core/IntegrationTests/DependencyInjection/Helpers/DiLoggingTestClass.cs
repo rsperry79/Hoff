@@ -1,6 +1,4 @@
-﻿
-
-using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Interfaces;
 
 using Microsoft.Extensions.Logging;
 

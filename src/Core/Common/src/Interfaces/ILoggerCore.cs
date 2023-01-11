@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+
 using nanoFramework.Logging.Debug;
 
 namespace Hoff.Core.Interfaces

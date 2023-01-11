@@ -48,10 +48,10 @@ namespace Hoff.Core.Logging
                 // open COM2
                 LogDispatcher.LoggerFactory = new SerialLoggerFactory("COM2");
 #else
-              
+
                 if (port == null)
-                {  
-                   // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
+                {
+                    // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
                     port = "COM6";
                 }
                 LogDispatcher.LoggerFactory = new SerialLoggerFactory(port);

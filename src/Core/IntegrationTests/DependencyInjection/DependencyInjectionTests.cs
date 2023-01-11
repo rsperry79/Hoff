@@ -1,10 +1,7 @@
-using nanoFramework.TestFramework;
-using nanoFramework.DependencyInjection;
-using System;
-using Microsoft.Extensions.Logging;
-using Hoff.Core.Interfaces;
-using Hoff.Core.Logging;
 using Hoff.Core.DependencyInjection.Tests.Helpers;
+
+using nanoFramework.DependencyInjection;
+using nanoFramework.TestFramework;
 
 namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests
 {
