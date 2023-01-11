@@ -29,6 +29,12 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.DependencyInjecti
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.DependencyInjection.Tests", "src\Core\DependencyInjection\Tests\Hoff.Core.DependencyInjection.Tests.nfproj", "{86EA703C-E9B8-4FCC-9AA9-94DC1FB19F57}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AA6686B-B2E7-4EEA-BF48-CAF0E7AD47ED}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
