@@ -29,6 +29,7 @@
   <ItemGroup>
     <Compile Include="Helpers\DiDisplayTestClass.cs" />
     <Compile Include="Helpers\DiSetup.cs" />
+    <Compile Include="SSD13DisplayTests.cs" />
     <Compile Include="SSD13Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
