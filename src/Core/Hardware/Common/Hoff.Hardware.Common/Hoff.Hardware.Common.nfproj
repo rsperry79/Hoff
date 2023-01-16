@@ -8,22 +8,43 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{11A8DD76-328B-46DF-9F39-F559912D0360};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>7560d12f-4485-465d-8abb-a92f8de19b0f</ProjectGuid>
+    <ProjectGuid>2ca9e545-f44c-433d-a78e-d0860548b6c8</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>Hoff.Hardware.Sensors.Ambient.HTUD2X</RootNamespace>
-    <AssemblyName>Hoff.Hardware.Sensors.Ambient.HTUD2X</AssemblyName>
+    <RootNamespace>Hoff.Hardware.Common</RootNamespace>
+    <AssemblyName>Hoff.Hardware.Common</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Abstract\SensorBase.cs" />
+    <Compile Include="Helpers\Calibration.cs" />
+    <Compile Include="Helpers\NumberExtentionMethods.cs" />
+    <Compile Include="Interfaces\SensorBaseTypes\IHumiditySensor.cs" />
+    <Compile Include="Interfaces\Base\ISensorBase.cs" />
+    <Compile Include="Interfaces\SensorBaseTypes\ITempatureSensor.cs" />
+    <Compile Include="Interfaces\IHumidityTempatureSensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Math, Version=1.5.29.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Math.1.5.29\lib\System.Math.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.RelativeHumidity, Version=4.150.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.4.150.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Temperature, Version=4.150.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.4.150.0\lib\UnitsNet.Temperature.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>

@@ -1,7 +1,7 @@
 using nanoFramework.TestFramework;
 
-namespace  Hoff.Controls.PID.Tests
-{ 
+namespace Hoff.Controls.PID.Tests
+{
     [TestClass]
     public class Test1
     {
