@@ -1,4 +1,6 @@
-﻿using Hoff.Core.Interfaces;
+﻿using System.IO;
+
+using Hoff.Core.Interfaces;
 
 using Microsoft.Extensions.Logging;
 
@@ -6,8 +8,6 @@ using nanoFramework.Logging;
 using nanoFramework.Logging.Debug;
 using nanoFramework.Logging.Serial;
 using nanoFramework.Logging.Stream;
-
-using System.IO;
 
 #if BUIID_FOR_ESP32
 using nanoFramework.Hardware.Esp32;
@@ -17,18 +17,18 @@ namespace Hoff.Core.Logging
 {
     public class LoggerCore : ILoggerCore
     {
-        private static DebugLogger _logger { get; set; }
+        private static DebugLogger Logger { get; set; }
 
         public DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel)
         {
-            _logger = new DebugLogger(loggerName)
+            Logger = new DebugLogger(loggerName)
             {
                 MinLogLevel = logLevel
             };
 
             LogDispatcher.LoggerFactory = new DebugLoggerFactory();
 
-            return _logger;
+            return Logger;
         }
 
         public void GetSerialLogger(string port = null)

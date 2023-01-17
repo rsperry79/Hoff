@@ -1,9 +1,11 @@
-﻿using Hoff.Hardware.Common.Abstract;
+﻿using System;
+using System.Device.I2c;
+
+using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces;
+
 using Iot.Device.DHTxx.Esp32;
-using System;
-using System.Device.I2c;
 
 namespace Hoff.Hardware.Sensors.Environmental
 {
@@ -32,12 +34,12 @@ namespace Hoff.Hardware.Sensors.Environmental
 
         public UnitsNet.RelativeHumidity Humidity
         {
-            get => relativeHumidity;
+            get => this.relativeHumidity;
             set
             {
-                if (relativeHumidity.Percent != value.Percent)
+                if (this.relativeHumidity.Percent != value.Percent)
                 {
-                    relativeHumidity = value;
+                    this.relativeHumidity = value;
                     HumiditySensorChanged();
                 }
             }
@@ -52,12 +54,12 @@ namespace Hoff.Hardware.Sensors.Environmental
 
         public UnitsNet.Temperature Temperature
         {
-            get => temperature;
+            get => this.temperature;
             set
             {
-                if (temperature.DegreesCelsius != value.DegreesCelsius)
+                if (this.temperature.DegreesCelsius != value.DegreesCelsius)
                 {
-                    temperature = value;
+                    this.temperature = value;
                     TempatureSensorChanged();
                 }
 
@@ -83,10 +85,10 @@ namespace Hoff.Hardware.Sensors.Environmental
         uint scale = 2)
         {
             I2cConnectionSettings settings = new(1, deviceAddr, speed);
-            _i2CDevice = I2cDevice.Create(settings);
-            Dht = new(_i2CDevice);
+            this._i2CDevice = I2cDevice.Create(settings);
+            this.Dht = new(this._i2CDevice);
 
-            _scale = scale;
+            this._scale = scale;
         }
         #endregion
 
@@ -108,49 +110,49 @@ namespace Hoff.Hardware.Sensors.Environmental
         public override void HasSensorValueChanged()
         {
 
-            float temp = ((float)ReadTemperature().DegreesCelsius).Truncate(_scale);
-            Temperature = UnitsNet.Temperature.FromDegreesCelsius(temp);
-            float hum = ((float)ReadHumidity().Percent).Truncate(_scale);
-            Humidity = UnitsNet.RelativeHumidity.FromPercent(hum);
+            float temp = ((float)this.ReadTemperature().DegreesCelsius).Truncate(this._scale);
+            this.Temperature = UnitsNet.Temperature.FromDegreesCelsius(temp);
+            float hum = ((float)this.ReadHumidity().Percent).Truncate(this._scale);
+            this.Humidity = UnitsNet.RelativeHumidity.FromPercent(hum);
         }
         #endregion
 
         #region IDisposable Support
         protected override void DisposeSensor()
         {
-            _i2CDevice.Dispose();
-            _i2CDevice = null;
+            this._i2CDevice.Dispose();
+            this._i2CDevice = null;
         }
 
 
 
         ~Dht12Sensor()
         {
-            Dispose(disposing: false);
+            this.Dispose(disposing: false);
         }
 
         public void Dispose()
         {
-            Dispose(disposing: true);
+            this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!this.disposedValue)
             {
                 if (disposing)
                 {
-                    if (!_disposed)
+                    if (!this._disposed)
                     {
-                        DisposeSensor();
-                        _disposed = true;
+                        this.DisposeSensor();
+                        this._disposed = true;
                     }
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
-                disposedValue = true;
+                this.disposedValue = true;
             }
         }
 
@@ -160,12 +162,12 @@ namespace Hoff.Hardware.Sensors.Environmental
         #region Helpers
         private UnitsNet.RelativeHumidity ReadHumidity()
         {
-            return Dht.Humidity;
+            return this.Dht.Humidity;
         }
 
         private UnitsNet.Temperature ReadTemperature()
         {
-            return Dht.Temperature;
+            return this.Dht.Temperature;
         }
 
 

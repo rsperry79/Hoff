@@ -1,9 +1,12 @@
-﻿using Hoff.Hardware.Common.Abstract;
+﻿using System;
+using System.Device.Spi;
+
+using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces;
+
 using Iot.Device.Max31865;
-using System;
-using System.Device.Spi;
+
 using UnitsNet;
 
 namespace Hoff.Hardware.Sensors.Environmental
@@ -29,12 +32,12 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// </summary>
         public Temperature Temperature
         {
-            get => temperature;
+            get => this.temperature;
             set
             {
-                if (temperature.DegreesCelsius != value.DegreesCelsius)
+                if (this.temperature.DegreesCelsius != value.DegreesCelsius)
                 {
-                    temperature = value;
+                    this.temperature = value;
                     TempatureSensorChanged();
                 }
 
@@ -59,11 +62,11 @@ namespace Hoff.Hardware.Sensors.Environmental
                 DataFlow = Max31865.SpiDataFlow
             };
 
-            spiDevice = SpiDevice.Create(settings);
-            sensor = new(spiDevice, PlatinumResistanceThermometerType.Pt1000, ResistanceTemperatureDetectorWires.ThreeWire, ElectricResistance.FromOhms(4300));
+            this.spiDevice = SpiDevice.Create(settings);
+            this.sensor = new(this.spiDevice, PlatinumResistanceThermometerType.Pt1000, ResistanceTemperatureDetectorWires.ThreeWire, ElectricResistance.FromOhms(4300));
 
 
-            _scale = scale;
+            this._scale = scale;
         }
         #endregion
 
@@ -84,8 +87,8 @@ namespace Hoff.Hardware.Sensors.Environmental
         public override void HasSensorValueChanged()
         {
 
-            float temp = ((float)ReadTemperature().DegreesCelsius).Truncate(_scale);
-            Temperature = UnitsNet.Temperature.FromDegreesCelsius(temp);
+            float temp = ((float)this.ReadTemperature().DegreesCelsius).Truncate(this._scale);
+            this.Temperature = UnitsNet.Temperature.FromDegreesCelsius(temp);
         }
 
         #endregion
@@ -93,22 +96,22 @@ namespace Hoff.Hardware.Sensors.Environmental
         #region IDisposable Support
         protected override void DisposeSensor()
         {
-            sensor.Dispose();
-            spiDevice.Dispose();
-            spiDevice = null;
-            sensor = null;
+            this.sensor.Dispose();
+            this.spiDevice.Dispose();
+            this.spiDevice = null;
+            this.sensor = null;
         }
 
         ~Max31865Senor()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: false);
+            this.Dispose(disposing: false);
         }
 
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
+            this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
         #endregion
@@ -116,25 +119,25 @@ namespace Hoff.Hardware.Sensors.Environmental
         #region Helpers
         private Temperature ReadTemperature()
         {
-            return sensor.Temperature;
+            return this.sensor.Temperature;
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!this.disposedValue)
             {
                 if (disposing)
                 {
-                    if (!_disposed)
+                    if (!this._disposed)
                     {
-                        DisposeSensor();
-                        _disposed = true;
+                        this.DisposeSensor();
+                        this._disposed = true;
                     }
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
-                disposedValue = true;
+                this.disposedValue = true;
             }
         }
 

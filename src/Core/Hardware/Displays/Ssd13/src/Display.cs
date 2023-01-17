@@ -1,9 +1,10 @@
-﻿using Hoff.Hardware.Displays.Common.Interfaces;
+﻿using System.Device.I2c;
+
+using Hoff.Hardware.Displays.Common.Interfaces;
 using Hoff.Hardware.Displays.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Fonts;
 
 using Iot.Device.Ssd13xx;
-using System.Device.I2c;
 
 namespace Hoff.Hardware.Displays.Ssd13.Tests
 {

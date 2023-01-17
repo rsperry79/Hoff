@@ -35,22 +35,22 @@ namespace Hoff.Controls.PID
         /// <returns>Value of the variable that needs to be controlled</returns>
         public double ControlVariable(TimeSpan timeSinceLastUpdate)
         {
-            double error = SetPoint - ProcessVariable;
+            double error = this.SetPoint - this.ProcessVariable;
 
             // integral term calculation
-            IntegralTerm += GainIntegral * error * timeSinceLastUpdate.TotalSeconds;
-            IntegralTerm = Clamp(IntegralTerm);
+            this.IntegralTerm += this.GainIntegral * error * timeSinceLastUpdate.TotalSeconds;
+            this.IntegralTerm = this.Clamp(this.IntegralTerm);
 
             // derivative term calculation
-            double dInput = processVariable - ProcessVariableLast;
-            double derivativeTerm = GainDerivative * (dInput / timeSinceLastUpdate.TotalSeconds);
+            double dInput = this.processVariable - this.ProcessVariableLast;
+            double derivativeTerm = this.GainDerivative * (dInput / timeSinceLastUpdate.TotalSeconds);
 
             // proportional term calcullation
-            double proportionalTerm = GainProportional * error;
+            double proportionalTerm = this.GainProportional * error;
 
-            double output = proportionalTerm + IntegralTerm - derivativeTerm;
+            double output = proportionalTerm + this.IntegralTerm - derivativeTerm;
 
-            output = Clamp(output);
+            output = this.Clamp(output);
 
             return output;
         }
@@ -102,11 +102,11 @@ namespace Hoff.Controls.PID
         /// </summary>
         public double ProcessVariable
         {
-            get => processVariable;
+            get => this.processVariable;
             set
             {
-                ProcessVariableLast = processVariable;
-                processVariable = value;
+                this.ProcessVariableLast = this.processVariable;
+                this.processVariable = value;
             }
         }
 
@@ -131,7 +131,7 @@ namespace Hoff.Controls.PID
         /// </remarks>
         private double Clamp(double variableToClamp)
         {
-            return variableToClamp <= OutputMin ? OutputMin : variableToClamp >= OutputMax ? OutputMax : variableToClamp;
+            return variableToClamp <= this.OutputMin ? this.OutputMin : variableToClamp >= this.OutputMax ? this.OutputMax : variableToClamp;
         }
     }
 }

@@ -1,11 +1,11 @@
+using System;
+
 using Hoff.Core.Logging.Tests.Helpers;
 
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
-
-using System;
 
 namespace Hoff.Core.Logging.Tests
 {

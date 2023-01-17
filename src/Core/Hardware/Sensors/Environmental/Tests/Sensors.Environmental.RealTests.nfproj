@@ -28,6 +28,7 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Dht12SensorTests.cs" />
+    <Compile Include="Helpers\DiSetup.cs" />
     <Compile Include="HTU21DTests.cs" />
     <Compile Include="Max31865SenorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -45,6 +46,16 @@
     </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.Hardware.Esp32, Version=1.5.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Hardware.Esp32.1.5.1\lib\nanoFramework.Hardware.Esp32.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -111,7 +122,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
-    <ProjectReference Include="..\src\Hoff.Hardware.Sensors.Environmental.nfproj" />
+    <ProjectReference Include="..\..\..\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
+    <ProjectReference Include="..\src\Sensors.Environmental.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->

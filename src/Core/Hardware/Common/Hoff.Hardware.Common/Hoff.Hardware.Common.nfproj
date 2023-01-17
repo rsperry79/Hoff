@@ -21,15 +21,33 @@
     <Compile Include="Abstract\SensorBase.cs" />
     <Compile Include="Helpers\Calibration.cs" />
     <Compile Include="Helpers\NumberExtentionMethods.cs" />
-    <Compile Include="Interfaces\SensorBaseTypes\IHumiditySensor.cs" />
+    <Compile Include="Interfaces\Config\IPinConfig.cs" />
+    <Compile Include="Interfaces\Sensors\IHumiditySensor.cs" />
     <Compile Include="Interfaces\Base\ISensorBase.cs" />
-    <Compile Include="Interfaces\SensorBaseTypes\ITempatureSensor.cs" />
-    <Compile Include="Interfaces\IHumidityTempatureSensor.cs" />
+    <Compile Include="Interfaces\Sensors\ITempatureSensor.cs" />
+    <Compile Include="Interfaces\Sensors\IHumidityTempatureSensor.cs" />
+    <Compile Include="Interfaces\Services\IEspConfig.cs" />
+    <Compile Include="Models\PinConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.Hardware.Esp32, Version=1.5.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Hardware.Esp32.1.5.1\lib\nanoFramework.Hardware.Esp32.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.Runtime.Events, Version=1.11.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Runtime.Events.1.11.6\lib\nanoFramework.Runtime.Events.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>

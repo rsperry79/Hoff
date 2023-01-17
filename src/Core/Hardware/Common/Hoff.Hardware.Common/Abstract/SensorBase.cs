@@ -1,8 +1,9 @@
 ﻿
 
-using Hoff.Hardware.Common.Interfaces;
 using System;
 using System.Threading;
+
+using Hoff.Hardware.Common.Interfaces;
 
 namespace Hoff.Hardware.Common.Abstract
 {
@@ -52,7 +53,7 @@ namespace Hoff.Hardware.Common.Abstract
         /// <param name="ms">Interval in milliseconds to track the changes to sensor values</param>
         public virtual void BeginTrackChanges(int ms)
         {
-            if (_isTrackingChanges)
+            if (this._isTrackingChanges)
             {
                 throw new InvalidOperationException("Already tracking changes");
             }
@@ -62,13 +63,13 @@ namespace Hoff.Hardware.Common.Abstract
                 throw new ArgumentOutOfRangeException("ms", "Minimum interval to track sensor changes is 50 milliseconds");
             }
 
-            _changeTracker = new Thread(() =>
+            this._changeTracker = new Thread(() =>
             {
-                CheckForChanges(HasSensorValueChanged, ms);
+                this.CheckForChanges(this.HasSensorValueChanged, ms);
             });
 
-            _isTrackingChanges = true;
-            _changeTracker.Start();
+            this._isTrackingChanges = true;
+            this._changeTracker.Start();
         }
 
 
@@ -77,11 +78,11 @@ namespace Hoff.Hardware.Common.Abstract
 
             int divs = ms / 1000;
 
-            while (_isTrackingChanges)
+            while (this._isTrackingChanges)
             {
                 if (ms > 1000)
                 {
-                    while (_isTrackingChanges && divs > 0)
+                    while (this._isTrackingChanges && divs > 0)
                     {
                         Thread.Sleep(1000);
                         divs--;
@@ -113,12 +114,12 @@ namespace Hoff.Hardware.Common.Abstract
         /// </summary>
         public virtual void EndTrackChanges()
         {
-            _isTrackingChanges = false;
+            this._isTrackingChanges = false;
             Thread.Sleep(3000);//see BeginChangeTracker to know why 3000 is chosen...3x of lowest wait time
-            if (_changeTracker.IsAlive)
+            if (this._changeTracker.IsAlive)
             {
                 //force kill
-                try { _changeTracker.Abort(); } finally { _changeTracker = null; }
+                try { this._changeTracker.Abort(); } finally { this._changeTracker = null; }
             }
         }
         #endregion

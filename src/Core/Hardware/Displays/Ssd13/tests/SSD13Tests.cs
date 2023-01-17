@@ -1,11 +1,12 @@
-﻿using Hoff.Hardware.Displays.Common.Interfaces;
+﻿using System;
+using System.Threading;
+
+using Hoff.Hardware.Displays.Common.Interfaces;
 using Hoff.Hardware.Displays.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Tests.Helpers;
 
 using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;
-using System;
-using System.Threading;
 
 namespace Hoff.Hardware.Displays.Ssd13.Tests
 {

@@ -47,36 +47,36 @@ namespace Hoff.Controls.PID
         public double PID_iterate(double setPoint, double processValue, TimeSpan ts)
         {
             // Ensure the timespan is not too small or zero.
-            Ts = (ts.TotalSeconds >= TsMin) ? ts.TotalSeconds : TsMin;
+            this.Ts = (ts.TotalSeconds >= this.TsMin) ? ts.TotalSeconds : this.TsMin;
 
             // Calculate rollup parameters
-            K = 2 / Ts;
-            b0 = (Math.Pow(K, 2) * Kp) + (K * Ki) + (Ki * N) + (K * Kp * N) + (Math.Pow(K, 2) * Kd * N);
-            b1 = (2 * Ki * N) - (2 * Math.Pow(K, 2) * Kp) - (2 * Math.Pow(K, 2) * Kd * N);
-            b2 = (Math.Pow(K, 2) * Kp) - (K * Ki) + (Ki * N) - (K * Kp * N) + (Math.Pow(K, 2) * Kd * N);
-            a0 = Math.Pow(K, 2) + (N * K);
-            a1 = -2 * Math.Pow(K, 2);
-            a2 = Math.Pow(K, 2) - (K * N);
+            this.K = 2 / this.Ts;
+            this.b0 = (Math.Pow(this.K, 2) * this.Kp) + (this.K * this.Ki) + (this.Ki * this.N) + (this.K * this.Kp * this.N) + (Math.Pow(this.K, 2) * this.Kd * this.N);
+            this.b1 = (2 * this.Ki * this.N) - (2 * Math.Pow(this.K, 2) * this.Kp) - (2 * Math.Pow(this.K, 2) * this.Kd * this.N);
+            this.b2 = (Math.Pow(this.K, 2) * this.Kp) - (this.K * this.Ki) + (this.Ki * this.N) - (this.K * this.Kp * this.N) + (Math.Pow(this.K, 2) * this.Kd * this.N);
+            this.a0 = Math.Pow(this.K, 2) + (this.N * this.K);
+            this.a1 = -2 * Math.Pow(this.K, 2);
+            this.a2 = Math.Pow(this.K, 2) - (this.K * this.N);
 
             // Age errors and output history
-            e2 = e1;                        // Age errors one iteration
-            e1 = e0;                        // Age errors one iteration
-            e0 = setPoint - processValue;   // Compute new error
-            y2 = y1;                        // Age outputs one iteration
-            y1 = y0;                        // Age outputs one iteration
-            y0 = (-a1 / a0 * y1) - (a2 / a0 * y2) + (b0 / a0 * e0) + (b1 / a0 * e1) + (b2 / a0 * e2); // Calculate current output
+            this.e2 = this.e1;                        // Age errors one iteration
+            this.e1 = this.e0;                        // Age errors one iteration
+            this.e0 = setPoint - processValue;   // Compute new error
+            this.y2 = this.y1;                        // Age outputs one iteration
+            this.y1 = this.y0;                        // Age outputs one iteration
+            this.y0 = (-this.a1 / this.a0 * this.y1) - (this.a2 / this.a0 * this.y2) + (this.b0 / this.a0 * this.e0) + (this.b1 / this.a0 * this.e1) + (this.b2 / this.a0 * this.e2); // Calculate current output
 
             // Clamp output if needed
-            if (y0 > OutputUpperLimit)
+            if (this.y0 > this.OutputUpperLimit)
             {
-                y0 = OutputUpperLimit;
+                this.y0 = this.OutputUpperLimit;
             }
-            else if (y0 < OutputLowerLimit)
+            else if (this.y0 < this.OutputLowerLimit)
             {
-                y0 = OutputLowerLimit;
+                this.y0 = this.OutputLowerLimit;
             }
 
-            return y0;
+            return this.y0;
         }
 
         /// <summary>
@@ -84,12 +84,12 @@ namespace Hoff.Controls.PID
         /// </summary>
         public void ResetController()
         {
-            e2 = 0;
-            e1 = 0;
-            e0 = 0;
-            y2 = 0;
-            y1 = 0;
-            y0 = 0;
+            this.e2 = 0;
+            this.e1 = 0;
+            this.e0 = 0;
+            this.y2 = 0;
+            this.y1 = 0;
+            this.y0 = 0;
         }
 
         /// <summary>

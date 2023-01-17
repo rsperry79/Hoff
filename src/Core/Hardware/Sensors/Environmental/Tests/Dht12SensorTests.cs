@@ -1,15 +1,28 @@
-﻿using Hoff.Hardware.Common.Interfaces;
-using nanoFramework.TestFramework;
-using System;
+﻿using System;
 using System.Threading;
+
+using Hoff.Hardware.Common.Interfaces;
+using Hoff.Hardware.Common.Interfaces.Services;
+
+using nanoFramework.DependencyInjection;
+using nanoFramework.TestFramework;
 
 namespace Hoff.Hardware.Sensors.Environmental.Tests
 {
     [TestClass]
     public class Dht12SensorTests
     {
+        [Setup]
+        public void Setup()
+        {
+
+            ServiceProvider services = DiSetup.ConfigureServices();
+            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
+            espConfig.SetI2C1Pins();
+        }
+
         [TestMethod]
-        public void CanTrackChanges_StateUnderTest_ExpectedBehavior()
+        public void CanTrackChangesTest()
         {
             // Arrange
             IHumidityTempatureSensor dht12Sensor = new Dht12Sensor();
@@ -18,6 +31,7 @@ namespace Hoff.Hardware.Sensors.Environmental.Tests
             bool result = dht12Sensor.CanTrackChanges();
 
             // Assert
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -74,9 +88,5 @@ namespace Hoff.Hardware.Sensors.Environmental.Tests
             // Assert
             Assert.IsNull(dht12Sensor);
         }
-
-
-
-
     }
 }

@@ -1,13 +1,26 @@
-﻿using Hoff.Hardware.Common.Interfaces;
-using nanoFramework.TestFramework;
-using System;
+﻿using System;
 using System.Threading;
+
+using Hoff.Hardware.Common.Interfaces;
+using Hoff.Hardware.Common.Interfaces.Services;
+
+using nanoFramework.DependencyInjection;
+using nanoFramework.TestFramework;
 
 namespace Hoff.Hardware.Sensors.Environmental.Tests
 {
     [TestClass]
     public class Max31865SenorTests
     {
+        [Setup]
+        public void Setup()
+        {
+
+            ServiceProvider services = DiSetup.ConfigureServices();
+            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
+            espConfig.SetSpi1Pins();
+        }
+
         [TestMethod]
         public void CanTrackChangesTest()
         {

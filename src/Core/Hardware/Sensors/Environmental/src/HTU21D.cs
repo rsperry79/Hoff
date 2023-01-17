@@ -1,9 +1,11 @@
-﻿using Hoff.Hardware.Common.Abstract;
-using Hoff.Hardware.Common.Helpers;
-using Hoff.Hardware.Common.Interfaces;
-using System;
+﻿using System;
 using System.Device.I2c;
 using System.Threading;
+
+using Hoff.Hardware.Common.Abstract;
+using Hoff.Hardware.Common.Helpers;
+using Hoff.Hardware.Common.Interfaces;
+
 using UnitsNet.Units;
 
 namespace Hoff.Hardware.Sensors.Environmental
@@ -32,12 +34,12 @@ namespace Hoff.Hardware.Sensors.Environmental
 
         public UnitsNet.RelativeHumidity Humidity
         {
-            get => relativeHumidity;
+            get => this.relativeHumidity;
             set
             {
-                if (relativeHumidity.Percent != value.Percent)
+                if (this.relativeHumidity.Percent != value.Percent)
                 {
-                    relativeHumidity = value;
+                    this.relativeHumidity = value;
                     HumiditySensorChanged();
                 }
             }
@@ -51,12 +53,12 @@ namespace Hoff.Hardware.Sensors.Environmental
 
         public UnitsNet.Temperature Temperature
         {
-            get => temperature;
+            get => this.temperature;
             set
             {
-                if (temperature.DegreesCelsius != value.DegreesCelsius)
+                if (this.temperature.DegreesCelsius != value.DegreesCelsius)
                 {
-                    temperature = value;
+                    this.temperature = value;
                     TempatureSensorChanged();
                 }
 
@@ -126,15 +128,15 @@ namespace Hoff.Hardware.Sensors.Environmental
         public HTU21D(int busSelector = 1, byte deviceAddr = 0x40, I2cBusSpeed speed = I2cBusSpeed.FastMode, uint scale = 2)
         {
             I2cConnectionSettings i2cSetttings = new(busSelector, deviceAddr, speed);
-            _i2CDevice = I2cDevice.Create(i2cSetttings);
+            this._i2CDevice = I2cDevice.Create(i2cSetttings);
 
-            Humidity = UnitsNet.RelativeHumidity.From(ERROR_HUMIDITY, RelativeHumidityUnit.Percent);
-            Temperature = UnitsNet.Temperature.FromDegreesCelsius(ERROR_TEMPERATURE);
+            this.Humidity = UnitsNet.RelativeHumidity.From(ERROR_HUMIDITY, RelativeHumidityUnit.Percent);
+            this.Temperature = UnitsNet.Temperature.FromDegreesCelsius(ERROR_TEMPERATURE);
 
-            Resolution = speed != I2cBusSpeed.FastMode ? (byte)0x81 : (byte)0x0;
-            _scale = scale;
+            this.Resolution = speed != I2cBusSpeed.FastMode ? (byte)0x81 : (byte)0x0;
+            this._scale = scale;
 
-            Initialize();
+            this.Initialize();
         }
         #endregion
 
@@ -147,14 +149,14 @@ namespace Hoff.Hardware.Sensors.Environmental
         private void Initialize()
         {
             //Set sensor resolution...
-            byte userRegister = ReadUserRegister(); //Go get the current register state
+            byte userRegister = this.ReadUserRegister(); //Go get the current register state
             userRegister &= 0x73; //Turn off the resolution bits
-            Resolution &= 0x81; //Turn off all other bits but resolution bits
-            userRegister |= Resolution; //Mask in the requested resolution bits
+            this.Resolution &= 0x81; //Turn off all other bits but resolution bits
+            userRegister |= this.Resolution; //Mask in the requested resolution bits
 
             //Request a write to user register
-            _i2CDevice.Write(WRITE_USER_REGISTER); //Write to the user register command
-            _i2CDevice.Write(new byte[] { userRegister }); //Write the new resolution bits
+            this._i2CDevice.Write(this.WRITE_USER_REGISTER); //Write to the user register command
+            this._i2CDevice.Write(new byte[] { userRegister }); //Write the new resolution bits
         }
 
 
@@ -165,9 +167,9 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// </summary>
         public void Reset()
         {
-            _i2CDevice.Write(SOFT_RESET);
-            Temperature = UnitsNet.Temperature.FromDegreesCelsius(ERROR_TEMPERATURE);
-            Humidity = UnitsNet.RelativeHumidity.FromPercent(ERROR_HUMIDITY);
+            this._i2CDevice.Write(this.SOFT_RESET);
+            this.Temperature = UnitsNet.Temperature.FromDegreesCelsius(ERROR_TEMPERATURE);
+            this.Humidity = UnitsNet.RelativeHumidity.FromPercent(ERROR_HUMIDITY);
         }
         #endregion
 
@@ -187,24 +189,24 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// <returns>bool</returns>
         public override void HasSensorValueChanged()
         {
-            Temperature = UnitsNet.Temperature.FromDegreesCelsius(ReadTemperature().Truncate(_scale));
-            Humidity = UnitsNet.RelativeHumidity.FromPercent(ReadHumidity().Truncate(_scale));
+            this.Temperature = UnitsNet.Temperature.FromDegreesCelsius(this.ReadTemperature().Truncate(this._scale));
+            this.Humidity = UnitsNet.RelativeHumidity.FromPercent(this.ReadHumidity().Truncate(this._scale));
         }
         #endregion
 
         #region IDisposable Support
         protected override void DisposeSensor()
         {
-            _i2CDevice.Dispose();
-            _i2CDevice = null;
+            this._i2CDevice.Dispose();
+            this._i2CDevice = null;
         }
 
         public void Dispose()
         {
-            if (!_disposed)
+            if (!this._disposed)
             {
-                DisposeSensor();
-                _disposed = true;
+                this.DisposeSensor();
+                this._disposed = true;
             }
         }
 
@@ -218,14 +220,14 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// <returns>humidity as a floating point number</returns>
         protected float ReadHumidity()
         {
-            _i2CDevice.Write(TRIGGER_HUMD_MEASURE_HOLD);
+            this._i2CDevice.Write(this.TRIGGER_HUMD_MEASURE_HOLD);
 
             //Hang out while measurement is taken. 50mS max, page 4 of datasheet.
             Thread.Sleep(100);
 
             //Comes back in three bytes, data(MSB) / data(LSB) / Checksum
             byte[] readHum = new byte[3];
-            _i2CDevice.Read(readHum);
+            this._i2CDevice.Read(readHum);
 
             byte msb = readHum[0];
             byte lsb = readHum[1];
@@ -253,14 +255,14 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// <returns>temperature  as a floating point number in celcius</returns>
         protected float ReadTemperature()
         {
-            _i2CDevice.Write(TRIGGER_TEMP_MEASURE_HOLD);
+            this._i2CDevice.Write(this.TRIGGER_TEMP_MEASURE_HOLD);
 
             //Hang out while measurement is taken. 50mS max, page 4 of datasheet.
             Thread.Sleep(100);
 
             //Comes back in three bytes, data(MSB) / data(LSB) / Checksum
             byte[] readTemp = new byte[3];
-            _i2CDevice.Read(readTemp);
+            this._i2CDevice.Read(readTemp);
 
             byte msb = readTemp[0];
             byte lsb = readTemp[1];
@@ -289,10 +291,10 @@ namespace Hoff.Hardware.Sensors.Environmental
         {
             byte[] result = new byte[1];
 
-            _i2CDevice.Write(READ_USER_REGISTER);
+            this._i2CDevice.Write(this.READ_USER_REGISTER);
             Thread.Sleep(50);
 
-            _i2CDevice.Read(result);
+            this._i2CDevice.Read(result);
             return result[0];
         }
 

@@ -1,7 +1,9 @@
-﻿using Hoff.Hardware.Common.Interfaces;
-using nanoFramework.TestFramework;
-using System;
+﻿using System;
 using System.Threading;
+
+using Hoff.Hardware.Common.Interfaces;
+
+using nanoFramework.TestFramework;
 
 namespace Hoff.Hardware.Sensors.Environmental.Tests
 {

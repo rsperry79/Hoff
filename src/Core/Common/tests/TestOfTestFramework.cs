@@ -1,7 +1,7 @@
-﻿using nanoFramework.TestFramework;
-
-using System;
+﻿using System;
 using System.Diagnostics;
+
+using nanoFramework.TestFramework;
 
 namespace Hoff.Core.Tests
 {
@@ -12,7 +12,7 @@ namespace Hoff.Core.Tests
         public void TestRaisesException()
         {
             Debug.WriteLine("Test will raise exception");
-            Assert.ThrowsException(typeof(Exception), ThrowMe);
+            Assert.ThrowsException(typeof(Exception), this.ThrowMe);
         }
 
         private void ThrowMe()
