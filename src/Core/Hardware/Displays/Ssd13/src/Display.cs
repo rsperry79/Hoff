@@ -6,20 +6,20 @@ using Hoff.Hardware.Displays.Ssd13.Fonts;
 
 using Iot.Device.Ssd13xx;
 
-namespace Hoff.Hardware.Displays.Ssd13.Tests
+namespace Hoff.Hardware.Displays.Ssd13
 {
-    public class SSD13Display : IDisplay
+    public class Display : IDisplay
     {
         private static I2cDevice i2CDevice;
         private static Ssd1306 ssdDisplay;
 
 
-        public SSD13Display() : this(null, null)
+        public Display() : this(null)
         {
 
         }
 
-        public SSD13Display(object resolution = null, I2cDevice device = null)
+        public Display(object resolution = null)
         {
             if (i2CDevice == null)
             {

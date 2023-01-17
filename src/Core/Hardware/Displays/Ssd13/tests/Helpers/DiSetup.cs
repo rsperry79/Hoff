@@ -12,7 +12,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests.Helpers
         {
             return new ServiceCollection()
                 .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-                .AddSingleton(typeof(IDisplay), typeof(SSD13Display))
+                .AddSingleton(typeof(IDisplay), typeof(Display))
                 .AddSingleton(typeof(DiDisplayTestClass))
                 .BuildServiceProvider();
         }

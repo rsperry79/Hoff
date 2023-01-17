@@ -35,7 +35,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void DrawDirectLineTest()
         {
             // Arrange
-            SSD13Display display = new();
+            Display display = new();
             DirectLine line = default;
 
             // Act
@@ -50,7 +50,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void ClearDirectLineTest()
         {
             // Arrange
-            SSD13Display display = new();
+            Display display = new();
             DirectLine line = default;
             display.DrawDirectLine(line);
             Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -67,7 +67,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void ClearScreenTest()
         {
             // Arrange
-            SSD13Display display = new();
+            Display display = new();
 
             // Act
             display.ClearScreen();
@@ -80,7 +80,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void HorizontalLineTest()
         {
             // Arrange
-            SSD13Display display = new();
+            Display display = new();
             Line line = default;
             bool draw = false;
 
@@ -97,7 +97,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void VerticalLineTest()
         {
             // Arrange
-            SSD13Display display = new();
+            Display display = new();
             Line line = default;
             bool draw = false;
 
@@ -114,7 +114,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void WriteLineTest()
         {
             // Arrange
-            SSD13Display display = new();
+            Display display = new();
             int x = 2;
             int y = 2;
             string text = "８９ＡＢ功夫＄";

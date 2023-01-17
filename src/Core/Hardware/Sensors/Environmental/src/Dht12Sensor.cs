@@ -84,7 +84,7 @@ namespace Hoff.Hardware.Sensors.Environmental
         public Dht12Sensor(int busSelector = 1, byte deviceAddr = Dht12.DefaultI2cAddress, I2cBusSpeed speed = I2cBusSpeed.FastMode,
         uint scale = 2)
         {
-            I2cConnectionSettings settings = new(1, deviceAddr, speed);
+            I2cConnectionSettings settings = new(busSelector, deviceAddr, speed);
             this._i2CDevice = I2cDevice.Create(settings);
             this.Dht = new(this._i2CDevice);
 
