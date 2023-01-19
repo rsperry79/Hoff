@@ -35,26 +35,26 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// </summary>
         private double humidity = 1;
 
-        public RelativeHumidity Humidity
+        public double Humidity
         {
             get
             {
                 Debug.WriteLine(this.humidity.ToString());
-                return RelativeHumidity.FromPercent(this.humidity);
+                return this.humidity;
             }
             set
             {
 
-                if (this.humidity != value.Percent)
+                if (this.humidity != value)
                 {
-                    this.humidity = value.Percent;
+                    this.humidity = value;
                     HumiditySensorChanged();
                 }
             }
         }
 
 
-        private Temperature temperature = Temperature.FromDegreesCelsius(-9999);
+        private double temperature = -9999;
 
         private bool disposedValue;
 
@@ -62,12 +62,12 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// Accessor/Mutator for temperature in celcius
         /// </summary>
 
-        public Temperature Temperature
+        public double Temperature
         {
             get => this.temperature;
             set
             {
-                if (this.temperature.DegreesCelsius != value.DegreesCelsius)
+                if (this.temperature != value)
                 {
                     this.temperature = value;
                     TempatureSensorChanged();
@@ -98,8 +98,6 @@ namespace Hoff.Hardware.Sensors.Environmental
         {
             try
             {
-
-
                 I2cConnectionSettings settings = new(busSelector, deviceAddr, speed);
                 this._i2CDevice = I2cDevice.Create(settings);
                 this.Dht = new(this._i2CDevice);
@@ -134,10 +132,10 @@ namespace Hoff.Hardware.Sensors.Environmental
             try
             {
 
-                float temp = ((float)this.ReadTemperature().DegreesCelsius).Truncate(this._scale);
-                this.Temperature = Temperature.FromDegreesCelsius(temp);
-                float hum = ((float)this.ReadHumidity().Percent).Truncate(this._scale);
-                this.Humidity = RelativeHumidity.FromPercent(hum);
+                float temp = ((float)this.ReadTempature()).Truncate(this._scale);
+                this.Temperature = temp;
+                float hum = ((float)this.ReadHumidity()).Truncate(this._scale);
+                this.Humidity = hum;
             }
             catch (Exception)
             {
@@ -188,13 +186,12 @@ namespace Hoff.Hardware.Sensors.Environmental
 
         #endregion
 
-
         #region Helpers
-        private UnitsNet.RelativeHumidity ReadHumidity()
+        private double ReadHumidity()
         {
             try
             {
-                return this.Dht.Humidity;
+                return this.Dht.Humidity.Percent;
             }
             catch (Exception)
             {
@@ -204,15 +201,14 @@ namespace Hoff.Hardware.Sensors.Environmental
             return default;
         }
 
-        private Temperature ReadTemperature()
+        private double ReadTempature()
         {
-            return this.Dht.Temperature;
+            return this.Dht.Temperature.DegreesCelsius;
         }
 
 
 
 
         #endregion
-
     }
 }

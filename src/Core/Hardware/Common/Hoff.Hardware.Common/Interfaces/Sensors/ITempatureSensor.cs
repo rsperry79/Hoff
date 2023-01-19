@@ -13,6 +13,6 @@ namespace Hoff.Hardware.Common.Interfaces
         /// <summary>
         /// The current tempature
         /// </summary>
-        UnitsNet.Temperature Temperature { get; }
+        double Temperature { get; }
     }
 }

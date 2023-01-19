@@ -13,6 +13,6 @@ namespace Hoff.Hardware.Common.Interfaces
         /// <summary>
         /// The current Humidity level
         /// </summary>
-        UnitsNet.RelativeHumidity Humidity { get; }
+        double Humidity { get; }
     }
 }
