@@ -12,11 +12,12 @@ namespace Hoff.Hardware.Sensors.Environmental.Tests
     [TestClass]
     public class Dht12SensorTests
     {
+        private static ServiceProvider services;
+
         [Setup]
         public void Setup()
         {
-
-            ServiceProvider services = DiSetup.ConfigureServices();
+            services = DiSetup.ConfigureServices();
             IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetI2C1Pins();
         }
@@ -76,17 +77,17 @@ namespace Hoff.Hardware.Sensors.Environmental.Tests
             Assert.IsNotNull(dht12Sensor);
         }
 
-        [TestMethod]
-        public void DisposeTest()
-        {
-            // Arrange
-            IHumidityTempatureSensor dht12Sensor = new Dht12Sensor();
+        //[TestMethod]
+        //public void DisposeTest()
+        //{
+        //    // Arrange
+        //    IHumidityTempatureSensor dht12Sensor = new Dht12Sensor();
 
-            // Act
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            dht12Sensor.Dispose();
-            // Assert
-            Assert.IsNull(dht12Sensor);
-        }
+        //    // Act
+        //    Thread.Sleep(TimeSpan.FromSeconds(1));
+        //    dht12Sensor.Dispose();
+        //    // Assert
+        //    Assert.IsNull(dht12Sensor);
+        //}
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-
+﻿using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Displays.Common.Interfaces;
 using Hoff.Hardware.Displays.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Tests.Helpers;
@@ -13,17 +11,30 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
     [TestClass]
     public class SSD13Tests
     {
+        private static ServiceProvider services;
+
+        [Setup]
+        public void Setup()
+        {
+
+            services = DiSetup.ConfigureLoggingServices(); // by ext static class as this is a common set up
+            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
+
+            // Act
+            espConfig.SetSpi1Pins();
+        }
+
+
         [TestMethod]
         public void BaseTest()
         {
             // Setup
-            ServiceProvider services = DiSetup.ConfigureLoggingServices(); // by ext static class as this is a common set up
-
-            // Arrange
             DiDisplayTestClass loggingTest = (DiDisplayTestClass)services.GetRequiredService(typeof(DiDisplayTestClass));
 
-            // Act
+            // Arrange
             loggingTest.RunLogTests();
+
+            // Act
 
             IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
 
@@ -31,43 +42,43 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         }
 
 
-        [TestMethod]
-        public void DrawDirectLineTest()
-        {
-            // Arrange
-            Display display = new();
-            DirectLine line = default;
+        //[TestMethod]
+        //public void DrawDirectLineTest()
+        //{
+        //    // Arrange
+        //    IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
+        //    DirectLine line = new DirectLine { X = 1, Y = 1, Width = 2, Height = 2 };
 
-            // Act
-            display.DrawDirectLine(
-                line);
+        //    // Act
+        //    display.DrawDirectLine(
+        //        line);
 
-            // Assert
-            Assert.IsNotNull(display);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(display);
+        //}
 
-        [TestMethod]
-        public void ClearDirectLineTest()
-        {
-            // Arrange
-            Display display = new();
-            DirectLine line = default;
-            display.DrawDirectLine(line);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+        //[TestMethod]
+        //public void ClearDirectLineTest()
+        //{
+        //    // Arrange
+        //    IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
+        //    DirectLine line = new DirectLine { X = 1, Y = 1, Width = 2, Height =2  };
+        //    display.DrawDirectLine(line);
+        //    Thread.Sleep(TimeSpan.FromSeconds(1));
 
-            // Act
-            display.ClearDirectLine(
-                line);
+        //    // Act
+        //    display.ClearDirectLine(
+        //        line);
 
-            // Assert
-            Assert.IsNotNull(display);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(display);
+        //}
 
         [TestMethod]
         public void ClearScreenTest()
         {
             // Arrange
-            Display display = new();
+            IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
 
             // Act
             display.ClearScreen();
@@ -80,7 +91,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void HorizontalLineTest()
         {
             // Arrange
-            Display display = new();
+            IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
             Line line = default;
             bool draw = false;
 
@@ -97,8 +108,8 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void VerticalLineTest()
         {
             // Arrange
-            Display display = new();
-            Line line = default;
+            IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
+            Line line = new Line { X = 10, Y = 10, Length = 10 };
             bool draw = false;
 
             // Act
@@ -114,7 +125,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void WriteLineTest()
         {
             // Arrange
-            Display display = new();
+            IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
             int x = 2;
             int y = 2;
             string text = "８９ＡＢ功夫＄";

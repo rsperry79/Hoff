@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Hoff.Hardware.Common.Interfaces.Base;
+
 namespace Hoff.Hardware.Common.Interfaces
 {
     public interface IHumiditySensor : ISensorBase, IDisposable

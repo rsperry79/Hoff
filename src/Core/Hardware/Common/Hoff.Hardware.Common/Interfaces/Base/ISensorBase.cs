@@ -1,5 +1,4 @@
-﻿
-namespace Hoff.Hardware.Common.Interfaces
+﻿namespace Hoff.Hardware.Common.Interfaces.Base
 {
     public interface ISensorBase
     {
@@ -10,6 +9,5 @@ namespace Hoff.Hardware.Common.Interfaces
         void BeginTrackChanges(int ms);
 
         void EndTrackChanges();
-
     }
 }

@@ -67,7 +67,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Environmental", "Environmen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CE3946E6-09C1-4F34-858D-6D518814675D}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Sensors.Environmental", "src\Core\Hardware\Sensors\Environmental\src\Sensors.Environmental.nfproj", "{68A9FC64-4AE5-43F1-8C33-77F44C836C0B}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Hardware.Sensors.Environmental", "src\Core\Hardware\Sensors\Environmental\src\Hoff.Core.Hardware.Sensors.Environmental.nfproj", "{68A9FC64-4AE5-43F1-8C33-77F44C836C0B}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Sensors.Environmental.RealTests", "src\Core\Hardware\Sensors\Environmental\Tests\Sensors.Environmental.RealTests.nfproj", "{C0598BE6-B621-4329-A7EA-872D5ACD76D1}"
 EndProject

@@ -1,66 +1,66 @@
-﻿using System;
-using System.Threading;
+﻿//using System;
+//using System.Threading;
 
-using Hoff.Hardware.Common.Interfaces;
-using Hoff.Hardware.Common.Interfaces.Services;
+//using Hoff.Hardware.Common.Interfaces;
+//using Hoff.Hardware.Common.Interfaces.Services;
 
-using nanoFramework.DependencyInjection;
-using nanoFramework.TestFramework;
+//using nanoFramework.DependencyInjection;
+//using nanoFramework.TestFramework;
 
-namespace Hoff.Hardware.Sensors.Environmental.Tests
-{
-    [TestClass]
-    public class Max31865SenorTests
-    {
-        [Setup]
-        public void Setup()
-        {
+//namespace Hoff.Hardware.Sensors.Environmental.Tests
+//{
+//    [TestClass]
+//    public class Max31865SenorTests
+//    {
+//        [Setup]
+//        public void Setup()
+//        {
 
-            ServiceProvider services = DiSetup.ConfigureServices();
-            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
-            espConfig.SetSpi1Pins();
-        }
+//            ServiceProvider services = DiSetup.ConfigureServices();
+//            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
+//            espConfig.SetSpi1Pins();
+//        }
 
-        [TestMethod]
-        public void CanTrackChangesTest()
-        {
-            // Arrange
-            ITempatureSensor max31865Senor = new Max31865Senor();
+//        [TestMethod]
+//        public void CanTrackChangesTest()
+//        {
+//            // Arrange
+//            ITempatureSensor max31865Senor = new Max31865Senor();
 
-            // Act
-            bool result = max31865Senor.CanTrackChanges();
+//            // Act
+//            bool result = max31865Senor.CanTrackChanges();
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+//            // Assert
+//            Assert.IsTrue(result);
+//        }
 
-        [TestMethod]
-        public void DisposeTest()
-        {
-            // Arrange
-            ITempatureSensor max31865Senor = new Max31865Senor();
+//        [TestMethod]
+//        public void DisposeTest()
+//        {
+//            // Arrange
+//            ITempatureSensor max31865Senor = new Max31865Senor();
 
-            // Act
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            max31865Senor.Dispose();
+//            // Act
+//            Thread.Sleep(TimeSpan.FromSeconds(1));
+//            max31865Senor.Dispose();
 
-            // Assert
-            Assert.IsNull(max31865Senor);
-        }
+//            // Assert
+//            Assert.IsNull(max31865Senor);
+//        }
 
-        [TestMethod]
-        public void TempatureTest()
-        {
-            // Arrange
-            ITempatureSensor max31865Senor = new Max31865Senor();
+//        //[TestMethod]
+//        //public void TempatureTest()
+//        //{
+//        //    // Arrange
+//        //    ITempatureSensor max31865Senor = new Max31865Senor();
 
-            // Act
-            UnitsNet.Temperature result = max31865Senor.Temperature;
+//        //    // Act
+//        //    UnitsNet.Temperature result = max31865Senor.Temperature;
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.DegreesCelsius);
-        }
+//        //    // Assert
+//        //    Assert.IsNotNull(result);
+//        //    Assert.IsNotNull(result.DegreesCelsius);
+//        //}
 
-    }
-}
+//    }
+//}

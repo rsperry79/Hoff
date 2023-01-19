@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Device.I2c;
+using System.Diagnostics;
 
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces;
+using Hoff.Hardware.Common.Interfaces.Base;
 
-using Iot.Device.DHTxx.Esp32;
+using Iot.Device.DHTxx;
+
+using UnitsNet;
 
 namespace Hoff.Hardware.Sensors.Environmental
 {
@@ -27,32 +31,38 @@ namespace Hoff.Hardware.Sensors.Environmental
 
         #region Properties
         /// <summary>
-        /// Accessor/Mutator for relative humidity %
+        /// Accessors/Mutator for relative humidity %
         /// </summary>
+        private double humidity = 1;
 
-        private UnitsNet.RelativeHumidity relativeHumidity;
-
-        public UnitsNet.RelativeHumidity Humidity
+        public RelativeHumidity Humidity
         {
-            get => this.relativeHumidity;
+            get
+            {
+                Debug.WriteLine(this.humidity.ToString());
+                return RelativeHumidity.FromPercent(this.humidity);
+            }
             set
             {
-                if (this.relativeHumidity.Percent != value.Percent)
+
+                if (this.humidity != value.Percent)
                 {
-                    this.relativeHumidity = value;
+                    this.humidity = value.Percent;
                     HumiditySensorChanged();
                 }
             }
         }
 
-        private UnitsNet.Temperature temperature;
+
+        private Temperature temperature = Temperature.FromDegreesCelsius(-9999);
+
         private bool disposedValue;
 
         /// <summary>
         /// Accessor/Mutator for temperature in celcius
         /// </summary>
 
-        public UnitsNet.Temperature Temperature
+        public Temperature Temperature
         {
             get => this.temperature;
             set
@@ -65,6 +75,8 @@ namespace Hoff.Hardware.Sensors.Environmental
 
             }
         }
+
+
         #endregion
 
         #region Event Handlers
@@ -84,11 +96,21 @@ namespace Hoff.Hardware.Sensors.Environmental
         public Dht12Sensor(int busSelector = 1, byte deviceAddr = Dht12.DefaultI2cAddress, I2cBusSpeed speed = I2cBusSpeed.FastMode,
         uint scale = 2)
         {
-            I2cConnectionSettings settings = new(busSelector, deviceAddr, speed);
-            this._i2CDevice = I2cDevice.Create(settings);
-            this.Dht = new(this._i2CDevice);
+            try
+            {
 
-            this._scale = scale;
+
+                I2cConnectionSettings settings = new(busSelector, deviceAddr, speed);
+                this._i2CDevice = I2cDevice.Create(settings);
+                this.Dht = new(this._i2CDevice);
+
+                this._scale = scale;
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("CTOR");
+                throw;
+            }
         }
         #endregion
 
@@ -109,11 +131,19 @@ namespace Hoff.Hardware.Sensors.Environmental
         /// <returns>bool</returns>
         public override void HasSensorValueChanged()
         {
+            try
+            {
 
-            float temp = ((float)this.ReadTemperature().DegreesCelsius).Truncate(this._scale);
-            this.Temperature = UnitsNet.Temperature.FromDegreesCelsius(temp);
-            float hum = ((float)this.ReadHumidity().Percent).Truncate(this._scale);
-            this.Humidity = UnitsNet.RelativeHumidity.FromPercent(hum);
+                float temp = ((float)this.ReadTemperature().DegreesCelsius).Truncate(this._scale);
+                this.Temperature = Temperature.FromDegreesCelsius(temp);
+                float hum = ((float)this.ReadHumidity().Percent).Truncate(this._scale);
+                this.Humidity = RelativeHumidity.FromPercent(hum);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("HasSensorValueChanged");
+
+            }
         }
         #endregion
 
@@ -162,10 +192,19 @@ namespace Hoff.Hardware.Sensors.Environmental
         #region Helpers
         private UnitsNet.RelativeHumidity ReadHumidity()
         {
-            return this.Dht.Humidity;
+            try
+            {
+                return this.Dht.Humidity;
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("ReadHumidty");
+            }
+
+            return default;
         }
 
-        private UnitsNet.Temperature ReadTemperature()
+        private Temperature ReadTemperature()
         {
             return this.Dht.Temperature;
         }

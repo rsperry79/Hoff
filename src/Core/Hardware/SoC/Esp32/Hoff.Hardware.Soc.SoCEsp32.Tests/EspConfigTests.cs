@@ -33,6 +33,7 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
 
             // Act
             espConfig.SetSpi1Pins();
+
             // Assert
             Assert.AreEqual(pins.Spi1_Clock, espConfig.GetPinFunction(DeviceFunction.SPI1_CLOCK));
             Assert.AreEqual(pins.Spi1_Miso, espConfig.GetPinFunction(DeviceFunction.SPI1_MISO));

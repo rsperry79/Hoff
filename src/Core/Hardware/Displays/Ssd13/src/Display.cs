@@ -14,12 +14,12 @@ namespace Hoff.Hardware.Displays.Ssd13
         private static Ssd1306 ssdDisplay;
 
 
-        public Display() : this(null)
+        public Display() : this(Ssd13xx.DisplayResolution.OLED128x64)
         {
 
         }
 
-        public Display(object resolution = null)
+        public Display(Ssd13xx.DisplayResolution resolution = Ssd13xx.DisplayResolution.OLED128x64)
         {
             if (i2CDevice == null)
             {
@@ -29,9 +29,8 @@ namespace Hoff.Hardware.Displays.Ssd13
                 i2CDevice = I2cDevice.Create(new I2cConnectionSettings(bussId, address, busSpeed));
             }
 
-            resolution ??= Ssd13xx.DisplayResolution.OLED128x64;
 
-            ssdDisplay = new Ssd1306(i2CDevice, (Ssd13xx.DisplayResolution)resolution);
+            ssdDisplay = new Ssd1306(i2CDevice, resolution);
 
         }
 

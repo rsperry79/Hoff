@@ -3,7 +3,7 @@
 using System;
 using System.Threading;
 
-using Hoff.Hardware.Common.Interfaces;
+using Hoff.Hardware.Common.Interfaces.Base;
 
 namespace Hoff.Hardware.Common.Abstract
 {
