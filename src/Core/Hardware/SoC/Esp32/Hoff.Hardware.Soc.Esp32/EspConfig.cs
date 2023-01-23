@@ -11,7 +11,7 @@ namespace Hoff.Hardware.SoC.SoCEsp32
         private readonly IPinConfig Config;
 
         /// <summary>
-        /// Instanciates the class and sets the config for the other functions.
+        /// Instantiates the class and sets the config for the other functions.
         /// The intent is to allow config loaded from Dependency Injection.
         /// </summary>
         /// <param name="config">The pin config file. <see cref="IPinConfig"/></param>

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-
+﻿
 using Hoff.Hardware.Common.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Sensors.Environmental;

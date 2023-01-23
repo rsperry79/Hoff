@@ -15,7 +15,6 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests.Helpers
             return new ServiceCollection()
                 .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
                 .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
-
                 .BuildServiceProvider();
         }
     }

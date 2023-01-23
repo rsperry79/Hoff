@@ -15,6 +15,7 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
         private static ServiceProvider services;
 
         private static IPinConfig pins;
+        private static IEspConfig espConfig;
 
         [Setup]
         public void Setup()
@@ -22,6 +23,7 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
 
             services = DiSetup.ConfigureServices();
             pins = (IPinConfig)services.GetRequiredService(typeof(IPinConfig));
+            espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
 
         }
 
@@ -29,7 +31,6 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
         public void SetSpiPinsTest()
         {
             // Arrange
-            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
 
             // Act
             espConfig.SetSpi1Pins();
@@ -46,7 +47,6 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
         public void SetI2C1PinsTest()
         {
             // Arrange
-            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
 
 
             // Act
@@ -61,8 +61,6 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
         public void SetI2C2PinsTest()
         {
             // Arrange
-            ServiceProvider services = DiSetup.ConfigureServices();
-            IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
 
             // Act
             espConfig.SetI2C2Pins();

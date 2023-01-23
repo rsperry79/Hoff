@@ -19,15 +19,12 @@ namespace Hoff.Hardware.Common.Tests.Models
             int data = 14;
             int clock2 = 15;
 
-
             int data2 = 16;
             int clock3 = 17;
 
             IPinConfig pinConfig = new PinConfig
             {
-
                 // Act
-
                 Spi1_Clock = clock,
                 Spi1_Miso = miso,
                 Spi1_Mosi = mosi,
@@ -35,11 +32,9 @@ namespace Hoff.Hardware.Common.Tests.Models
                 I2C1_CLOCK = clock2,
                 I2C1_DATA = data,
 
-
                 I2C2_CLOCK = clock3,
                 I2C2_DATA = data2
             };
-
 
             // Assert
             Assert.IsNotNull(pinConfig);

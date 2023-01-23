@@ -1,7 +1,7 @@
 ﻿using System.Device.I2c;
 
-using Hoff.Hardware.Displays.Common.Interfaces;
-using Hoff.Hardware.Displays.Common.Structs;
+using Hoff.Hardware.Common.Interfaces.Displays;
+using Hoff.Hardware.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Fonts;
 
 using Iot.Device.Ssd13xx;
@@ -13,12 +13,13 @@ namespace Hoff.Hardware.Displays.Ssd13
         private static I2cDevice i2CDevice;
         private static Ssd1306 ssdDisplay;
 
-
+        // TODO: this should be a generic resolution
         public Display() : this(Ssd13xx.DisplayResolution.OLED128x64)
         {
 
         }
 
+        // TODO: this should be a generic resolution
         public Display(Ssd13xx.DisplayResolution resolution = Ssd13xx.DisplayResolution.OLED128x64)
         {
             if (i2CDevice == null)
