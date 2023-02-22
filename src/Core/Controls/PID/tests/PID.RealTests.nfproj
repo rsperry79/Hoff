@@ -31,6 +31,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+    <Resource Include="app.config" />
+    <Resource Include="nano.runsettings">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="nano.runsettings" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
       <Private>True</Private>
@@ -46,19 +57,6 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="app.config" />
-    <Resource Include="nano.runsettings">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <None Include="app.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="nano.runsettings" />
-    <None Include="packages.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->

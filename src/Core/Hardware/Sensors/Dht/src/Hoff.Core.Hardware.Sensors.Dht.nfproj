@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <NanoFrameworkProjectSystemPath>$(MSBuildExtensionsPath)\nanoFramework\v1.0\</NanoFrameworkProjectSystemPath>
+  </PropertyGroup>
+  <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.Default.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{11A8DD76-328B-46DF-9F39-F559912D0360};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>1360e5ad-3275-406b-b265-8d51c46adaab</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>Hoff.Core.Hardware.Sensors.Dht</RootNamespace>
+    <AssemblyName>Hoff.Core.Hardware.Sensors.Dht</AssemblyName>
+    <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
+  <ItemGroup>
+    <Compile Include="Dht12Sensor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Iot.Device.Dhtxx, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Dhtxx.1.2.222\lib\Iot.Device.Dhtxx.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.Runtime.Events, Version=1.11.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Runtime.Events.1.11.6\lib\nanoFramework.Runtime.Events.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.Runtime.Native, Version=1.6.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Runtime.Native.1.6.6\lib\nanoFramework.Runtime.Native.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.Gpio, Version=1.1.28.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Device.Gpio.1.1.28\lib\System.Device.Gpio.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.I2c, Version=1.1.9.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.9\lib\System.Device.I2c.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.Model, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Device.Model.1.2.216\lib\System.Device.Model.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Diagnostics.Stopwatch, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Diagnostics.Stopwatch.1.2.195\lib\System.Diagnostics.Stopwatch.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Math, Version=1.5.29.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Math.1.5.29\lib\System.Math.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.RelativeHumidity, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.3.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Temperature, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.3.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
+  <ProjectExtensions>
+    <ProjectCapabilities>
+      <ProjectConfigurationsDeclaredAsItems />
+    </ProjectCapabilities>
+  </ProjectExtensions>
+</Project>

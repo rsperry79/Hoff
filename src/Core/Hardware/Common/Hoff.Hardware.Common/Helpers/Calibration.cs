@@ -18,17 +18,9 @@ namespace Hoff.Hardware.Common.Helpers
         /// <returns>Calibrated value</returns>
         public static float Apply2PointCalibration(float rawLow, float rawRange, float refLow, float refRange, float measuredVal)
         {
-            if (refRange == 0)
-            {
-                throw new ArgumentException();
-            }
-
-            if (rawRange == 0)
-            {
-                throw new ArgumentException();
-            }
-
-            return (((measuredVal - rawLow) * refRange) / rawRange) + refLow;
+            return refRange == 0
+                ? throw new ArgumentException()
+                : rawRange == 0 ? throw new ArgumentException() : ((measuredVal - rawLow) * refRange / rawRange) + refLow;
         }
     }
 }

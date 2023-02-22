@@ -38,7 +38,7 @@ namespace Hoff.Core.Tests
             float floata = 42; float floatb = 42;
             int[] intArraya = new int[5] { 1, 2, 3, 4, 5 };
             int[] intArrayb = new int[5] { 1, 2, 3, 4, 5 };
-            object obja = new object(); object objb = obja;
+            object obja = new(); object objb = obja;
             string stra = "42"; string strb = "42";
             byte[] arrayempty = new byte[0];
 

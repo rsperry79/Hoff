@@ -8,7 +8,7 @@ namespace Hoff.Hardware.Common.Interfaces
     {
         // Event Handlers
         delegate void TempatureChangedEventHandler();
-        event TempatureChangedEventHandler TempatureSensorChanged;
+        event TempatureChangedEventHandler TemperatureSensorChanged;
 
         /// <summary>
         /// The current tempature

@@ -16,7 +16,7 @@ namespace Hoff.Core.Logging.Tests
         public void CreateNewLoggerTest()
         {
             // Arrange
-            LoggerCore loggerCore = new LoggerCore();
+            LoggerCore loggerCore = new();
             string loggerName = "TestLogger";
 
             // Setup
@@ -32,7 +32,7 @@ namespace Hoff.Core.Logging.Tests
         public void LoggerDoesNotThrowTest()
         {
             // Arrange
-            LoggerCore loggerCore = new LoggerCore();
+            LoggerCore loggerCore = new();
             string loggerName = "SerialLogger";
 
             // Setup
@@ -69,7 +69,7 @@ namespace Hoff.Core.Logging.Tests
         public void GetSerialLoggerTest()
         {
             // Arrange
-            LoggerCore loggerCore = new LoggerCore();
+            LoggerCore loggerCore = new();
             string loggerName = "SerialLogger";
 
             // Setup
@@ -87,7 +87,7 @@ namespace Hoff.Core.Logging.Tests
         public void GetMemoryStreamLoggerTest()
         {
             // Arrange
-            LoggerCore loggerCore = new LoggerCore();
+            LoggerCore loggerCore = new();
             string loggerName = "SerialLogger";
 
             // Setup

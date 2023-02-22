@@ -1,7 +1,7 @@
-﻿using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Displays.Common.Interfaces;
-using Hoff.Hardware.Displays.Common.Structs;
+﻿using Hoff.Hardware.Common.Interfaces.Displays;
+using Hoff.Hardware.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Tests.Helpers;
+using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
 using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;
@@ -109,7 +109,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         {
             // Arrange
             IDisplay display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
-            Line line = new Line { X = 10, Y = 10, Length = 10 };
+            Line line = new() { X = 10, Y = 10, Length = 10 };
             bool draw = false;
 
             // Act

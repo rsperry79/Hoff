@@ -49,11 +49,8 @@ namespace Hoff.Core.Logging
                 LogDispatcher.LoggerFactory = new SerialLoggerFactory("COM2");
 #else
 
-                if (port == null)
-                {
-                    // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
-                    port = "COM6";
-                }
+                // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
+                port ??= "COM6";
                 LogDispatcher.LoggerFactory = new SerialLoggerFactory(port);
 #endif
 
@@ -66,7 +63,7 @@ namespace Hoff.Core.Logging
 
         public void GetMemoryStreamLogger()
         {
-            MemoryStream memoryStream = new MemoryStream();
+            MemoryStream memoryStream = new();
             LogDispatcher.LoggerFactory = new StreamLoggerFactory(memoryStream);
         }
     }

@@ -1,5 +1,5 @@
 ﻿using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Interfaces.Services;
+using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
 using nanoFramework.Hardware.Esp32;
 
