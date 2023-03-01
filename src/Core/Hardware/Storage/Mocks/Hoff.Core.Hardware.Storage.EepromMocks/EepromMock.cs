@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Device.I2c;
 
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Storage;
-
-using Iot.Device.At24cxx;
 
 namespace Hoff.Core.Hardware.Storage.EepromMocks
 {
@@ -14,11 +13,27 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
         private bool disposedValue;
         private const char EOL = '\0';
 
+        public event IEeprom.DataChangedEventHandler EepromDataChanged;
+
+        public byte ReadByte(byte address)
+        {
+           return eeprom.ReadByte(address);
+        }
+
+        public bool DefaultInit()
+        {
+            return this.Init(1, 0x00, I2cBusSpeed.FastMode);
+        }
+
+        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed)
+        {
+            return true;
+        }
+
         public int GetSize()
         {
             return eeprom != null ? eeprom.Size : 0;
         }
-
 
         public int GetPageSize()
         {
@@ -30,10 +45,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return eeprom != null ? eeprom.PageCount : 0;
         }
 
-        public EepromMock(At24cMock device)
-        {
-            eeprom = device;
-        }
+        public EepromMock(At24cMock device) => eeprom = device;
 
         public bool WriteByte(byte address, byte message)
         {
@@ -51,14 +63,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return writeResult == message.Length;
         }
 
-        public bool WriteArrayList(byte address, ArrayList list)
-        {
-            byte[] toStore = list.ToByteArray();
-            uint writeResult = eeprom.Write(address, toStore);
-            writeResult += eeprom.WriteByte(address + toStore.Length, (byte)EOL);
 
-            return writeResult == toStore.Length + 1;
-        }
 
         public bool WriteString(byte address, string message)
         {
@@ -66,9 +71,35 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return this.Write(address, encodedMessage);
         }
 
-        public ArrayList ReadArrayList(byte address)
+        public string ReadString(byte address)
         {
+            Array data = this.ReadByteArray(address);
+            return data.ToString();
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    eeprom.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
+        }
+
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        public byte[] ReadByteArray(byte address)
+        {
             ArrayList receivedData = new();
             bool hasEol = false;
 
@@ -95,7 +126,10 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
                 }
                 while (hasEol);
 
-                return receivedData;
+               
+                byte[] toRet = new byte[receivedData.Count];
+                receivedData.CopyTo(toRet, 0);
+                return toRet;
             }
             else
             {
@@ -103,31 +137,15 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             }
         }
 
-        public string ReadString(byte address)
+        public bool WriteByteArray(byte address, byte[] list)
         {
-            ArrayList data = this.ReadArrayList(address);
-            return data.ToString();
+            byte[] toStore = list;
+            uint writeResult = eeprom.Write(address, toStore);
+            writeResult += eeprom.WriteByte(address + toStore.Length, (byte)EOL);
+
+            return writeResult == toStore.Length + 1;
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-                    eeprom.Dispose();
-                }
-
-                this.disposedValue = true;
-            }
-        }
-
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+   
     }
 }

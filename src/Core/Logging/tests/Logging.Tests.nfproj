@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\src\Hoff.Core.Common.nfproj" />
-    <ProjectReference Include="..\src\Hoff.Core.Logging.nfproj" />
+    <ProjectReference Include="..\src\Hoff.Core.Services.Logging.nfproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">

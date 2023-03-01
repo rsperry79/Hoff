@@ -1,7 +1,11 @@
-﻿using Hoff.Hardware.Common.Interfaces.Config;
+﻿
+using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
+using Microsoft.Extensions.Logging;
+
 using nanoFramework.Hardware.Esp32;
+using nanoFramework.Logging;
 
 namespace Hoff.Hardware.SoC.SoCEsp32
 
@@ -10,12 +14,18 @@ namespace Hoff.Hardware.SoC.SoCEsp32
     {
         private readonly IPinConfig Config;
 
+        private readonly ILogger logger;
         /// <summary>
         /// Instantiates the class and sets the config for the other functions.
         /// The intent is to allow config loaded from Dependency Injection.
         /// </summary>
         /// <param name="config">The pin config file. <see cref="IPinConfig"/></param>
-        public EspConfig(IPinConfig config) => this.Config = config;
+        public EspConfig(IPinConfig config)
+        {
+            this.Config = config;
+            this.logger = this.GetCurrentClassLogger();
+        }
+
 
         /// <summary>
         /// Sets the SPI Pins from the IPinConfig loaded in the ctor
@@ -56,6 +66,13 @@ namespace Hoff.Hardware.SoC.SoCEsp32
         {
             int funct = Configuration.GetFunctionPin(deviceFunction);
             return funct;
+        }
+
+
+        public void SetGpio(int pin)
+        {
+
+            //nanoFramework.Hardware.Esp32.Gpio
         }
     }
 }

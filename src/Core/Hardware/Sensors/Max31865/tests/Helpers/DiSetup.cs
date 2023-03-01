@@ -1,9 +1,9 @@
 ﻿using Hoff.Core.Interfaces;
-using Hoff.Core.Logging;
+using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Models;
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
+using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using nanoFramework.DependencyInjection;
 

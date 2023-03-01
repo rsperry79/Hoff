@@ -1,5 +1,5 @@
 ﻿using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Models;
+using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using nanoFramework.TestFramework;
 

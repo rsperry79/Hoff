@@ -2,7 +2,7 @@
 
 using Hoff.Hardware.Common.Interfaces.Base;
 
-namespace Hoff.Hardware.Common.Interfaces
+namespace Hoff.Hardware.Common.Interfaces.Sensors
 {
     public interface ITempatureSensor : ISensorBase, IDisposable
     {

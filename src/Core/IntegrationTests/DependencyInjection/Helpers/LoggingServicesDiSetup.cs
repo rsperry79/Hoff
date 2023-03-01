@@ -1,5 +1,5 @@
 ﻿using Hoff.Core.Interfaces;
-using Hoff.Core.Logging;
+using Hoff.Core.Services.Logging;
 
 using nanoFramework.DependencyInjection;
 

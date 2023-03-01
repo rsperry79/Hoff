@@ -24,13 +24,16 @@
     <Compile Include="Helpers\NumberExtentionMethods.cs" />
     <Compile Include="Interfaces\Config\IPinConfig.cs" />
     <Compile Include="Interfaces\Displays\IDisplay.cs" />
+    <Compile Include="Interfaces\Sensors\IBme280Sensor.cs" />
+    <Compile Include="Interfaces\Sensors\IDht11Sensor.cs" />
     <Compile Include="Interfaces\Sensors\IHumiditySensor.cs" />
     <Compile Include="Interfaces\Base\ISensorBase.cs" />
     <Compile Include="Interfaces\Sensors\ITempatureSensor.cs" />
     <Compile Include="Interfaces\Sensors\IHumidityTempatureSensor.cs" />
+    <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
     <Compile Include="Interfaces\Storage\IEeprom.cs" />
-    <Compile Include="Models\PinConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\I2cBussControllerService.cs" />
     <Compile Include="Structs\DirectLine.cs" />
     <Compile Include="Structs\Line.cs" />
   </ItemGroup>
@@ -51,6 +54,11 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+    <Reference Include="nanoFramework.Logging, Version=1.1.63.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Logging.1.1.63\lib\nanoFramework.Logging.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.11.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.Runtime.Events.1.11.6\lib\nanoFramework.Runtime.Events.dll</HintPath>
       <Private>True</Private>
@@ -58,6 +66,21 @@
     </Reference>
     <Reference Include="nanoFramework.System.Text, Version=1.2.37.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.System.Text.1.2.37\lib\nanoFramework.System.Text.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.Gpio, Version=1.1.28.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.Gpio.1.1.28\lib\System.Device.Gpio.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.I2c, Version=1.1.9.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.9\lib\System.Device.I2c.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.Spi, Version=1.3.37.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.Spi.1.3.37\lib\System.Device.Spi.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>

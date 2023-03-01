@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Text;
 
@@ -8,15 +6,17 @@ namespace Hoff.Hardware.Common.Helpers
 {
     public static class EepromExtentionHelpers
     {
-        public static byte[] ToByteArray(this ArrayList list)
+        public static byte[] ToByteArray(this Array list)
         {
-            byte[] toRet = new byte[list.Count];
-            object[] src = list.ToArray();
+            byte[] toRet = new byte[list.Length];
+              
 
-            for (int i = 0; i < src.Length; i++)
-            {
-                toRet[i] = (byte)src[i];
-            }
+                for (int i = 0; i < list.Length; i++)
+                {
+              
+                    toRet[i] = (byte)list.GetValue(i);;
+                }
+       
 
             return toRet;
         }
@@ -35,9 +35,9 @@ namespace Hoff.Hardware.Common.Helpers
 
         }
 
-        public static string ToString(this ArrayList list)
+        public static string ToString(this Array list)
         {
-            string decodedMessage = Encoding.UTF8.GetString(list.ToByteArray(), 0, list.Count);
+            string decodedMessage = Encoding.UTF8.GetString(list.ToByteArray(), 0, list.Length);
             return decodedMessage;
         }
 

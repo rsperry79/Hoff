@@ -22,14 +22,28 @@
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
-    <PropertyGroup>
-        <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
+  </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="Helpers\DiSetup.cs" />
-    <Compile Include="At24xTests.cs" />
+    <Compile Include="DisposeTests.cs" />
+    <Compile Include="BaseTests.cs" />
+    <Compile Include="Helpers\SetupHelper.cs" />
+    <Compile Include="ByteTests.cs" />
+    <Compile Include="StringTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nano.runsettings" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj" />
+    <ProjectReference Include="..\..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\..\..\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
+    <ProjectReference Include="..\src\Hoff.Core.Hardware.Storage.At24.nfproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
@@ -39,6 +53,11 @@
     </Reference>
     <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.Logging, Version=1.1.63.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.1.1.63\lib\nanoFramework.Logging.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -57,17 +76,6 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="nano.runsettings" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj" />
-    <ProjectReference Include="..\..\..\..\Logging\src\Hoff.Core.Logging.nfproj" />
-    <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
-    <ProjectReference Include="..\..\..\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
-    <ProjectReference Include="..\src\Hoff.Core.Hardware.Storage.At24.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->

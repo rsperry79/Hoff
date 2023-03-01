@@ -1,22 +1,19 @@
 ﻿using Hoff.Core.Interfaces;
-using Hoff.Core.Logging;
-using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Models;
-using Hoff.Hardware.SoC.SoCEsp32;
-using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
+using Hoff.Core.Services.Logging;
+using Hoff.Hardware.Common.Interfaces.Sensors;
+using Hoff.Hardware.Sensors.Dht;
 
 using nanoFramework.DependencyInjection;
 
 namespace Sensors.Environmental.Dht.Tests.Helpers
 {
-    internal class DiSetup
+    internal static class DiSetup
     {
-        internal ServiceProvider ConfigureServices()
+        internal static ServiceProvider ConfigureServices()
         {
             ServiceProvider services = new ServiceCollection()
              .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-             .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
-             .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
+             .AddSingleton(typeof(IDht11Sensor), typeof(Dht11Sensor))
              .BuildServiceProvider();
 
             return services;

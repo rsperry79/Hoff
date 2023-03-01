@@ -23,8 +23,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Iot.Device.At24cxx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.At24cxx.1.0.1\lib\Iot.Device.At24cxx.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.At24cxx.1.0.30\lib\Iot.Device.At24cxx.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -41,9 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

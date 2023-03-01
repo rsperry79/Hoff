@@ -19,6 +19,7 @@ namespace Hoff.Hardware.Common.Abstract
         /// Is this sensor tracking changes
         /// </summary>
         protected bool _isTrackingChanges = false;
+
         /// <summary>
         /// The thread that keeps a track of sensor value change
         /// </summary>

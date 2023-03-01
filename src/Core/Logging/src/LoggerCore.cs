@@ -13,13 +13,13 @@ using nanoFramework.Logging.Stream;
 using nanoFramework.Hardware.Esp32;
 #endif
 
-namespace Hoff.Core.Logging
+namespace Hoff.Core.Services.Logging
 {
     public class LoggerCore : ILoggerCore
     {
         private static DebugLogger Logger { get; set; }
 
-        public DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel)
+        public DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel = LogLevel.Trace)
         {
             Logger = new DebugLogger(loggerName)
             {

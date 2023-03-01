@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections;
-using System.Device.I2c;
 
 namespace Hoff.Core.Hardware.Storage.EepromMocks
 {
     /// <summary>
     ///  This class mocks the At24c256
     /// </summary>
-    public class At24cMock :  IDisposable
+    public class At24cMock : IDisposable
     {
 
         private static int currentPosition = 0;
-        private static ArrayList mockDevice = new ArrayList();
+        private static readonly ArrayList mockDevice = new ArrayList();
 
-        public  const byte DefaultI2cAddress = 80;
+        public const byte DefaultI2cAddress = 80;
 
         public static bool LoadDefaults = true;
 
-        public  int PageCount { get { return 512; } }
+        public int PageCount => 512;
 
-        public  int PageSize { get { return 64; } }
+        public int PageSize => 64;
 
-        public  int Size { get { return this.PageCount * this.PageSize; } }
+        public int Size => this.PageCount * this.PageSize;
 
-        public  byte[] Read(int address, int length)
+        public byte[] Read(int address, int length)
         {
             byte[] toRet = new byte[length];
 
@@ -35,7 +34,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return toRet;
         }
 
-        public  byte ReadByte()
+        public byte ReadByte()
         {
             if (currentPosition == this.Size)
             {
@@ -46,12 +45,12 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
         }
 
 
-        public  byte ReadByte(int address)
+        public byte ReadByte(int address)
         {
             return (byte)mockDevice[address];
         }
 
-        public  uint Write(int address, byte[] data)
+        public uint Write(int address, byte[] data)
         {
             int index = 0;
             for (int i = 0; i < data.Length; i++)
@@ -62,9 +61,9 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return (uint)data.Length;
         }
 
-        public   uint WriteByte(int address, byte value)
+        public uint WriteByte(int address, byte value)
         {
-            mockDevice[address ] = value;
+            mockDevice[address] = value;
             return 1;
         }
 

@@ -4,8 +4,8 @@ using System.Threading;
 
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
-using Hoff.Hardware.Common.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Interfaces.Sensors;
 
 namespace Hoff.Core.Sensors.HTU21D
 {
@@ -21,8 +21,9 @@ namespace Hoff.Core.Sensors.HTU21D
         /// <summary>
         /// How many decimal places to account in temperature and humidity measurements
         /// </summary>
-        private readonly uint _scale = 2;
+        private uint _scale = 2;
         #endregion
+
 
         #region Properties
         /// <summary>
@@ -115,7 +116,6 @@ namespace Hoff.Core.Sensors.HTU21D
 
         #endregion
 
-
         #region Constructor
         /// <summary>
         /// Constructor
@@ -124,7 +124,7 @@ namespace Hoff.Core.Sensors.HTU21D
         /// <param name="deviceAddr">The I2C device address (default is 0x40, the 7-bit, shifted address)</param>
         /// <param name="speed">The I2C bus speed (by default, 400KHz)</param>
         /// <param name="scale">How many decimal places to look for in the temperature and humidity values (default 2 places)</param>
-        public HTU21DSenor(int busSelector = 1, byte deviceAddr = 0x40, I2cBusSpeed speed = I2cBusSpeed.FastMode, uint scale = 2)
+        public void Init(int busSelector = 1, byte deviceAddr = 0x60, I2cBusSpeed speed = I2cBusSpeed.FastMode, uint scale = 2)
         {
             I2cConnectionSettings i2cSetttings = new(busSelector, deviceAddr, speed);
             this._i2CDevice = I2cDevice.Create(i2cSetttings);
@@ -136,8 +136,6 @@ namespace Hoff.Core.Sensors.HTU21D
             this._scale = scale;
 
             this.Initialize();
-
-
         }
         #endregion
 

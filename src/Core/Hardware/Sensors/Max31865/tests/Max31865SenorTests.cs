@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿
 
-
-using Hoff.Hardware.Common.Interfaces;
+using Hoff.Hardware.Common.Interfaces.Sensors;
 using Hoff.Hardware.Sensors.Max31865Senor;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 

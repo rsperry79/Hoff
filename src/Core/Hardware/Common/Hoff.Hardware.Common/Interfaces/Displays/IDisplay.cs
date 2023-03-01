@@ -1,4 +1,6 @@
-﻿using Hoff.Hardware.Common.Structs;
+﻿using System.Device.I2c;
+
+using Hoff.Hardware.Common.Structs;
 
 namespace Hoff.Hardware.Common.Interfaces.Displays
 
@@ -46,5 +48,11 @@ namespace Hoff.Hardware.Common.Interfaces.Displays
         /// <param name="center"></param>
         /// <param name="font"></param>
         void WriteLine(int x, int y, string text, byte fontSize = 1, bool center = false, object font = null);
+
+        bool DefaultInit();
+        bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed);
+
+        void SetResolution(object res);
+        void UpdateDisplay();
     }
 }

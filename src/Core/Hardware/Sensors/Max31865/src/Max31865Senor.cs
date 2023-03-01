@@ -3,8 +3,8 @@ using System.Device.Spi;
 
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
-using Hoff.Hardware.Common.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Interfaces.Sensors;
 
 using Iot.Device.Max31865;
 

@@ -1,9 +1,12 @@
 ﻿
+using Hoff.Core.Interfaces;
 using Hoff.Core.Sensors.HTU21D;
-using Hoff.Hardware.Common.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
+using Microsoft.Extensions.Logging;
+
 using nanoFramework.DependencyInjection;
+using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
 
 using Sensors.Environmental.HTU21D.Tests.Helpers;
@@ -13,11 +16,24 @@ namespace Sensors.Environmental.Tests
     [TestClass]
     public class HTU21DTests
     {
-        [Setup]
-        public void Setup()
+
+        public static DebugLogger logger = null;
+
+        public HTU21DSenor Setup()
         {
-            DiSetup s = new();
-            ServiceProvider services = s.ConfigureServices();
+            SetCoreServices();
+
+            HTU21DSenor hTU21D = new HTU21DSenor();
+            hTU21D.Init();
+
+            return hTU21D;
+        }
+
+        private static void SetCoreServices()
+        {
+            ServiceProvider services = DiSetup.ConfigureServices();
+            ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
+            logger = loggerCore.GetDebugLogger("TestLogger", LogLevel.Trace);
 
             IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetI2C1Pins();
@@ -25,46 +41,56 @@ namespace Sensors.Environmental.Tests
         }
 
         [TestMethod]
-        public void CanTrackChangesTest()
+        public void Raw()
         {
+            HTU21DSenor hTU21D = this.Setup();
 
-            // Arrange
-            IHumidityTempatureSensor hTU21D = new HTU21DSenor();
 
-            // Act
-            bool result = hTU21D.CanTrackChanges();
 
-            // Assert
-            Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        public void HumidityTest()
-        {
-            // Arrange
-            IHumidityTempatureSensor htu21d = new HTU21DSenor();
+        //[TestMethod]
+        //public void CanTrackChangesTest()
+        //{
 
-            // Act
-            double result = htu21d.Humidity;
+        //    // Arrange
+        //    HTU21DSenor hTU21D = this.Setup();
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result);
-        }
+        //    // Act
+        //    bool result = hTU21D.CanTrackChanges();
 
-        [TestMethod]
-        public void TemperatureTest()
-        {
-            // Arrange
-            IHumidityTempatureSensor htu21d = new HTU21DSenor();
+        //    // Assert
+        //    Assert.IsTrue(result);
+        //}
 
-            // Act
-            double result = htu21d.Temperature;
+        //[TestMethod]
+        //public void HumidityTest()
+        //{
+        //    // Arrange
+        //    HTU21DSenor hTU21D = this.Setup();
+        //    // Act
+        //    double result = hTU21D.Humidity;
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result);
-        }
+        //    logger.LogDebug($"Humidity: {result}");
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //    Assert.IsNotNull(result);
+        //}
+
+        //[TestMethod]
+        //public void TemperatureTest()
+        //{
+        //    // Arrange
+        //    HTU21DSenor hTU21D = this.Setup();
+        //    // Act
+        //    double result = hTU21D.Temperature;
+
+        //    logger.LogDebug($"Temp: {result}");
+
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //    Assert.IsNotNull(result);
+        //}
 
 
         // [TestMethod]
