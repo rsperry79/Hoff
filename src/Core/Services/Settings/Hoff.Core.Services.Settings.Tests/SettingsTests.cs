@@ -1,12 +1,12 @@
 ﻿
-using Hoff.Core.Common.Services.Settings.Tests.Helpers;
+using Hoff.Core.Services.Settings.Tests.Helpers;
 
 using nanoFramework.TestFramework;
 
 using NFUnitTest.Models;
 
 
-namespace Hoff.Core.Common.Services.Settings.Tests
+namespace Hoff.Core.Services.Settings.Tests
 {
     [TestClass]
     public class SettingsTests

@@ -16,7 +16,7 @@ using nanoFramework.DependencyInjection;
 
 using NFUnitTest.Models;
 
-namespace Hoff.Core.Common.Services.Settings.Tests.Helpers
+namespace Hoff.Core.Services.Settings.Tests.Helpers
 {
     public static class TestHelpers
 
