@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Device.Spi;
 
+using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
@@ -8,36 +9,47 @@ using Hoff.Hardware.Common.Interfaces.Sensors;
 
 using Iot.Device.Max31865;
 
+using Microsoft.Extensions.Logging;
+
+using nanoFramework.Logging;
+
 using UnitsNet;
 
-namespace Hoff.Hardware.Sensors.Max31865Senor
+namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
 
 {
-    public class Max31865Senor : SensorBase, ITempatureSensor, ISensorBase, IDisposable
+
+
+    public class Max31865Senor : SensorBase, IMax31865Senor, ITempatureSensor, ISensorBase, IDisposable
     {
         #region Implementation
         private Max31865 sensor = null;
+
+        private bool init;
 
         private SpiDevice spiDevice;
         /// <summary>
         /// How many decimal places to account in temperature and humidity measurements
         /// </summary>
         private readonly uint _scale = 2;
+
+        private const int sensorSleepTime = 10;
+        private readonly ILogger _logger;
         #endregion
 
         #region Properties
-        private double temperature;
+        private Temperature temperature;
         private bool disposedValue;
 
         /// <summary>
-        /// Accessor/Mutator for temperature in celcius
+        /// Accessor/Mutator for temperature in Celsius
         /// </summary>
-        public double Temperature
+        public Temperature Temperature
         {
             get => this.temperature;
-            set
+            private set
             {
-                if (this.temperature != value)
+                if (this.temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
                     this.temperature = value;
                     TemperatureSensorChanged();
@@ -55,20 +67,52 @@ namespace Hoff.Hardware.Sensors.Max31865Senor
         #endregion
 
         #region Constructor
-        public Max31865Senor(uint scale = 2)
+        public Max31865Senor() => this._logger = this.GetCurrentClassLogger();
+
+
+        public bool DefaultInit()
         {
-            this._scale = scale;
+            int bussId = 1;
+            int selectPin = 17;
+            SpiMode spiMode = SpiMode.Mode3;
+            PlatinumResistanceThermometerType thermometerType = PlatinumResistanceThermometerType.Pt100;
+            ResistanceTemperatureDetectorWires wires = ResistanceTemperatureDetectorWires.TwoWire;
+            int resistance = 4300;
+            uint scale = 2;
 
-            SpiConnectionSettings settings = new(1, 42)
+            return this.Init(bussId, selectPin, spiMode, thermometerType, wires, resistance, scale);
+        }
+
+        public bool Init(
+            int bussId,
+            int selectPin,
+            SpiMode mode,
+            PlatinumResistanceThermometerType thermometerType,
+            ResistanceTemperatureDetectorWires wires,
+            int resistance,
+            uint scale)
+        {
+            if (!this.init)
             {
-                ClockFrequency = Max31865.SpiClockFrequency,
-                Mode = Max31865.SpiMode1,
-                DataFlow = Max31865.SpiDataFlow
-            };
+                if (mode != SpiMode.Mode1 || mode != SpiMode.Mode3)
+                {
+                    throw new ArgumentException(nameof(SpiMode));
+                }
 
-            this.spiDevice = SpiDevice.Create(settings);
-            this.sensor = new(this.spiDevice, PlatinumResistanceThermometerType.Pt1000, ResistanceTemperatureDetectorWires.TwoWire, ElectricResistance.FromOhms(4300));
+                SpiConnectionSettings settings = new(1, 42)
+                {
+                    ClockFrequency = Max31865.SpiClockFrequency,
+                    Mode = mode,
+                    DataFlow = Max31865.SpiDataFlow
+                };
 
+                this.spiDevice = SpiDevice.Create(settings);
+                this.sensor = new(this.spiDevice, thermometerType, wires, ElectricResistance.FromOhms(resistance));
+
+                this.init = true;
+            }
+
+            return this.init;
 
         }
         #endregion
@@ -80,6 +124,7 @@ namespace Hoff.Hardware.Sensors.Max31865Senor
         /// <returns>bool</returns>
         public override bool CanTrackChanges()
         {
+
             return true;
         }
 
@@ -87,11 +132,9 @@ namespace Hoff.Hardware.Sensors.Max31865Senor
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        public override void HasSensorValueChanged()
+        protected override void HasSensorValueChanged()
         {
-
-            float temp = ((float)this.ReadTemperature().DegreesCelsius).Truncate(this._scale);
-            this.Temperature = temp;
+            this.Temperature = this.sensor.Temperature;
         }
 
         #endregion

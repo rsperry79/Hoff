@@ -4,7 +4,7 @@ namespace Hoff.Hardware.Common.Helpers
 {
     public static class NumberExtentionMethods
     {
-        public static float Truncate(this float val, uint places = 3)
+        public static double Truncate(this double val, uint places)
         {
             float temp = (float)(Math.Floor(val * Math.Pow(10, places)) / Math.Pow(10, places));
 

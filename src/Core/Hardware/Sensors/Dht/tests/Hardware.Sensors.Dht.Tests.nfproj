@@ -28,7 +28,7 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Dht12SensorTests.cs" />
-    <Compile Include="Helpers\DiSetup.cs" />
+    <Compile Include="Helpers\SetupHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,11 +150,6 @@
     </Reference>
     <Reference Include="UnitsNet.RelativeHumidity, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.5.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.RelativeHumidity, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.3.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>

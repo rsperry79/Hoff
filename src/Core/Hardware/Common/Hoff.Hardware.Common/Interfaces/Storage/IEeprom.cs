@@ -2,8 +2,6 @@
 using System;
 using System.Device.I2c;
 
-using static Hoff.Hardware.Common.Interfaces.Storage.IEeprom;
-
 namespace Hoff.Hardware.Common.Interfaces.Storage
 {
     public interface IEeprom : IDisposable

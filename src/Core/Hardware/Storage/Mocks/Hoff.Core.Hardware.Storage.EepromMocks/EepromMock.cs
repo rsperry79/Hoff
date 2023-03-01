@@ -17,7 +17,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
 
         public byte ReadByte(byte address)
         {
-           return eeprom.ReadByte(address);
+            return eeprom.ReadByte(address);
         }
 
         public bool DefaultInit()
@@ -126,7 +126,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
                 }
                 while (hasEol);
 
-               
+
                 byte[] toRet = new byte[receivedData.Count];
                 receivedData.CopyTo(toRet, 0);
                 return toRet;
@@ -146,6 +146,6 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return writeResult == toStore.Length + 1;
         }
 
-   
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Hoff.Core.Hardware.Sensors.Dht.Interfaces;
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
@@ -12,7 +13,9 @@ using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
-namespace Hoff.Hardware.Sensors.Dht
+using UnitsNet;
+
+namespace Hoff.Core.Hardware.Sensors.Dht
 {
     public class Dht11Sensor : SensorBase, IDht11Sensor, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
@@ -35,70 +38,43 @@ namespace Hoff.Hardware.Sensors.Dht
         /// <summary>
         /// Accessors/Mutator for relative humidity %
         /// </summary>
-        private double humidity = 1;
+        private RelativeHumidity relativeHumidity;
 
-        public double Humidity
+        public RelativeHumidity Humidity
         {
-            get
+            get => this.relativeHumidity;
+            private set
             {
-                if (Dht.IsLastReadSuccessful)
+                if (this.relativeHumidity.Percent.Truncate(this._scale) != value.Percent.Truncate(this._scale))
                 {
-                    return this.humidity;
-                }
-                else
-                {
-                    return -99999;
-                }
 
-
-            }
-            set
-            {
-
-                if (Dht.IsLastReadSuccessful && this.humidity != value)
-                {
-                    this.logger.LogTrace($"Set humidity: {value}");
-
-                    this.humidity = value;
+                    this.relativeHumidity = value;
                     _ = HumiditySensorChanged();
                 }
             }
         }
 
 
-        private double temperature = -9999;
+
+
+        private Temperature temperature;
 
         private bool disposedValue;
 
         /// <summary>
-        /// Accessor/Mutator for temperature in Celsius
-        /// </summary>
-
-        public double Temperature
+        public Temperature Temperature
         {
-            get
+            get => this.temperature;
+            private set
             {
-                if (Dht.IsLastReadSuccessful)
+                if (this.temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
-                    return this.temperature;
-                }
-                else
-                {
-                    return -99999;
-                }
-            }
-            set
-            {
-                if (Dht.IsLastReadSuccessful && this.temperature != value)
-                {
-                    this.logger.LogTrace($"Set Temp: {value}");
                     this.temperature = value;
                     TemperatureSensorChanged();
                 }
 
             }
         }
-
 
         #endregion
 
@@ -140,15 +116,13 @@ namespace Hoff.Hardware.Sensors.Dht
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        public override void HasSensorValueChanged()
+        protected override void HasSensorValueChanged()
         {
             try
             {
 
-                float temp = ((float)this.ReadTemperature()).Truncate(this._scale);
-                this.Temperature = temp;
-                float hum = ((float)this.ReadHumidity()).Truncate(this._scale);
-                this.Humidity = hum;
+                this.temperature = this.ReadTemperature();
+                this.Humidity = this.ReadHumidity();
             }
             catch (Exception)
             {
@@ -199,13 +173,13 @@ namespace Hoff.Hardware.Sensors.Dht
         #endregion
 
         #region Helpers
-        private double ReadHumidity()
+        private RelativeHumidity ReadHumidity()
         {
             try
             {
                 if (Dht.IsLastReadSuccessful)
                 {
-                    return Dht.Humidity.Percent;
+                    return Dht.Humidity;
                 }
 
             }
@@ -217,17 +191,13 @@ namespace Hoff.Hardware.Sensors.Dht
             return default;
         }
 
-        private double ReadTemperature()
+        private Temperature ReadTemperature()
         {
             try
             {
                 if (Dht.IsLastReadSuccessful)
                 {
-                    return Dht.Temperature.DegreesCelsius;
-                }
-                else
-                {
-
+                    return Dht.Temperature;
                 }
 
             }
@@ -238,10 +208,6 @@ namespace Hoff.Hardware.Sensors.Dht
 
             return default;
         }
-
-
-
-
         #endregion
     }
 }

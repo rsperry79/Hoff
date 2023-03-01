@@ -37,7 +37,7 @@ namespace Hoff.Core.Hardware.Storage.At24
         /// </summary>
         private static II2cBussControllerService deviceScan;
 
-       
+
         private At24c256 eeprom;
 
         private bool disposedValue;
@@ -48,7 +48,7 @@ namespace Hoff.Core.Hardware.Storage.At24
 
         public At24c256Eeprom(II2cBussControllerService scanner)
         {
-            this.logger =  this.GetCurrentClassLogger();
+            this.logger = this.GetCurrentClassLogger();
             deviceScan = scanner;
         }
 
@@ -137,7 +137,7 @@ namespace Hoff.Core.Hardware.Storage.At24
 
         public byte ReadByte(byte address)
         {
-           return this.eeprom.ReadByte(address);
+            return this.eeprom.ReadByte(address);
         }
 
         public byte[] ReadByteArray(byte address)
@@ -162,7 +162,7 @@ namespace Hoff.Core.Hardware.Storage.At24
                     }
                     else
                     {
-                        _ =receivedData.Add(receivedCharacter);
+                        _ = receivedData.Add(receivedCharacter);
                     }
                 }
                 while (!hasEol);
@@ -186,15 +186,15 @@ namespace Hoff.Core.Hardware.Storage.At24
         public bool WriteByteArray(byte address, byte[] list)
         {
             uint writeResult = 0;
-           
+
             try
             {
-                for (int i = 0  ; i < list.Length; i++)
+                for (int i = 0; i < list.Length; i++)
                 {
                     try
                     {
                         byte currentByte = list[i];
-                        _= this.eeprom.WriteByte(address, currentByte);
+                        _ = this.eeprom.WriteByte(address, currentByte);
                         writeResult++;
                         address++;
                     }
@@ -205,7 +205,7 @@ namespace Hoff.Core.Hardware.Storage.At24
                     }
                 }
 
-                _= this.eeprom.WriteByte(address , (byte)EOL);
+                _ = this.eeprom.WriteByte(address, (byte)EOL);
                 writeResult++;
             }
             catch (Exception ex)
@@ -213,7 +213,7 @@ namespace Hoff.Core.Hardware.Storage.At24
                 this.logger.LogError(ex.Message, ex);
                 throw;
             }
-            return writeResult == list.Length +1;
+            return writeResult == list.Length + 1;
         }
 
         public bool WriteString(byte address, string message)
@@ -233,7 +233,7 @@ namespace Hoff.Core.Hardware.Storage.At24
         public string ReadString(byte address)
         {
             byte[] data = this.ReadByteArray(address);
-  
+
             string decodedMessage = Encoding.UTF8.GetString(data, 0, data.Length);
             return decodedMessage;
         }

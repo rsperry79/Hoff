@@ -1,5 +1,8 @@
-﻿using Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers;
-using Hoff.Hardware.Common.Interfaces.Sensors;
+﻿using System;
+using System.Device.I2c;
+using System.Threading;
+
+using Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers;
 
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.ReadResult;
@@ -7,10 +10,6 @@ using Iot.Device.Bmxx80.ReadResult;
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.TestFramework;
-
-using System;
-using System.Device.I2c;
-using System.Threading;
 
 namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
 {
@@ -27,13 +26,16 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
             try
             {
                 I2cDevice i2cDevice = I2cDevice.Create(new I2cConnectionSettings(busId, 0x76, I2cBusSpeed.FastMode));
-                Bme280 i2CBmp280 = new Bme280(i2cDevice);
+                Bme280 i2CBmp280 = new Bme280(i2cDevice)
+                {
 
-                // set higher sampling
-                i2CBmp280.TemperatureSampling = Sampling.UltraHighResolution;
-                i2CBmp280.PressureSampling = Sampling.UltraHighResolution;
-                i2CBmp280.HumiditySampling = Sampling.UltraHighResolution;
+                    // set higher sampling
+                    TemperatureSampling = Sampling.UltraHighResolution,
+                    PressureSampling = Sampling.UltraHighResolution,
+                    HumiditySampling = Sampling.UltraHighResolution
+                };
 
+                int index = 0;
 
                 // Perform a synchronous measurement
                 do
@@ -56,8 +58,11 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
                     logger.LogDebug($"Altitude: {altValue.Feet}ft");
 
                     Thread.Sleep(TimeSpan.FromSeconds(5));
+
+                    index++;
                 }
-                while (true);
+                while (index < 10);
+
             }
             catch (Exception ex)
             {

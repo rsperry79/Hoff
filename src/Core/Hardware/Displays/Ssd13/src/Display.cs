@@ -4,7 +4,7 @@ using Hoff.Hardware.Common.Interfaces.Displays;
 using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Fonts;
-
+using Hoff.Hardware.Displays.Ssd13.Interfaces;
 
 using Iot.Device.Ssd13xx;
 
@@ -16,13 +16,14 @@ using static Iot.Device.Ssd13xx.Ssd13xx;
 
 namespace Hoff.Hardware.Displays.Ssd13
 {
-    public class Display : IDisplay
+
+
+    public class Display : ISsd13, IDisplay
     {
         private bool init;
         private I2cDevice i2CDevice;
         private Ssd1306 ssdDisplay;
         private readonly ILogger _logger;
-        private Ssd13xx.DisplayResolution resolution = DisplayResolution.OLED128x64;
         private static II2cBussControllerService deviceScan;
 
         public Display(II2cBussControllerService scanner)
@@ -69,16 +70,18 @@ namespace Hoff.Hardware.Displays.Ssd13
             this._logger.LogDebug($"SSD1306 Buss ID: {bussId}");
             this._logger.LogDebug($"SSD1306 Device Address: {deviceAddr}");
 
-            bool complete = this.Init(bussId, deviceAddr, speed);
+
+            bool complete = this.Init(bussId, deviceAddr, speed, DisplayResolution.OLED128x64);
             return complete;
         }
 
-        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed)
+        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, DisplayResolution resolution)
         {
             if (!this.init)
             {
+
                 this.i2CDevice = I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed));
-                this.ssdDisplay = new Ssd1306(this.i2CDevice, this.resolution);
+                this.ssdDisplay = new Ssd1306(this.i2CDevice, resolution);
                 this.ClearScreen();
                 this.init = true;
             }
@@ -91,10 +94,6 @@ namespace Hoff.Hardware.Displays.Ssd13
             this.ssdDisplay.DrawDirectAligned(line.X, line.Y, line.Width, line.Height, line.Data);
         }
 
-        public void SetResolution(object res)
-        {
-            this.resolution = (Ssd1306.DisplayResolution)res;
-        }
 
         public void ClearDirectLine(DirectLine line)
         {

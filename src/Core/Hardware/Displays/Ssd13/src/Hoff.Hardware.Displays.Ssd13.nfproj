@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Display.cs" />
     <Compile Include="Fonts\BasicFont.cs" />
+    <Compile Include="Interfaces\ISsd13.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,14 +9,15 @@ namespace Hoff.Hardware.Common.Helpers
         public static byte[] ToByteArray(this Array list)
         {
             byte[] toRet = new byte[list.Length];
-              
 
-                for (int i = 0; i < list.Length; i++)
-                {
-              
-                    toRet[i] = (byte)list.GetValue(i);;
-                }
-       
+
+            for (int i = 0; i < list.Length; i++)
+            {
+
+                toRet[i] = (byte)list.GetValue(i);
+                ;
+            }
+
 
             return toRet;
         }

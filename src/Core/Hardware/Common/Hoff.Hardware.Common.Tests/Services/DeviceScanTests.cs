@@ -12,7 +12,7 @@ using nanoFramework.TestFramework;
 namespace Hoff.Hardware.Common.Tests.Services
 {
     [TestClass]
-    internal class DeviceScanTest
+    internal class DeviceScanTests
     {
         [TestMethod]
 

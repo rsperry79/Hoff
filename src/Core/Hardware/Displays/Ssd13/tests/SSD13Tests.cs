@@ -5,6 +5,7 @@ using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Displays;
 using Hoff.Hardware.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Fonts;
+using Hoff.Hardware.Displays.Ssd13.Interfaces;
 using Hoff.Hardware.Displays.Ssd13.Tests.Helpers;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
@@ -20,8 +21,8 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
     public class SSD13Tests
     {
         private static ServiceProvider services;
-        private static IDisplay display;
-        public static IDisplay Setup()
+        private static ISsd13 display;
+        public static ISsd13 Setup()
         {
             if (display is null)
             {
@@ -38,7 +39,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
                 espConfig.SetI2C1Pins();
 
                 //// Arrange
-                display = (IDisplay)services.GetRequiredService(typeof(IDisplay));
+                display = (ISsd13)services.GetRequiredService(typeof(ISsd13));
                 display.DefaultInit();
             }
 
@@ -62,7 +63,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void HorizontalLineTest()
         {
             // Arrange
-            IDisplay display = Setup();
+            ISsd13 display = Setup();
             bool draw = true;
 
             // Act
@@ -89,7 +90,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void VerticalLineTest()
         {
             // Arrange
-            IDisplay display = Setup();
+            ISsd13 display = Setup();
 
             Line line = new() { X = 10, Y = 0, Length = 64 };
             bool draw = true;
@@ -111,7 +112,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void WriteLineTest()
         {
             // Arrange
-            IDisplay display = Setup();
+            ISsd13 display = Setup();
 
             int x = 2;
             int y = 2;
@@ -140,7 +141,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         public void WriteLineWithFontTest()
         {
             // Arrange
-            IDisplay display = Setup();
+            ISsd13 display = Setup();
 
             int x = 2;
             int y = 2;

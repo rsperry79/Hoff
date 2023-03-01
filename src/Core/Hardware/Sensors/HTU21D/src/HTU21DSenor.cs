@@ -51,7 +51,7 @@ namespace Hoff.Core.Sensors.HTU21D
         /// Accessor/Mutator for temperature in celcius
         /// </summary>
 
-        public double Temperature
+        public UnitsNet.Temperature Temperature
         {
             get => this.temperature;
             set

@@ -2,6 +2,7 @@
 using System.Device.I2c;
 using System.Threading;
 
+using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
@@ -15,16 +16,24 @@ using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
+using UnitsNet;
+
 namespace Hoff.Core.Hardware.Sensors.BmXX
 {
-  
-    public class Bme280Sensor : SensorBase, IBme280Sensor, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
+
+    public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Implementation
+
+        private const int sensorSleepTime = 10;
+        private readonly ILogger _logger;
+        private static II2cBussControllerService deviceScan;
+
         /// <summary>
         /// The underlying I2C device
         /// </summary>
         private I2cDevice i2CDevice = null;
+
         /// <summary>
         /// How many decimal places to account in temperature and humidity measurements
         /// </summary>
@@ -32,9 +41,8 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
 
 
         private bool init;
-        private readonly ILogger _logger;
-        private static II2cBussControllerService deviceScan;
         private Bme280 sensor;
+
         #endregion
 
 
@@ -43,33 +51,34 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// Accessor/Mutator for relative humidity %
         /// </summary>
 
-        private double relativeHumidity;
+        private RelativeHumidity relativeHumidity;
 
-        public double Humidity
+        public RelativeHumidity Humidity
         {
             get => this.relativeHumidity;
-            set
+            private set
             {
-                if (this.relativeHumidity != value)
+                if (this.relativeHumidity.Percent.Truncate(this._scale) != value.Percent.Truncate(this._scale))
                 {
+
                     this.relativeHumidity = value;
                     _ = HumiditySensorChanged();
                 }
             }
         }
 
-        private double temperature;
+        private Temperature temperature;
 
         /// <summary>
-        /// Accessor/Mutator for temperature in celcius
+        /// Accessors/Mutator for temperature in Celsius
         /// </summary>
 
-        public double Temperature
+        public Temperature Temperature
         {
             get => this.temperature;
-            set
+            private set
             {
-                if (this.temperature != value)
+                if (this.temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
                     this.temperature = value;
                     TemperatureSensorChanged();
@@ -78,50 +87,50 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
             }
         }
 
+        private Pressure pressure;
+
+        public Pressure Pressure
+        {
+            get => this.pressure;
+            private set
+            {
+
+                if (this.pressure.InchesOfMercury.Truncate(this._scale) != value.InchesOfMercury.Truncate(this._scale))
+                {
+                    this.pressure = value;
+                    PressureSensorChanged();
+                }
+
+            }
+        }
+
+        private Length altitude;
+
+        public Length Altitude
+        {
+            get => this.altitude;
+            private set
+            {
+                if (this.altitude.Feet.Truncate(this._scale) != value.Feet.Truncate(this._scale))
+                {
+                    this.altitude = value;
+                    AltimeterSensorChanged();
+                }
+
+            }
+        }
         #endregion
 
-        #region Constants
-        /// <summary>
-        /// Command to soft reset the HTU21D sensor
-        /// </summary>
-        private readonly byte[] SOFT_RESET = { 0xFE };
-        /// <summary>
-        /// Command to trigger a humidity measurement and hold the value
-        /// </summary>
-        private readonly byte[] TRIGGER_HUMD_MEASURE_HOLD = { 0xE5 };
-        /// <summary>
-        /// Command to trigger a temperature measurement and hold the value
-        /// </summary>
-        private readonly byte[] TRIGGER_TEMP_MEASURE_HOLD = { 0xE3 };
-        /// <summary>
-        /// Command to read user register
-        /// </summary>
-        private readonly byte[] READ_USER_REGISTER = { 0xE7 };
-        /// <summary>
-        /// Command to write user register
-        /// </summary>
-        private readonly byte[] WRITE_USER_REGISTER = { 0xE6 };
-        /// <summary>
-        /// For CRC check
-        /// </summary>
-        private const int SHIFTED_DIVISOR = 0x988000;
-        /// <summary>
-        /// Error value of humidity
-        /// </summary>
-        private const float ERROR_HUMIDITY = -999.99F;
-        /// <summary>
-        /// Error value of temperature
-        /// </summary>
-        private const float ERROR_TEMPERATURE = -999.99F;
-
+        #region Events
         public event ITempatureSensor.TempatureChangedEventHandler TemperatureSensorChanged;
         public event IHumiditySensor.HumidityChangedEventHandler HumiditySensorChanged;
-
+        public event IBarometer.PressureChangedEventHandler PressureSensorChanged;
+        public event IAltimeter.AltimeterChangedEventHandler AltimeterSensorChanged;
 
         #endregion
 
         #region Constructor
-     
+
         public Bme280Sensor(II2cBussControllerService scanner)
         {
             this._logger = this.GetCurrentClassLogger();
@@ -182,19 +191,18 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     this.sensor.TemperatureSampling = Sampling.LowPower;
                     this.sensor.PressureSampling = Sampling.UltraHighResolution;
                 }
-              
 
-                this._scale = scale ;
+
+                this._scale = scale;
 
                 this.init = true;
 
             }
 
-            this.HasSensorValueChanged();
+            this.ReadAllSenors();
             return this.init;
 
         }
-
         #endregion
 
         #region Core Methods
@@ -224,22 +232,27 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        public override void HasSensorValueChanged()
+        protected override void HasSensorValueChanged()
+        {
+            this.ReadAllSenors();
+
+        }
+
+        private void ReadAllSenors()
         {
             try
             {
-                if (this.ReadTemperature() != 0)
-                {
-                    this.Temperature = this.ReadTemperature();
-                    this.Humidity = this.ReadHumidity();
-                }
+                this.Altitude = this.ReadAltimeter();
+                this.Pressure = this.ReadBarometer();
+                this.Temperature = this.ReadTemperature();
+                this.Humidity = this.ReadHumidity();
+
             }
             catch (Exception ex)
             {
                 this._logger.LogError(ex.StackTrace);
                 throw;
             }
-           
         }
         #endregion
 
@@ -261,18 +274,24 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
 
         #endregion
 
-
         #region Helpers
         /// <summary>
         /// Read humidity value from the sensor
         /// </summary>
         /// <returns>humidity as a floating point number</returns>
-        protected float ReadHumidity()
+        protected RelativeHumidity ReadHumidity()
         {
 
-            Bme280ReadResult readResult = this.sensor.Read();
-            var rh = ((float)readResult.Humidity.Percent).Truncate(this._scale); ;
-            return rh;
+            Bme280ReadResult readResult;
+
+            do
+            {
+                readResult = this.sensor.Read();
+                Thread.Sleep(sensorSleepTime);
+            }
+            while (!readResult.HumidityIsValid);
+
+            return readResult.Humidity;
 
         }
 
@@ -280,64 +299,61 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// Read the temperature from the sensor
         /// </summary>
         /// <returns>temperature  as a floating point number in celcius</returns>
-        protected float ReadTemperature()
+        protected Temperature ReadTemperature()
         {
 
-            // Perform a synchronous measurement
-            Bme280ReadResult readResult = this.sensor.Read();
-            var t = ((float)readResult.Temperature.DegreesCelsius).Truncate(this._scale); ;
+            Bme280ReadResult readResult;
 
-            return t;
-
-            //this.sensor.TryReadAltitude(out var altValue);
-
-        }
-
-        /// <summary>
-        /// Read the user register
-        /// </summary>
-        /// <returns>byte</returns>
-        protected byte ReadUserRegister()
-        {
-            byte[] result = new byte[1];
-
-            _ = this.i2CDevice.Write(this.READ_USER_REGISTER);
-            Thread.Sleep(50);
-
-            _ = this.i2CDevice.Read(result);
-            return result[0];
-        }
-
-        /// <summary>
-        /// Check if CRC returned by the sensor matches our calculation.
-        /// This calculation is based on the algorithm as given here
-        /// https://github.com/TEConnectivity/HTU21D_Generic_C_Driver/blob/master/htu21d.c
-        /// </summary>
-        /// <param name="sensorValue">The sensor reading</param>
-        /// <param name="crc">The CRC returned by the sensor</param>
-        /// <returns>true if our CRC calculation matches the CRC returned by the sensor</returns>
-        private static bool IsCRCValid(ushort sensorValue, byte crc)
-        {
-            uint polynomial = 0x988000;
-            uint msb = 0x800000;
-            uint mask = 0xFF8000;
-            uint result = (uint)sensorValue << 8;//pad with zeros as specified in spec
-
-            while (msb != 0x80)
+            do
             {
-                //Check if msb of current value is 1 and apply XOR mask
-                if ((result & msb) == msb)
-                {
-                    result = ((result ^ polynomial) & mask) | (result & ~mask);
-                }
-                //shift by one
-                msb >>= 1;
-                mask >>= 1;
-                polynomial >>= 1;
+                readResult = this.sensor.Read();
+                Thread.Sleep(sensorSleepTime);
             }
-            return result == crc;
+            while (!readResult.TemperatureIsValid);
+
+            return readResult.Temperature;
         }
 
+
+        /// <summary>
+        /// Read the temperature from the sensor
+        /// </summary>
+        /// <returns>temperature  as a floating point number in celcius</returns>
+        protected Pressure ReadBarometer()
+        {
+
+            Bme280ReadResult readResult;
+
+            do
+            {
+                readResult = this.sensor.Read();
+                Thread.Sleep(sensorSleepTime);
+            }
+            while (!readResult.PressureIsValid);
+
+            return readResult.Pressure;
+        }
+
+
+        /// <summary>
+        /// Read the temperature from the sensor
+        /// </summary>
+        /// <returns>temperature  as a floating point number in celcius</returns>
+        protected Length ReadAltimeter()
+        {
+            Length altValue;
+            bool validRead;
+
+            do
+            {
+                validRead = this.sensor.TryReadAltitude(out altValue);
+                Thread.Sleep(sensorSleepTime);
+            }
+            while (!validRead);
+
+
+            return altValue;
+        }
         #endregion
     }
 }

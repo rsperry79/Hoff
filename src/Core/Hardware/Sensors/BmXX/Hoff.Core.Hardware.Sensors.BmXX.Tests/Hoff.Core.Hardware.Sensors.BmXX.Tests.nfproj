@@ -27,8 +27,10 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="DisposeTests.cs" />
+    <Compile Include="BaseTests.cs" />
     <Compile Include="RawTests.cs" />
-    <Compile Include="Bme280SensorTests.cs" />
+    <Compile Include="SensorTests.cs" />
     <Compile Include="Helpers\SetupHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

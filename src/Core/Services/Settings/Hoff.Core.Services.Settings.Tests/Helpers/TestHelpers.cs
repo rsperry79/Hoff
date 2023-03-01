@@ -1,7 +1,7 @@
-﻿using Hoff.Core.Common.Services;
-using Hoff.Core.Hardware.Storage.At24;
+﻿using Hoff.Core.Hardware.Storage.At24;
 using Hoff.Core.Interfaces;
 using Hoff.Core.Services.Logging;
+using Hoff.Core.Services.Settings;
 using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Common.Interfaces.Storage;
@@ -18,11 +18,13 @@ using NFUnitTest.Models;
 
 namespace Hoff.Core.Common.Services.Settings.Tests.Helpers
 {
-    public static class TestHelpers
+    public static class TestHelpers
+
     {
         private static IEeprom prom;
 
-        public static ILogger Logger;        public static Settings<SettingsTestModel> Settings;
+        public static ILogger Logger;
+        public static Settings<SettingsTestModel> Settings;
         public static ServiceProvider Services;
 
         public static ServiceProvider ConfigureServices()

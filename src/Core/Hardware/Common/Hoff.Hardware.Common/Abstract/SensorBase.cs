@@ -107,7 +107,7 @@ namespace Hoff.Hardware.Common.Abstract
         /// polling implementation and check for value changes
         /// </summary>
         /// <returns>If true, then sensor value has changed else false</returns>
-        public abstract void HasSensorValueChanged();
+        protected abstract void HasSensorValueChanged();
 
 
         /// <summary>

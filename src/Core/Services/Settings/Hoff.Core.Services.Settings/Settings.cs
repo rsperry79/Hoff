@@ -4,12 +4,12 @@ using Hoff.Hardware.Common.Interfaces.Storage;
 
 using nanoFramework.Json;
 
-namespace Hoff.Core.Common.Services
+namespace Hoff.Core.Services.Settings
 {
     public class Settings<T> : IDisposable
     {
         protected static IEeprom Eeprom;
-        private  byte startLocation = 0x00;
+        private byte startLocation = 0x00;
 
         protected static T settings;
         private bool disposedValue;
@@ -17,7 +17,7 @@ namespace Hoff.Core.Common.Services
         public Settings(IEeprom eeprom)
         {
             Eeprom = eeprom;
-            
+
             if (settings is null)
             {
                 this.GetSettings();
@@ -37,7 +37,9 @@ namespace Hoff.Core.Common.Services
                 throw;
             }
         }
-        public  byte StartLocation { get => this.startLocation;
+        public byte StartLocation
+        {
+            get => this.startLocation;
             set
             {
                 if (this.startLocation != value)
@@ -45,7 +47,7 @@ namespace Hoff.Core.Common.Services
                     this.startLocation = value;
                     this.GetSettings();
                 }
-            }            
+            }
         }
 
         public bool WriteSettings()

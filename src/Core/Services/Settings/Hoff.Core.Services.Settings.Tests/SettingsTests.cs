@@ -1,7 +1,6 @@
 ﻿
 using Hoff.Core.Common.Services.Settings.Tests.Helpers;
 
-using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;
 
 using NFUnitTest.Models;

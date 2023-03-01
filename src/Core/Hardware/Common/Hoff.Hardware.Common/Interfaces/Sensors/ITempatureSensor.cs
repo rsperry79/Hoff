@@ -11,8 +11,8 @@ namespace Hoff.Hardware.Common.Interfaces.Sensors
         event TempatureChangedEventHandler TemperatureSensorChanged;
 
         /// <summary>
-        /// The current tempature
+        /// The current temperature
         /// </summary>
-        double Temperature { get; }
+        UnitsNet.Temperature Temperature { get; }
     }
 }

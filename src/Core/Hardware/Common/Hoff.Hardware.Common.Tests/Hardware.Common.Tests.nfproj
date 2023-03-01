@@ -30,7 +30,7 @@
     <Compile Include="Helpers\DiSetup.cs" />
     <Compile Include="Models\PinConfigTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DeviceScan.cs" />
+    <Compile Include="Services\DeviceScanTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

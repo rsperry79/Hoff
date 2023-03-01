@@ -24,10 +24,10 @@
     <Compile Include="Helpers\NumberExtentionMethods.cs" />
     <Compile Include="Interfaces\Config\IPinConfig.cs" />
     <Compile Include="Interfaces\Displays\IDisplay.cs" />
-    <Compile Include="Interfaces\Sensors\IBme280Sensor.cs" />
-    <Compile Include="Interfaces\Sensors\IDht11Sensor.cs" />
+    <Compile Include="Interfaces\Sensors\IBarometer.cs" />
     <Compile Include="Interfaces\Sensors\IHumiditySensor.cs" />
     <Compile Include="Interfaces\Base\ISensorBase.cs" />
+    <Compile Include="Interfaces\Sensors\IAltimeter.cs" />
     <Compile Include="Interfaces\Sensors\ITempatureSensor.cs" />
     <Compile Include="Interfaces\Sensors\IHumidityTempatureSensor.cs" />
     <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
@@ -86,6 +86,41 @@
     </Reference>
     <Reference Include="System.Math, Version=1.5.29.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.System.Math.1.5.29\lib\System.Math.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Duration, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Duration.5.5.0\lib\UnitsNet.Duration.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.ElectricResistance, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.5.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Frequency, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Frequency.5.5.0\lib\UnitsNet.Frequency.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Length, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Length.5.5.0\lib\UnitsNet.Length.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Pressure, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Pressure.5.5.0\lib\UnitsNet.Pressure.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.RelativeHumidity, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.5.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Temperature, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.5.0\lib\UnitsNet.Temperature.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>

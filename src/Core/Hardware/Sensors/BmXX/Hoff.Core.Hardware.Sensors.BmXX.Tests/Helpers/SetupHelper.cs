@@ -1,9 +1,8 @@
-﻿using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
+using Hoff.Core.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Interfaces.Sensors;
 using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Interfaces.Storage;
 using Hoff.Hardware.Common.Services;
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
@@ -38,7 +37,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
         public static IBme280Sensor Setup()
         {
             if (sensor is null)
-            {         // Arrange
+            {
                 BaseSetup();
 
                 sensor = (IBme280Sensor)Services.GetRequiredService(typeof(IBme280Sensor));
