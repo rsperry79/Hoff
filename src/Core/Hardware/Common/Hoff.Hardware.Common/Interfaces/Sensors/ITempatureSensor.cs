@@ -7,7 +7,7 @@ namespace Hoff.Hardware.Common.Interfaces.Sensors
     public interface ITempatureSensor : ISensorBase, IDisposable
     {
         // Event Handlers
-        delegate void TempatureChangedEventHandler();
+        delegate bool TempatureChangedEventHandler();
         event TempatureChangedEventHandler TemperatureSensorChanged;
 
         /// <summary>

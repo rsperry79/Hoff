@@ -16,20 +16,27 @@ using static Iot.Device.Ssd13xx.Ssd13xx;
 
 namespace Hoff.Hardware.Displays.Ssd13
 {
-
-
     public class Display : ISsd13, IDisplay
     {
         private bool init;
         private I2cDevice i2CDevice;
         private Ssd1306 ssdDisplay;
         private readonly ILogger _logger;
-        private static II2cBussControllerService deviceScan;
+        private  II2cBussControllerService deviceScan;
 
         public Display(II2cBussControllerService scanner)
         {
             this._logger = this.GetCurrentClassLogger();
-            deviceScan = scanner;
+
+            try
+            {
+                this.deviceScan = scanner;
+            }
+            catch (System.Exception ex )
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw;
+            }
         }
 
         public bool DefaultInit()
@@ -38,32 +45,32 @@ namespace Hoff.Hardware.Displays.Ssd13
             byte deviceAddr = 0;
             I2cBusSpeed speed = I2cBusSpeed.FastMode;
 
-            if (deviceScan.I2C1.Contains(Ssd1306.DefaultI2cAddress))
+            if (this.deviceScan.I2C1.Contains(Ssd1306.DefaultI2cAddress))
             {
                 bussId = 1;
                 deviceAddr = Ssd1306.DefaultI2cAddress;
-                speed = deviceScan.I2C1BusSpeed;
+                speed =this.deviceScan.I2C1BusSpeed;
             }
 
-            if (deviceScan.I2C1.Contains(Ssd1306.SecondaryI2cAddress))
+            if (this.deviceScan.I2C1.Contains(Ssd1306.SecondaryI2cAddress))
             {
                 bussId = 1;
                 deviceAddr = Ssd1306.SecondaryI2cAddress;
-                speed = deviceScan.I2C1BusSpeed;
+                speed =this.deviceScan.I2C1BusSpeed;
             }
 
-            if (deviceScan.I2C2.Contains(Ssd1306.DefaultI2cAddress))
+            if (this.deviceScan.I2C2.Contains(Ssd1306.DefaultI2cAddress))
             {
                 bussId = 2;
                 deviceAddr = Ssd1306.DefaultI2cAddress;
-                speed = deviceScan.I2C2BusSpeed;
+                speed =this.deviceScan.I2C2BusSpeed;
             }
 
-            if (deviceScan.I2C2.Contains(Ssd1306.SecondaryI2cAddress))
+            if (this.deviceScan.I2C2.Contains(Ssd1306.SecondaryI2cAddress))
             {
                 bussId = 2;
                 deviceAddr = Ssd1306.SecondaryI2cAddress;
-                speed = deviceScan.I2C2BusSpeed;
+                speed =this.deviceScan.I2C2BusSpeed;
             }
 
             this._logger.LogDebug($"SSD1306 Autodetect");

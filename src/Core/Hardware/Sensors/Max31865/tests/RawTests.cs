@@ -24,18 +24,18 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests
             ILogger logger = SetupHelpers.Logger;
 
             const int busId = 1;
-            const int selectPin = 42;
+            const int selectPin = 15;
             try
             {
                 SpiConnectionSettings settings = new(busId, selectPin)
                 {
                     ClockFrequency = Max31865.SpiClockFrequency,
-                    Mode = Max31865.SpiMode1,
+                    Mode = Max31865.SpiMode3,
                     DataFlow = Max31865.SpiDataFlow
                 };
 
                 using SpiDevice device = SpiDevice.Create(settings);
-                using Max31865 sensor = new(device, PlatinumResistanceThermometerType.Pt100, ResistanceTemperatureDetectorWires.ThreeWire, ElectricResistance.FromOhms(4300));
+                using Max31865 sensor = new(device, PlatinumResistanceThermometerType.Pt100, ResistanceTemperatureDetectorWires.TwoWire, ElectricResistance.FromOhms(430));
 
                 int index = 0;
                 do

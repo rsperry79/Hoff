@@ -36,6 +36,7 @@ namespace Hoff.Hardware.Common.Services
             {
                 _ = this.ScanForI2cDevices();
                 init = true;
+                logger.LogDebug($"Exit ScanForI2cDevices");
             }
         }
 
@@ -65,58 +66,67 @@ namespace Hoff.Hardware.Common.Services
 
         private ushort ScanForI2cDevices()
         {
-            ushort totalDevices = 0;
-            for (int b = 1; b < 3; b++)
+            try
             {
-
-                ushort numberOfDevices = 0;
-
-                I2cBusSpeed speed = I2cBusSpeed.FastMode;
-
-                speed = b == 1 ? i2C1BusSpeed : i2C2BusSpeed;
-
-                for (byte i = 0; i < 127; i++)
+                ushort totalDevices = 0;
+                for (int b = 1; b < 3; b++)
                 {
 
-                    using (I2cDevice i2cDevice = new I2cDevice(new I2cConnectionSettings(b, i, speed)))
-                    {
-                        try
-                        {
-                            I2cTransferResult write = i2cDevice.WriteByte(0);
-                            logger.LogTrace($"write: {write.Status}");
+                    ushort numberOfDevices = 0;
 
-                            if (write.Status == I2cTransferStatus.FullTransfer)
+                    I2cBusSpeed speed = I2cBusSpeed.FastMode;
+
+                    speed = b == 1 ? i2C1BusSpeed : i2C2BusSpeed;
+
+                    for (byte i = 0; i < 127; i++)
+                    {
+
+                        using (I2cDevice i2cDevice = new I2cDevice(new I2cConnectionSettings(b, i, speed)))
+                        {
+                            try
                             {
-                                if (b == 1)
+                                I2cTransferResult write = i2cDevice.WriteByte(0);
+                                logger.LogTrace($"write: {write.Status}");
+
+                                if (write.Status == I2cTransferStatus.FullTransfer)
                                 {
-                                    i2C1.Add(i);
+                                    if (b == 1)
+                                    {
+                                        i2C1.Add(i);
+                                    }
+                                    else
+                                    {
+                                        i2C2.Add(i);
+                                    }
+
+                                    logger.LogDebug($"Found I2C device at bus {b}: {i:X}");
+                                    numberOfDevices++;
                                 }
                                 else
                                 {
-                                    i2C2.Add(i);
+                                    logger.LogTrace($"Did not find an I2C device at bus {b}: {i:X}. Returned code {write.Status}");
                                 }
-
-                                logger.LogDebug($"Found I2C device at bus {b}: {i:X}");
-                                numberOfDevices++;
                             }
-                            else
+                            catch (System.Exception ex)
                             {
-                                logger.LogTrace($"Did not find an I2C device at bus {b}: {i:X}. Returned code {write.Status}");
+                                logger.LogError($"Error on I2C device at bus {b}: {i:X}", ex);
                             }
-                        }
-                        catch (System.Exception ex)
-                        {
-                            logger.LogError($"Error on I2C device at bus {b}: {i:X}", ex);
                         }
                     }
+
+                    logger.LogDebug($"Found {numberOfDevices} on IC2 Buss {b}");
+
+                    totalDevices += numberOfDevices;
                 }
 
-                logger.LogDebug($"Found {numberOfDevices} on IC2 Buss {b}");
-
-                totalDevices += numberOfDevices;
+                return totalDevices;
             }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.StackTrace);
 
-            return totalDevices;
+                throw;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 
+using Hoff.Core.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Displays;
 using Hoff.Hardware.Common.Structs;
@@ -26,15 +27,13 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         {
             if (display is null)
             {
-                // Arrange
-                LoggerCore loggerCore = new();
-                string loggerName = "TestLogger";
+                services = DiSetup.ConfigureServices();
 
-                // Setup
+                string loggerName = "TestLogger";
                 LogLevel minLogLevel = LogLevel.Trace;
+                ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
                 DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
-                services = DiSetup.ConfigureServices();
                 IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
                 espConfig.SetI2C1Pins();
 

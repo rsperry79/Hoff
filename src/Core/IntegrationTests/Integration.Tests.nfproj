@@ -28,9 +28,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DependencyInjection\Helpers\DiLoggingTestClass.cs" />
-    <Compile Include="DependencyInjection\Helpers\LoggingServicesDiSetup.cs" />
+    <Compile Include="DependencyInjection\Helpers\DiSetup.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TempDisplay\TempDisplayTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -41,9 +42,34 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\src\Hoff.Core.Common.nfproj" />
+    <ProjectReference Include="..\Hardware\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\Hardware\Displays\Ssd13\src\Hoff.Hardware.Displays.Ssd13.nfproj">
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware\Sensors\BmXX\Hoff.Core.Hardware.Sensors.BmeBmp280\Hoff.Core.Hardware.Sensors.BmXX.nfproj" />
+    <ProjectReference Include="..\Hardware\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <Private>true</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Iot.Device.Bmxx80, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.Iot.Device.Bmxx80.1.2.259\lib\Iot.Device.Bmxx80.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="Iot.Device.Common.WeatherHelper, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.Iot.Device.Common.WeatherHelper.1.2.258\lib\Iot.Device.Common.WeatherHelper.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="Iot.Device.Ssd13xx, Version=1.3.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.Iot.Device.Ssd13xx.1.3.26\lib\Iot.Device.Ssd13xx.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
       <Private>True</Private>
@@ -51,6 +77,11 @@
     </Reference>
     <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.Hardware.Esp32, Version=1.6.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.Hardware.Esp32.1.6.1\lib\nanoFramework.Hardware.Esp32.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -84,6 +115,26 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+    <Reference Include="System.Buffers.Binary.BinaryPrimitives, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.System.Buffers.Binary.BinaryPrimitives.1.2.211\lib\System.Buffers.Binary.BinaryPrimitives.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.Gpio, Version=1.1.28.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.System.Device.Gpio.1.1.28\lib\System.Device.Gpio.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.I2c, Version=1.1.9.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.System.Device.I2c.1.1.9\lib\System.Device.I2c.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Device.Model, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.System.Device.Model.1.2.216\lib\System.Device.Model.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
     <Reference Include="System.IO.FileSystem, Version=1.1.23.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\packages\nanoFramework.System.IO.FileSystem.1.1.23\lib\System.IO.FileSystem.dll</HintPath>
       <Private>True</Private>
@@ -91,6 +142,41 @@
     </Reference>
     <Reference Include="System.IO.Streams, Version=1.1.38.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\packages\nanoFramework.System.IO.Streams.1.1.38\lib\System.IO.Streams.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Math, Version=1.5.29.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\packages\nanoFramework.System.Math.1.5.29\lib\System.Math.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Duration, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Duration.5.5.0\lib\UnitsNet.Duration.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.ElectricResistance, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.5.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Length, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Length.5.5.0\lib\UnitsNet.Length.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Pressure, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Pressure.5.5.0\lib\UnitsNet.Pressure.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.RelativeHumidity, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.5.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="UnitsNet.Temperature, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.5.0\lib\UnitsNet.Temperature.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>

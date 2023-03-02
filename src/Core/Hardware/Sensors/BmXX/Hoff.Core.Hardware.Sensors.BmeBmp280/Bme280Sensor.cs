@@ -10,6 +10,7 @@ using Hoff.Hardware.Common.Interfaces.Sensors;
 using Hoff.Hardware.Common.Interfaces.Services;
 
 using Iot.Device.Bmxx80;
+using Iot.Device.Bmxx80.FilteringMode;
 using Iot.Device.Bmxx80.ReadResult;
 
 using Microsoft.Extensions.Logging;
@@ -21,41 +22,40 @@ using UnitsNet;
 namespace Hoff.Core.Hardware.Sensors.BmXX
 {
 
-    public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
+    public class Bme280Sensor : SensorBase, IBme280Sensor,  IBarometer, IAltimeter, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Implementation
 
         private const int sensorSleepTime = 10;
-        private readonly ILogger _logger;
+
+
+        private bool validAltRead = false;
         private static II2cBussControllerService deviceScan;
 
-        /// <summary>
-        /// The underlying I2C device
-        /// </summary>
-        private I2cDevice i2CDevice = null;
 
         /// <summary>
         /// How many decimal places to account in temperature and humidity measurements
         /// </summary>
         private uint _scale = 2;
-
-
-        private bool init;
+        private bool init = false;
         private Bme280 sensor;
-
         #endregion
 
-
         #region Properties
+        private RelativeHumidity relativeHumidity;
+        private Temperature temperature;
+        private Pressure pressure;
+        private Length altitude;
+
         /// <summary>
         /// Accessor/Mutator for relative humidity %
         /// </summary>
-
-        private RelativeHumidity relativeHumidity;
-
         public RelativeHumidity Humidity
         {
-            get => this.relativeHumidity;
+            get
+            {
+                return this.relativeHumidity;
+            }
             private set
             {
                 if (this.relativeHumidity.Percent.Truncate(this._scale) != value.Percent.Truncate(this._scale))
@@ -67,31 +67,31 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
             }
         }
 
-        private Temperature temperature;
-
         /// <summary>
         /// Accessors/Mutator for temperature in Celsius
         /// </summary>
-
         public Temperature Temperature
         {
-            get => this.temperature;
+            get
+            {
+                return this.temperature;
+            }
             private set
             {
                 if (this.temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
                     this.temperature = value;
-                    TemperatureSensorChanged();
+                    _ = TemperatureSensorChanged();
                 }
-
             }
         }
 
-        private Pressure pressure;
-
         public Pressure Pressure
         {
-            get => this.pressure;
+            get
+            {
+                return this.pressure;
+            }
             private set
             {
 
@@ -100,15 +100,15 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     this.pressure = value;
                     PressureSensorChanged();
                 }
-
             }
         }
 
-        private Length altitude;
-
         public Length Altitude
         {
-            get => this.altitude;
+            get
+            {
+                return this.altitude;
+            }
             private set
             {
                 if (this.altitude.Feet.Truncate(this._scale) != value.Feet.Truncate(this._scale))
@@ -116,7 +116,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     this.altitude = value;
                     AltimeterSensorChanged();
                 }
-
             }
         }
         #endregion
@@ -139,69 +138,106 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
 
         public bool DefaultInit()
         {
+            uint scale = 2;
             int bussId = 0;
             byte deviceAddr = 0;
             I2cBusSpeed speed = I2cBusSpeed.FastMode;
 
-            if (deviceScan.I2C1.Contains(Bme280.DefaultI2cAddress))
+            try
             {
-                bussId = 1;
-                deviceAddr = Bme280.DefaultI2cAddress;
-                speed = deviceScan.I2C1BusSpeed;
+                if (deviceScan.I2C1.Contains(Bme280.DefaultI2cAddress))
+                {
+                    bussId = 1;
+                    deviceAddr = Bme280.DefaultI2cAddress;
+                    speed = deviceScan.I2C1BusSpeed;
+                }
+
+                if (deviceScan.I2C1.Contains(Bme280.SecondaryI2cAddress))
+                {
+                    bussId = 1;
+                    deviceAddr = Bme280.SecondaryI2cAddress;
+                    speed = deviceScan.I2C1BusSpeed;
+                }
+
+                if (deviceScan.I2C2.Contains(Bme280.DefaultI2cAddress))
+                {
+                    bussId = 2;
+                    deviceAddr = Bme280.DefaultI2cAddress;
+                    speed = deviceScan.I2C2BusSpeed;
+                }
+
+                if (deviceScan.I2C2.Contains(Bme280.SecondaryI2cAddress))
+                {
+                    bussId = 2;
+                    deviceAddr = Bme280.SecondaryI2cAddress;
+                    speed = deviceScan.I2C2BusSpeed;
+                }
+
+                this._logger.LogDebug($"Bme280 Autodetect");
+                this._logger.LogDebug($"Bme280 Buss ID: {bussId}");
+                this._logger.LogDebug($"Bme280 Device Address: {deviceAddr:X}");
+                this._logger.LogDebug($"Bme280 Device Speed: {speed}");
+                this._logger.LogDebug($"Bme280 Device Scale: {scale}");
+
+                return this.Init(bussId, deviceAddr, speed, scale);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+
+                throw;
             }
 
-            if (deviceScan.I2C1.Contains(Bme280.SecondaryI2cAddress))
-            {
-                bussId = 1;
-                deviceAddr = Bme280.SecondaryI2cAddress;
-                speed = deviceScan.I2C1BusSpeed;
-            }
-
-            if (deviceScan.I2C2.Contains(Bme280.DefaultI2cAddress))
-            {
-                bussId = 2;
-                deviceAddr = Bme280.DefaultI2cAddress;
-                speed = deviceScan.I2C2BusSpeed;
-            }
-
-            if (deviceScan.I2C2.Contains(Bme280.SecondaryI2cAddress))
-            {
-                bussId = 2;
-                deviceAddr = Bme280.SecondaryI2cAddress;
-                speed = deviceScan.I2C2BusSpeed;
-            }
-
-            this._logger.LogDebug($"Bme280 Autodetect");
-            this._logger.LogDebug($"Bme280 Buss ID: {bussId}");
-            this._logger.LogDebug($"Bme280 Device Address: {deviceAddr}");
-
-            bool complete = this.Init(bussId, deviceAddr, speed, 2);
-            return complete;
         }
 
         public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, uint scale)
         {
-            if (!this.init)
+            try
             {
-                this.i2CDevice = I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed));
-                this.sensor = new Bme280(this.i2CDevice);
-
-                if (busSpeed == I2cBusSpeed.FastMode)
+                if (this.sensor != null)
                 {
-                    this.sensor.TemperatureSampling = Sampling.LowPower;
-                    this.sensor.PressureSampling = Sampling.UltraHighResolution;
+                    this._logger.LogDebug($"ReadStatus Measuring: {this.sensor.ReadStatus().Measuring}");
                 }
 
+                if (this.sensor == null)
+                {
+                    this.sensor = new Bme280(I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed)));
+        
+                    if (busSpeed == I2cBusSpeed.FastMode)
+                    {
+                        this.sensor.TemperatureSampling = Sampling.UltraHighResolution;
+                        this.sensor.PressureSampling = Sampling.UltraHighResolution;
+                        this.sensor.HumiditySampling = Sampling.UltraHighResolution;
+                        this.sensor.FilterMode = Bmx280FilteringMode.X4;
+                    }
+                    else
+                    {
+                        this.sensor.TemperatureSampling = Sampling.Standard;
+                        this.sensor.PressureSampling = Sampling.Standard;
+                        this.sensor.HumiditySampling = Sampling.Standard;
+                        this.sensor.FilterMode = Bmx280FilteringMode.X2;
+                    }
 
-                this._scale = scale;
+                    this._scale = scale;
+                    this.init = true;
 
-                this.init = true;
+                    this.sensor.TryReadAltitude(out this.altitude);
+                    this.sensor.TryReadPressure(out this.pressure);
+                    this.sensor.TryReadHumidity(out this.relativeHumidity);
+                    this.sensor.TryReadTemperature(out this.temperature);
 
+                    this._logger.LogDebug($"Bme280 Sensor Init Complete");
+                }
+
+                return this.init;
             }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.Message);
 
-            this.ReadAllSenors();
-            return this.init;
-
+                this._logger.LogError(ex.StackTrace);
+                throw;
+            }
         }
         #endregion
 
@@ -232,35 +268,41 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        protected override void HasSensorValueChanged()
+        protected override bool HasSensorValueChanged()
         {
-            this.ReadAllSenors();
-
+            return this.ReadSensors();
         }
 
-        private void ReadAllSenors()
+        private object locker;
+        private bool ReadSensors()
         {
-            try
+            lock (this.locker)
             {
-                this.Altitude = this.ReadAltimeter();
-                this.Pressure = this.ReadBarometer();
-                this.Temperature = this.ReadTemperature();
-                this.Humidity = this.ReadHumidity();
+                try
+                {
+                    this.Pressure = this.ReadBarometer();
+                    this.Temperature = this.ReadTemperature();
+                    this.Humidity = this.ReadHumidity();
+                    this.Altitude = this.ReadAltimeter();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    this._logger.LogError(ex.StackTrace);
+                    throw;
+                }
+
 
             }
-            catch (Exception ex)
-            {
-                this._logger.LogError(ex.StackTrace);
-                throw;
-            }
+        
         }
         #endregion
 
         #region IDisposable Support
         protected override void DisposeSensor()
         {
-            this.i2CDevice.Dispose();
-            this.i2CDevice = null;
+            this.sensor.Dispose();
         }
 
         public void Dispose()
@@ -281,18 +323,23 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// <returns>humidity as a floating point number</returns>
         protected RelativeHumidity ReadHumidity()
         {
-
-            Bme280ReadResult readResult;
-
-            do
+            try
             {
-                readResult = this.sensor.Read();
-                Thread.Sleep(sensorSleepTime);
+                Bme280ReadResult readResult;
+                do
+                {
+                    readResult = this.sensor.Read();
+                    Thread.Sleep(sensorSleepTime);
+                }
+                while (!readResult.HumidityIsValid);
+
+                return readResult.Humidity;
             }
-            while (!readResult.HumidityIsValid);
-
-            return readResult.Humidity;
-
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw;
+            }
         }
 
         /// <summary>
@@ -301,17 +348,23 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// <returns>temperature  as a floating point number in celcius</returns>
         protected Temperature ReadTemperature()
         {
-
-            Bme280ReadResult readResult;
-
-            do
+            try
             {
-                readResult = this.sensor.Read();
-                Thread.Sleep(sensorSleepTime);
-            }
-            while (!readResult.TemperatureIsValid);
+                Bme280ReadResult readResult;
 
-            return readResult.Temperature;
+                do
+                {
+                    readResult = this.sensor.Read();
+                    Thread.Sleep(sensorSleepTime);
+                } while (!readResult.HumidityIsValid);
+
+                return readResult.Temperature;
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw;
+            }
         }
 
 
@@ -321,19 +374,25 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// <returns>temperature  as a floating point number in celcius</returns>
         protected Pressure ReadBarometer()
         {
-
-            Bme280ReadResult readResult;
-
-            do
+            try
             {
-                readResult = this.sensor.Read();
-                Thread.Sleep(sensorSleepTime);
+                Bme280ReadResult readResult;
+
+                do
+                {
+                    readResult = this.sensor.Read();
+                    Thread.Sleep(sensorSleepTime);
+                }
+                while (!readResult.HumidityIsValid);
+
+                return readResult.Pressure;
             }
-            while (!readResult.PressureIsValid);
-
-            return readResult.Pressure;
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw;
+            }
         }
-
 
         /// <summary>
         /// Read the temperature from the sensor
@@ -341,18 +400,31 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// <returns>temperature  as a floating point number in celcius</returns>
         protected Length ReadAltimeter()
         {
-            Length altValue;
-            bool validRead;
-
-            do
+            try
             {
-                validRead = this.sensor.TryReadAltitude(out altValue);
-                Thread.Sleep(sensorSleepTime);
+                Length altValue = Length.FromMeters(0); ;
+
+                do
+                {
+                    this.validAltRead = this.sensor.TryReadAltitude(out altValue);
+
+                    if (this.validAltRead)
+                    {
+                        return altValue;
+                    }
+
+                    Thread.Sleep(sensorSleepTime);
+                }
+                while (!this.validAltRead);
+
+
+                return altValue;
             }
-            while (!validRead);
-
-
-            return altValue;
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw;
+            }
         }
         #endregion
     }

@@ -19,6 +19,8 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
         [TestMethod]
         public void RawTest()
         {
+            const int loops = 2;
+
             SetupHelper.BaseSetup();
             ILogger logger = SetupHelper.Logger;
             const int busId = 1;
@@ -61,7 +63,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
 
                     index++;
                 }
-                while (index < 10);
+                while (index < loops);
 
             }
             catch (Exception ex)

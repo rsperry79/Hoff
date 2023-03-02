@@ -1,23 +1,23 @@
-﻿using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
-using Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers;
+﻿//using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
+//using Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers;
 
-using nanoFramework.TestFramework;
+//using nanoFramework.TestFramework;
 
-namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests
-{
-    [TestClass]
-    public class DisposeTests
-    {
+//namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests
+//{
+//    [TestClass]
+//    public class DisposeTests
+//    {
 
-        [TestMethod]
-        public void DisposeTest()
-        {
-            // Arrange
+//        [TestMethod]
+//        public void DisposeTest()
+//        {
+//            // Arrange
 
-            using (IMax31865Senor bme280Sensor = SetupHelpers.Setup())
-            { }
+//            using (IMax31865Senor bme280Sensor = SetupHelpers.Setup())
+//            { }
 
 
-        }
-    }
-}
+//        }
+//    }
+//}

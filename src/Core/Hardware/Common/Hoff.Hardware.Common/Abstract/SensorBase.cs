@@ -5,6 +5,8 @@ using System.Threading;
 
 using Hoff.Hardware.Common.Interfaces.Base;
 
+using Microsoft.Extensions.Logging;
+
 namespace Hoff.Hardware.Common.Abstract
 {
     /// <summary>
@@ -15,6 +17,8 @@ namespace Hoff.Hardware.Common.Abstract
     public abstract class SensorBase : ISensorBase
     {
         #region Implementation
+
+        protected ILogger _logger;
         /// <summary>
         /// Is this sensor tracking changes
         /// </summary>
@@ -54,23 +58,31 @@ namespace Hoff.Hardware.Common.Abstract
         /// <param name="ms">Interval in milliseconds to track the changes to sensor values</param>
         public virtual void BeginTrackChanges(int ms)
         {
-            if (this._isTrackingChanges)
+            try
             {
-                throw new InvalidOperationException("Already tracking changes");
+                if (this._isTrackingChanges)
+                {
+                    throw new InvalidOperationException("Already tracking changes");
+                }
+
+                if (ms < 50)
+                {
+                    throw new ArgumentOutOfRangeException("ms", "Minimum interval to track sensor changes is 50 milliseconds");
+                }
+
+                this._changeTracker = new Thread(() =>
+                {
+                    this.CheckForChanges(this.HasSensorValueChanged, ms);
+                });
+
+                this._isTrackingChanges = true;
+                this._changeTracker.Start();
             }
-
-            if (ms < 50)
+            catch (Exception ex)
             {
-                throw new ArgumentOutOfRangeException("ms", "Minimum interval to track sensor changes is 50 milliseconds");
+                this._logger.LogError(ex.StackTrace);
+                throw;
             }
-
-            this._changeTracker = new Thread(() =>
-            {
-                this.CheckForChanges(this.HasSensorValueChanged, ms);
-            });
-
-            this._isTrackingChanges = true;
-            this._changeTracker.Start();
         }
 
 
@@ -107,7 +119,7 @@ namespace Hoff.Hardware.Common.Abstract
         /// polling implementation and check for value changes
         /// </summary>
         /// <returns>If true, then sensor value has changed else false</returns>
-        protected abstract void HasSensorValueChanged();
+        protected abstract bool HasSensorValueChanged();
 
 
         /// <summary>

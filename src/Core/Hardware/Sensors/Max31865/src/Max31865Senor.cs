@@ -73,7 +73,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         public bool DefaultInit()
         {
             int bussId = 1;
-            int selectPin = 17;
+            int selectPin = 15;
             SpiMode spiMode = SpiMode.Mode3;
             PlatinumResistanceThermometerType thermometerType = PlatinumResistanceThermometerType.Pt100;
             ResistanceTemperatureDetectorWires wires = ResistanceTemperatureDetectorWires.TwoWire;

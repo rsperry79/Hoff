@@ -15,7 +15,7 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers
 {
     internal static class SetupHelper
     {
-        internal static int Pin = 4;
+        internal static int Pin = 11;
 
         private static IDht11Sensor sensor;
         internal static ServiceProvider Services;

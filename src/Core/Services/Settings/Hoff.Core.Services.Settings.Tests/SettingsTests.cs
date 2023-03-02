@@ -12,6 +12,7 @@ namespace Hoff.Core.Services.Settings.Tests
     public class SettingsTests
     {
         [TestMethod]
+
         public void GetSettingsTest()
         {
             // Arrange

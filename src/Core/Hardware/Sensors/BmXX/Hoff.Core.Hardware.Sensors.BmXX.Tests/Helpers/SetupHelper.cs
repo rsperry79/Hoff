@@ -41,7 +41,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
                 BaseSetup();
 
                 sensor = (IBme280Sensor)Services.GetRequiredService(typeof(IBme280Sensor));
-                sensor.DefaultInit();
+                _= sensor.DefaultInit();
             }
 
             return sensor;
@@ -51,11 +51,9 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
         {
             Services = ConfigureServices();
 
-            LoggerCore loggerCore = new();
             string loggerName = "TestLogger";
-
-            // Setup
             LogLevel minLogLevel = LogLevel.Trace;
+            ILoggerCore loggerCore = (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
             Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
             IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));

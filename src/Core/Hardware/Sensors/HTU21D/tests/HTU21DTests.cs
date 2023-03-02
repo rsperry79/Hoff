@@ -43,10 +43,7 @@ namespace Sensors.Environmental.Tests
         [TestMethod]
         public void Raw()
         {
-            HTU21DSenor hTU21D = this.Setup();
-
-
-
+            HTU21DSenor hTU21D = this.Setup();    
         }
 
         //[TestMethod]

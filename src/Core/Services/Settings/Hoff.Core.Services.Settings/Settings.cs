@@ -8,7 +8,7 @@ namespace Hoff.Core.Services.Settings
 {
     public class Settings<T> : IDisposable
     {
-        protected static IEeprom Eeprom;
+        protected  IEeprom Eeprom;
         private byte startLocation = 0x00;
 
         protected static T settings;
@@ -16,7 +16,7 @@ namespace Hoff.Core.Services.Settings
 
         public Settings(IEeprom eeprom)
         {
-            Eeprom = eeprom;
+            this.Eeprom = eeprom;
 
             if (settings is null)
             {
@@ -28,7 +28,7 @@ namespace Hoff.Core.Services.Settings
         {
             try
             {
-                string data = Eeprom.ReadString(this.startLocation);
+                string data = this.Eeprom.ReadString(this.startLocation);
                 T temp = (T)JsonConvert.DeserializeObject(data, typeof(T));
             }
             catch (Exception)
@@ -53,7 +53,7 @@ namespace Hoff.Core.Services.Settings
         public bool WriteSettings()
         {
             string result = JsonConvert.SerializeObject(this);
-            bool write = Eeprom.WriteString(this.startLocation, result);
+            bool write = this.Eeprom.WriteString(this.startLocation, result);
             return write;
         }
 

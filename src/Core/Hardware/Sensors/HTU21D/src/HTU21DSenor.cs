@@ -7,6 +7,8 @@ using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
 using Hoff.Hardware.Common.Interfaces.Sensors;
 
+using UnitsNet;
+
 namespace Hoff.Core.Sensors.HTU21D
 {
 
@@ -30,14 +32,14 @@ namespace Hoff.Core.Sensors.HTU21D
         /// Accessor/Mutator for relative humidity %
         /// </summary>
 
-        private double relativeHumidity;
+        private RelativeHumidity relativeHumidity;
 
-        public double Humidity
+        public RelativeHumidity Humidity
         {
             get => this.relativeHumidity;
             set
             {
-                if (this.relativeHumidity != value)
+                if (this.relativeHumidity.Percent.Truncate(this._scale) != value.Percent.Truncate(this._scale))
                 {
                     this.relativeHumidity = value;
                     _ = HumiditySensorChanged();
@@ -45,18 +47,18 @@ namespace Hoff.Core.Sensors.HTU21D
             }
         }
 
-        private double temperature;
+        private Temperature temperature;
 
         /// <summary>
         /// Accessor/Mutator for temperature in celcius
         /// </summary>
 
-        public UnitsNet.Temperature Temperature
+        public Temperature Temperature
         {
             get => this.temperature;
             set
             {
-                if (this.temperature != value)
+                if (this.Temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
                     this.temperature = value;
                     TemperatureSensorChanged();
@@ -129,9 +131,6 @@ namespace Hoff.Core.Sensors.HTU21D
             I2cConnectionSettings i2cSetttings = new(busSelector, deviceAddr, speed);
             this._i2CDevice = I2cDevice.Create(i2cSetttings);
 
-            this.Humidity = ERROR_HUMIDITY;
-            this.Temperature = ERROR_TEMPERATURE;
-
             this.Resolution = speed != I2cBusSpeed.FastMode ? (byte)0x81 : (byte)0x0;
             this._scale = scale;
 
@@ -167,8 +166,8 @@ namespace Hoff.Core.Sensors.HTU21D
         public void Reset()
         {
             _ = this._i2CDevice.Write(this.SOFT_RESET);
-            this.Temperature = ERROR_TEMPERATURE;
-            this.Humidity = ERROR_HUMIDITY;
+            this.relativeHumidity = RelativeHumidity.FromPercent(ERROR_HUMIDITY);
+            this.temperature = Temperature.FromDegreesCelsius(ERROR_TEMPERATURE);
         }
         #endregion
 
@@ -186,13 +185,12 @@ namespace Hoff.Core.Sensors.HTU21D
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        public override void HasSensorValueChanged()
+        protected override void HasSensorValueChanged()
         {
-            if (this.ReadTemperature() != 0)
-            {
-                this.Temperature = this.ReadTemperature().Truncate(this._scale);
-                this.Humidity = this.ReadHumidity().Truncate(this._scale);
-            }
+
+            this.Temperature = this.ReadTemperature();
+            this.Humidity = this.ReadHumidity();
+
         }
         #endregion
 
@@ -220,7 +218,7 @@ namespace Hoff.Core.Sensors.HTU21D
         /// Read humidity value from the sensor
         /// </summary>
         /// <returns>humidity as a floating point number</returns>
-        protected float ReadHumidity()
+        protected RelativeHumidity ReadHumidity()
         {
             _ = this._i2CDevice.Write(this.TRIGGER_HUMD_MEASURE_HOLD);
 
@@ -238,7 +236,7 @@ namespace Hoff.Core.Sensors.HTU21D
             uint rawHumidity = ((uint)msb << 8) | lsb;
             if (!IsCRCValid((ushort)rawHumidity, checksum))
             {
-                return ERROR_HUMIDITY; //Error out
+                return RelativeHumidity.FromPercent(ERROR_HUMIDITY); //Error out
             }
 
             rawHumidity &= 0xFFFC; //Zero out the status bits but keep them in place
@@ -247,7 +245,7 @@ namespace Hoff.Core.Sensors.HTU21D
             float tempRH = rawHumidity / (float)65536; //2^16 = 65536
             float rh = -6 + (125 * tempRH); //From page 14
 
-            return rh;
+            return RelativeHumidity.FromPercent(rh);
 
         }
 
@@ -255,7 +253,7 @@ namespace Hoff.Core.Sensors.HTU21D
         /// Read the temperature from the sensor
         /// </summary>
         /// <returns>temperature  as a floating point number in celcius</returns>
-        protected float ReadTemperature()
+        protected Temperature ReadTemperature()
         {
             _ = this._i2CDevice.Write(this.TRIGGER_TEMP_MEASURE_HOLD);
 
@@ -273,7 +271,8 @@ namespace Hoff.Core.Sensors.HTU21D
             uint rawTemperature = ((uint)msb << 8) | lsb;
             if (!IsCRCValid((ushort)rawTemperature, checksum))
             {
-                return ERROR_TEMPERATURE; //Error out
+
+                return Temperature.FromDegreesCelsius(ERROR_TEMPERATURE);
             }
 
             rawTemperature &= 0xFFFC; //Zero out the status bits but keep them in place
@@ -282,7 +281,7 @@ namespace Hoff.Core.Sensors.HTU21D
             float tempTemperature = rawTemperature / (float)65536; //2^16 = 65536
             float rt = (float)(-46.85 + (175.72 * tempTemperature)); //From page 14
 
-            return rt;
+            return Temperature.FromDegreesCelsius(rt);
         }
 
         /// <summary>

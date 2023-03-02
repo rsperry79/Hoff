@@ -4,6 +4,7 @@ using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.Common.Interfaces.Displays;
 using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Common.Services;
+using Hoff.Hardware.Displays.Ssd13.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
@@ -22,7 +23,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests.Helpers
                 .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
                 .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
                 .AddTransient(typeof(DiDisplayTestClass))
-                .AddSingleton(typeof(IDisplay), typeof(Display))
+                .AddSingleton(typeof(ISsd13), typeof(Display))
 
                 .BuildServiceProvider();
         }
