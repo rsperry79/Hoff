@@ -69,7 +69,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
 
         public void Dispose()
         {
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
     }
 }

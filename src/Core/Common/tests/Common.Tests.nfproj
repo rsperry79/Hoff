@@ -15,8 +15,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>NFUnitTest</RootNamespace>
-    <AssemblyName>NFUnitTest</AssemblyName>
+    <RootNamespace>Hoff.Core.Common.Tests</RootNamespace>
+    <AssemblyName>Hoff.Core.Common.Tests</AssemblyName>
     <IsCodedUITest>False</IsCodedUITest>
     <IsTestProject>true</IsTestProject>
     <TestProjectType>UnitTest</TestProjectType>
@@ -29,7 +29,7 @@
   <ItemGroup>
     <Compile Include="Helpers\DiSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestOfTestFramework.cs" />
+    <Compile Include="FrameworkTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

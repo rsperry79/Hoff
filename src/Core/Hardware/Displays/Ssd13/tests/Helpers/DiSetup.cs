@@ -1,7 +1,6 @@
-﻿using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Interfaces.Displays;
 using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Common.Services;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
@@ -13,7 +12,7 @@ using nanoFramework.DependencyInjection;
 
 namespace Hoff.Hardware.Displays.Ssd13.Tests.Helpers
 {
-    internal class DiSetup
+    internal static class DiSetup
     {
         internal static ServiceProvider ConfigureServices()
         {

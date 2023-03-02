@@ -1,7 +1,7 @@
 ﻿using System;
 
-using Hoff.Core.Logging.Tests.Helpers;
 using Hoff.Core.Services.Logging;
+using Hoff.Core.Services.Logging.Logging.Tests.Helpers;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,10 +18,8 @@ namespace Hoff.Core.Logging.Tests
         {
             // Arrange
             LoggerCore loggerCore = new();
-            string loggerName = "TestLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
+            const string loggerName = "TestLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
             // Act
@@ -34,10 +32,8 @@ namespace Hoff.Core.Logging.Tests
         {
             // Arrange
             LoggerCore loggerCore = new();
-            string loggerName = "SerialLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             DebugLogger _logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
             // Act
@@ -71,10 +67,8 @@ namespace Hoff.Core.Logging.Tests
         {
             // Arrange
             LoggerCore loggerCore = new();
-            string loggerName = "SerialLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
             loggerCore.GetSerialLogger();
             TestComponent testComponent = new();
@@ -89,10 +83,8 @@ namespace Hoff.Core.Logging.Tests
         {
             // Arrange
             LoggerCore loggerCore = new();
-            string loggerName = "SerialLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
             loggerCore.GetMemoryStreamLogger();
             TestComponent testComponent = new();

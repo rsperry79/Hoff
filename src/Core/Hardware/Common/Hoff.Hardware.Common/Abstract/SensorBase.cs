@@ -7,6 +7,8 @@ using Hoff.Hardware.Common.Interfaces.Base;
 
 using Microsoft.Extensions.Logging;
 
+using static Hoff.Hardware.Common.Interfaces.Base.ISensorBase;
+
 namespace Hoff.Hardware.Common.Abstract
 {
     /// <summary>
@@ -72,8 +74,8 @@ namespace Hoff.Hardware.Common.Abstract
 
                 this._changeTracker = new Thread(() =>
                 {
-                    this.CheckForChanges(this.HasSensorValueChanged, ms);
-                });
+                    //  this.CheckForChanges(this.HasSensorValueChanged, ms);
+                }); ;
 
                 this._isTrackingChanges = true;
                 this._changeTracker.Start();
@@ -86,7 +88,7 @@ namespace Hoff.Hardware.Common.Abstract
         }
 
 
-        public void CheckForChanges(ISensorBase.HasSensorValueChanged checkForChange, int ms)
+        public void CheckForChanges(RefreshSenorData checkForChange, int ms)
         {
 
             int divs = ms / 1000;
@@ -118,8 +120,7 @@ namespace Hoff.Hardware.Common.Abstract
         /// polling mechanism for the client applications. The client apps,can use this method in their own
         /// polling implementation and check for value changes
         /// </summary>
-        /// <returns>If true, then sensor value has changed else false</returns>
-        protected abstract bool HasSensorValueChanged();
+        protected abstract void RefreshSenorData();
 
 
         /// <summary>

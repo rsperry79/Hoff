@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
-namespace Hoff.Core.Logging.Tests.Helpers
+namespace Hoff.Core.Services.Logging.Logging.Tests.Helpers
 {
     internal class TestComponent
     {

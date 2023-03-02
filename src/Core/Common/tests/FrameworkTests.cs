@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 using nanoFramework.TestFramework;
 
-namespace Hoff.Core.Tests
+namespace Hoff.Core.Common.Tests
 {
     [TestClass]
     public class FrameworkTests
@@ -25,21 +25,21 @@ namespace Hoff.Core.Tests
         {
             Debug.WriteLine("Test will check that all the Equal are actually equal");
             // Arrange
-            byte bytea = 42; byte byteb = 42;
-            char chara = (char)42; char charb = (char)42;
-            sbyte sbytea = 42; sbyte sbyteb = 42;
-            int inta = 42; int intb = 42;
-            uint uinta = 42; uint uintb = 42;
-            long longa = 42; long longb = 42;
-            ulong ulonga = 42; ulong ulongb = 42;
-            bool boola = true; bool boolb = true;
-            short shorta = 42; short shortb = 42;
-            ushort ushorta = 42; ushort ushortb = 42;
-            float floata = 42; float floatb = 42;
+            const byte bytea = 42; const byte byteb = 42;
+            const char chara = (char)42; const char charb = (char)42;
+            const sbyte sbytea = 42; const sbyte sbyteb = 42;
+            const int inta = 42; const int intb = 42;
+            const uint uinta = 42; const uint uintb = 42;
+            const long longa = 42; const long longb = 42;
+            const ulong ulonga = 42; const ulong ulongb = 42;
+            const bool boola = true; const bool boolb = true;
+            const short shorta = 42; const short shortb = 42;
+            const ushort ushorta = 42; const ushort ushortb = 42;
+            const float floata = 42; const float floatb = 42;
             int[] intArraya = new int[5] { 1, 2, 3, 4, 5 };
             int[] intArrayb = new int[5] { 1, 2, 3, 4, 5 };
             object obja = new(); object objb = obja;
-            string stra = "42"; string strb = "42";
+            const string stra = "42"; const string strb = "42";
             byte[] arrayempty = new byte[0];
 
             // Assert
@@ -74,23 +74,23 @@ namespace Hoff.Core.Tests
             Debug.WriteLine("Test will check that all the NotEqual are actually equal");
 
             // Arrange
-            byte bytea = 42; byte byteb = 43;
-            char chara = (char)42; char charb = (char)43;
-            sbyte sbytea = 42; sbyte sbyteb = 43;
-            int inta = 42; int intb = 43;
-            uint uinta = 42; uint uintb = 43;
-            long longa = 42; long longb = 43;
-            ulong ulonga = 42; ulong ulongb = 43;
-            bool boola = true; bool boolb = false;
-            short shorta = 42; short shortb = 43;
-            ushort ushorta = 42; ushort ushortb = 43;
-            float floata = 42; float floatb = 43;
+            const byte bytea = 42; const byte byteb = 43;
+            const char chara = (char)42; const char charb = (char)43;
+            const sbyte sbytea = 42; const sbyte sbyteb = 43;
+            const int inta = 42; const int intb = 43;
+            const uint uinta = 42; const uint uintb = 43;
+            const long longa = 42; const long longb = 43;
+            const ulong ulonga = 42; const ulong ulongb = 43;
+            const bool boola = true; const bool boolb = false;
+            const short shorta = 42; const short shortb = 43;
+            const ushort ushorta = 42; const ushort ushortb = 43;
+            const float floata = 42; const float floatb = 43;
             int[] intArraya = new int[5] { 1, 2, 3, 4, 5 };
             int[] intArrayb = new int[5] { 1, 2, 3, 4, 6 };
             int[] intArraybis = new int[4] { 1, 2, 3, 4 };
             int[] intArrayter = null;
             object obja = new(); object objb = new();
-            string stra = "42"; string strb = "43";
+            const string stra = "42"; const string strb = "43";
 
             // Assert
             Assert.IsFalse(boolb);
@@ -138,12 +138,12 @@ namespace Hoff.Core.Tests
             Debug.WriteLine("Test string, Contains, EndsWith, StartWith");
 
             // Arrange
-            string tocontains = "this text contains and end with contains";
-            string startcontains = "contains start this text";
-            string contains = "contains";
-            string doesnotcontains = "this is totally something else";
+            const string tocontains = "this text contains and end with contains";
+            const string startcontains = "contains start this text";
+            const string contains = "contains";
+            const string doesnotcontains = "this is totally something else";
             string empty = string.Empty;
-            string stringnull = null;
+            const string stringnull = null;
 
             // Assert
             Assert.Contains(contains, tocontains);

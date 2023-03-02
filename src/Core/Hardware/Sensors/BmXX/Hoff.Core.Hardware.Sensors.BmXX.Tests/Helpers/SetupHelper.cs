@@ -1,5 +1,5 @@
-﻿using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
-using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.Common.Interfaces.Services;
@@ -41,7 +41,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
                 BaseSetup();
 
                 sensor = (IBme280Sensor)Services.GetRequiredService(typeof(IBme280Sensor));
-                _= sensor.DefaultInit();
+                _ = sensor.DefaultInit();
             }
 
             return sensor;
@@ -51,8 +51,8 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
         {
             Services = ConfigureServices();
 
-            string loggerName = "TestLogger";
-            LogLevel minLogLevel = LogLevel.Trace;
+            const string loggerName = "TestLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             ILoggerCore loggerCore = (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
             Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 

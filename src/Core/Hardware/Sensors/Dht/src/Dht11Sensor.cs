@@ -5,7 +5,9 @@ using Hoff.Core.Hardware.Sensors.Dht.Interfaces;
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Interfaces.Events;
 using Hoff.Hardware.Common.Interfaces.Sensors;
+using Hoff.Hardware.Common.Models;
 
 using Iot.Device.DHTxx;
 
@@ -15,13 +17,13 @@ using nanoFramework.Logging;
 
 using UnitsNet;
 
+using static Hoff.Hardware.Common.Interfaces.Sensors.ITempatureSensor;
+
 namespace Hoff.Core.Hardware.Sensors.Dht
 {
     public class Dht11Sensor : SensorBase, IDht11Sensor, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Implementation
-
-
         private static DhtBase Dht = null;
 
         /// <summary>
@@ -47,21 +49,18 @@ namespace Hoff.Core.Hardware.Sensors.Dht
             {
                 if (this.relativeHumidity.Percent.Truncate(this._scale) != value.Percent.Truncate(this._scale))
                 {
-
                     this.relativeHumidity = value;
-                    _ = HumiditySensorChanged();
+
+                    EventHandler<IHumidityChangedEventArgs> tempEvent = HumidityChanged;
+                    tempEvent(this, new HumidityChangedEventArgs(value));
                 }
             }
         }
-
-
-
 
         private Temperature temperature;
 
         private bool disposedValue;
 
-        /// <summary>
         public Temperature Temperature
         {
             get => this.temperature;
@@ -70,9 +69,10 @@ namespace Hoff.Core.Hardware.Sensors.Dht
                 if (this.temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
                     this.temperature = value;
-                    TemperatureSensorChanged();
-                }
 
+                    TempatureChangedEventHandler tempEvent = TemperatureChanged;
+                    tempEvent(this, new TempatureChangedEventArgs(value));
+                }
             }
         }
 
@@ -82,12 +82,13 @@ namespace Hoff.Core.Hardware.Sensors.Dht
         /// <summary>
         /// Temperature Changed Event handler
         /// </summary>
-        public event ITempatureSensor.TempatureChangedEventHandler TemperatureSensorChanged;
+        public event TempatureChangedEventHandler TemperatureChanged;
 
         /// <summary>
         /// Humidity changed event handler.
         /// </summary>
-        public event IHumiditySensor.HumidityChangedEventHandler HumiditySensorChanged;
+        public event EventHandler<IHumidityChangedEventArgs> HumidityChanged;
+
         #endregion
 
         #region Constructor
@@ -98,7 +99,6 @@ namespace Hoff.Core.Hardware.Sensors.Dht
 
             this._scale = scale;
             this.logger.LogTrace("before sleep");
-
         }
         #endregion
 
@@ -112,22 +112,24 @@ namespace Hoff.Core.Hardware.Sensors.Dht
             return true;
         }
 
+        private readonly object locker;
         /// <summary>
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        protected override void HasSensorValueChanged()
+        protected override void RefreshSenorData()
         {
-            try
+            lock (this.locker)
             {
-
-                this.temperature = this.ReadTemperature();
-                this.Humidity = this.ReadHumidity();
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("HasSensorValueChanged");
-
+                try
+                {
+                    this.temperature = this.ReadTemperature();
+                    this.Humidity = this.ReadHumidity();
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("HasSensorValueChanged");
+                }
             }
         }
         #endregion
@@ -137,8 +139,6 @@ namespace Hoff.Core.Hardware.Sensors.Dht
         {
             Dht.Dispose();
         }
-
-
 
         ~Dht11Sensor()
         {
@@ -181,7 +181,6 @@ namespace Hoff.Core.Hardware.Sensors.Dht
                 {
                     return Dht.Humidity;
                 }
-
             }
             catch (Exception)
             {
@@ -199,7 +198,6 @@ namespace Hoff.Core.Hardware.Sensors.Dht
                 {
                     return Dht.Temperature;
                 }
-
             }
             catch (Exception)
             {

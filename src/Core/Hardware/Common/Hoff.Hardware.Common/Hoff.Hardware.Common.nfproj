@@ -24,6 +24,10 @@
     <Compile Include="Helpers\NumberExtentionMethods.cs" />
     <Compile Include="Interfaces\Config\IPinConfig.cs" />
     <Compile Include="Interfaces\Displays\IDisplay.cs" />
+    <Compile Include="Interfaces\Events\IAltimeterChangedEventArgs.cs" />
+    <Compile Include="Interfaces\Events\IBarometerChangedEventArgs.cs" />
+    <Compile Include="Interfaces\Events\IHumidityChangedEventArgs.cs" />
+    <Compile Include="Interfaces\Events\ITempatureChangedEventArgs.cs" />
     <Compile Include="Interfaces\Sensors\IBarometer.cs" />
     <Compile Include="Interfaces\Sensors\IHumiditySensor.cs" />
     <Compile Include="Interfaces\Base\ISensorBase.cs" />
@@ -32,6 +36,10 @@
     <Compile Include="Interfaces\Sensors\IHumidityTempatureSensor.cs" />
     <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
     <Compile Include="Interfaces\Storage\IEeprom.cs" />
+    <Compile Include="Models\TempatureChangedEventArgs.cs" />
+    <Compile Include="Models\BarometerChangedEventArgs.cs" />
+    <Compile Include="Models\AltimeterChangedEventArgs.cs" />
+    <Compile Include="Models\HumidityChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\I2cBussControllerService.cs" />
     <Compile Include="Structs\DirectLine.cs" />

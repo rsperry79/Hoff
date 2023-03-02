@@ -22,7 +22,7 @@ namespace Hoff.Hardware.Displays.Ssd13
         private I2cDevice i2CDevice;
         private Ssd1306 ssdDisplay;
         private readonly ILogger _logger;
-        private  II2cBussControllerService deviceScan;
+        private readonly II2cBussControllerService deviceScan;
 
         public Display(II2cBussControllerService scanner)
         {
@@ -32,7 +32,7 @@ namespace Hoff.Hardware.Displays.Ssd13
             {
                 this.deviceScan = scanner;
             }
-            catch (System.Exception ex )
+            catch (System.Exception ex)
             {
                 this._logger.LogError(ex.StackTrace);
                 throw;
@@ -49,28 +49,28 @@ namespace Hoff.Hardware.Displays.Ssd13
             {
                 bussId = 1;
                 deviceAddr = Ssd1306.DefaultI2cAddress;
-                speed =this.deviceScan.I2C1BusSpeed;
+                speed = this.deviceScan.I2C1BusSpeed;
             }
 
             if (this.deviceScan.I2C1.Contains(Ssd1306.SecondaryI2cAddress))
             {
                 bussId = 1;
                 deviceAddr = Ssd1306.SecondaryI2cAddress;
-                speed =this.deviceScan.I2C1BusSpeed;
+                speed = this.deviceScan.I2C1BusSpeed;
             }
 
             if (this.deviceScan.I2C2.Contains(Ssd1306.DefaultI2cAddress))
             {
                 bussId = 2;
                 deviceAddr = Ssd1306.DefaultI2cAddress;
-                speed =this.deviceScan.I2C2BusSpeed;
+                speed = this.deviceScan.I2C2BusSpeed;
             }
 
             if (this.deviceScan.I2C2.Contains(Ssd1306.SecondaryI2cAddress))
             {
                 bussId = 2;
                 deviceAddr = Ssd1306.SecondaryI2cAddress;
-                speed =this.deviceScan.I2C2BusSpeed;
+                speed = this.deviceScan.I2C2BusSpeed;
             }
 
             this._logger.LogDebug($"SSD1306 Autodetect");

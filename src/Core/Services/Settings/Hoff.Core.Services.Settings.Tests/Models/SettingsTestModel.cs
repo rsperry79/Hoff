@@ -1,16 +1,7 @@
-﻿
-
-namespace NFUnitTest.Models
+﻿namespace Hoff.Core.Services.Settings.Tests.Models
 {
     public class SettingsTestModel
     {
-        private string machineName;
-
-        public string MachineName
-        {
-            get => this.machineName;
-            set => this.machineName = value;
-        }
-
+        public string MachineName { get; set; }
     }
 }

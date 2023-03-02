@@ -1,7 +1,7 @@
-﻿using Hoff.Core.Hardware.Storage.At24;
-using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Storage.At24;
 using Hoff.Core.Services.Logging;
-using Hoff.Core.Services.Settings;
+using Hoff.Core.Services.Settings.Tests.Models;
 using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Common.Interfaces.Storage;
@@ -13,8 +13,6 @@ using Hoff.Hardware.SoC.SoCEsp32.Models;
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.DependencyInjection;
-
-using NFUnitTest.Models;
 
 namespace Hoff.Core.Services.Settings.Tests.Helpers
 {
@@ -48,13 +46,11 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
             if (Settings is null)
             {         // Arrange
                 LoggerCore loggerCore = new();
-                string loggerName = "TestLogger";
+                const string loggerName = "TestLogger";
 
                 // Setup
-                LogLevel minLogLevel = LogLevel.Trace;
+                const LogLevel minLogLevel = LogLevel.Trace;
                 Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
-
-
                 Services = ConfigureServices();
 
                 IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
@@ -62,8 +58,6 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
                 espConfig.SetI2C2Pins();
                 prom = (IEeprom)Services.GetRequiredService(typeof(IEeprom));
                 prom.DefaultInit();
-
-
 
                 Settings = (Settings<SettingsTestModel>)Services.GetRequiredService(typeof(Settings<SettingsTestModel>));
             }

@@ -1,18 +1,21 @@
 ﻿using System;
 
 using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Interfaces.Events;
+
+using UnitsNet;
 
 namespace Hoff.Hardware.Common.Interfaces.Sensors
 {
     public interface IBarometer : ISensorBase, IDisposable
     {
         // Event Handlers
-        delegate void PressureChangedEventHandler();
-        event PressureChangedEventHandler PressureSensorChanged;
+        delegate void BarometerChangedEventHandler(object sender, IBarometerChangedEventArgs humidityChangedEvent);
+        event BarometerChangedEventHandler PressureChanged;
 
         /// <summary>
         /// The current temperature
         /// </summary>
-        UnitsNet.Pressure Pressure { get; }
+        Pressure Pressure { get; }
     }
 }

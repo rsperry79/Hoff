@@ -8,7 +8,7 @@ using nanoFramework.DependencyInjection;
 
 namespace Hoff.Hardware.Soc.SoCEsp32.Tests.Helpers
 {
-    internal class DiSetup
+    internal static class DiSetup
     {
         internal static ServiceProvider ConfigureServices()
         {

@@ -50,9 +50,7 @@ namespace Hoff.Controls.PID
 
             double output = proportionalTerm + this.IntegralTerm - derivativeTerm;
 
-            output = this.Clamp(output);
-
-            return output;
+            return this.Clamp(output);
         }
 
         /// <summary>
@@ -95,7 +93,6 @@ namespace Hoff.Controls.PID
         /// proportional-summation-difference used in discrete-time systems
         /// </remarks>
         public double IntegralTerm { get; private set; } = 0;
-
 
         /// <summary>
         /// The current value

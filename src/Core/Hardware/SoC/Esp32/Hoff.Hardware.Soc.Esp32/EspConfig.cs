@@ -26,7 +26,6 @@ namespace Hoff.Hardware.SoC.SoCEsp32
             this.logger = this.GetCurrentClassLogger();
         }
 
-
         /// <summary>
         /// Sets the SPI Pins from the IPinConfig loaded in the ctor
         /// </summary>
@@ -66,13 +65,6 @@ namespace Hoff.Hardware.SoC.SoCEsp32
         {
             int funct = Configuration.GetFunctionPin(deviceFunction);
             return funct;
-        }
-
-
-        public void SetGpio(int pin)
-        {
-
-            //nanoFramework.Hardware.Esp32.Gpio
         }
     }
 }

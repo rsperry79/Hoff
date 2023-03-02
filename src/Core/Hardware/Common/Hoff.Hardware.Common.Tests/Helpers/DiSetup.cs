@@ -1,4 +1,4 @@
-﻿using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.SoC.SoCEsp32;

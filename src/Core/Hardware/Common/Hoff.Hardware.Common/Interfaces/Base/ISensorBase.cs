@@ -2,7 +2,7 @@
 {
     public interface ISensorBase
     {
-        delegate void HasSensorValueChanged();
+        delegate void RefreshSenorData();
 
         bool CanTrackChanges();
 

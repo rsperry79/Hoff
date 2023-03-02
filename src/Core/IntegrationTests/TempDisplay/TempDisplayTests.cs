@@ -1,45 +1,40 @@
-﻿using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
+﻿using System.Threading;
+
+using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Sensors.BmXX;
+using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
+using Hoff.Core.Services.Logging;
+using Hoff.Hardware.Common.Interfaces.Config;
+using Hoff.Hardware.Common.Interfaces.Events;
+using Hoff.Hardware.Common.Interfaces.Services;
+using Hoff.Hardware.Common.Services;
 using Hoff.Hardware.Displays.Ssd13;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
-
-using Microsoft.Extensions.Logging;
-
-using nanoFramework.TestFramework;
-using Hoff.Core.Hardware.Sensors.BmXX;
-using Hoff.Core.Interfaces;
-using Hoff.Core.Services.Logging;
-
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
 
-using System.Collections;
+using Microsoft.Extensions.Logging;
 
 using nanoFramework.DependencyInjection;
 using nanoFramework.Logging.Debug;
-using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Services;
-using System;
-using Hoff.Hardware.Common.Helpers;
-using System.Threading;
+using nanoFramework.TestFramework;
 
-namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests.TempDisplay
+namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
 {
     [TestClass]
     public class TempDisplayTests
     {
-
         public static Display Display;
         public static Bme280Sensor Sensor;
         public static DebugLogger Logger;
         [TestMethod]
         public void TempDisplayTest()
         {
-            ServiceProvider  services = this.ConfigureServices();
+            ServiceProvider services = this.ConfigureServices();
 
-            string loggerName = "TestLogger";
-            LogLevel minLogLevel = LogLevel.Trace;
+            const string loggerName = "TestLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             LoggerCore loggerCore = new LoggerCore();
             Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
             try
@@ -55,20 +50,17 @@ namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests.TempDisplay
 
                 Sensor = new Bme280Sensor(scanner);
                 _ = Sensor.DefaultInit();
-                Sensor.TemperatureSensorChanged += this.Sensor_TemperatureSensorChanged;    ;
+                Sensor.TemperatureChanged += this.Sensor_TemperatureSensorChanged;
 
-                Display.WriteLine(10, 10, $"Temp: {Sensor.Temperature.DegreesFahrenheit.Truncate(2)}\u00B0F");
-                Display.UpdateDisplay();
+                //Display.WriteLine(10, 10, $"Temp: {Sensor.Temperature.DegreesFahrenheit.Truncate(2)}\u00B0F");
+                //Display.UpdateDisplay();
                 Sensor.BeginTrackChanges(50);
-
-
 
                 do
                 {
                     Thread.Sleep(100);
                 }
                 while (true);
-
             }
             catch (System.Exception ex)
             {
@@ -77,20 +69,14 @@ namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests.TempDisplay
             }
         }
 
-        private bool Sensor_TemperatureSensorChanged()
+        private void Sensor_TemperatureSensorChanged(object sender, ITempatureChangedEventArgs tempatureChangedEvent)
         {
-            Logger.LogDebug($"Changed Event");
-                Display.WriteLine(10, 10, $"Temp: {Sensor.Temperature.DegreesFahrenheit:2}F");
-                Display.UpdateDisplay();
-            return true;
+            Logger.LogDebug("Changed Event");
+            Display.WriteLine(10, 10, $"Temp: {Sensor.Temperature.DegreesFahrenheit:2}F");
+            Display.UpdateDisplay();
         }
 
-        //private bool Sensor_TemperatureSensorChanged()
-        //{
-
-        //}
-
-        public  ServiceProvider ConfigureServices()
+        public ServiceProvider ConfigureServices()
         {
             return new ServiceCollection()
                 .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
@@ -100,17 +86,6 @@ namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests.TempDisplay
                 .AddSingleton(typeof(ISsd13), typeof(Display))
                 .AddSingleton(typeof(IBme280Sensor), typeof(Bme280Sensor))
                 .BuildServiceProvider();
-        }
-
-        public void Setup()
-        {
-           
-
-
-                
-
-
-             
         }
     }
 }

@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
+using static Hoff.Hardware.Common.Interfaces.Storage.IEeprom;
+
 namespace Hoff.Core.Hardware.Storage.At24
 {
     public class At24c256Eeprom : IEeprom, IDisposable
@@ -43,7 +45,7 @@ namespace Hoff.Core.Hardware.Storage.At24
         private bool disposedValue;
         private const char EOL = '\0';
 
-        public event IEeprom.DataChangedEventHandler EepromDataChanged;
+        public event DataChangedEventHandler EepromDataChanged;
         #endregion
 
         public At24c256Eeprom(II2cBussControllerService scanner)

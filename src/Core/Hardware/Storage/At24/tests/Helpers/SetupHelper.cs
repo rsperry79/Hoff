@@ -1,4 +1,4 @@
-﻿using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.Common.Interfaces.Services;
@@ -17,7 +17,6 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
 {
     public static class SetupHelper
     {
-
         public static IEeprom prom;
         public static ServiceProvider Services;
         public static DebugLogger Logger;
@@ -40,12 +39,9 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
             if (prom is null)
             {         // Arrange
                 LoggerCore loggerCore = new();
-                string loggerName = "TestLogger";
-
-                // Setup
-                LogLevel minLogLevel = LogLevel.Trace;
+                const string loggerName = "TestLogger";
+                const LogLevel minLogLevel = LogLevel.Trace;
                 Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
-
 
                 Services = ConfigureServices();
 

@@ -8,7 +8,7 @@ namespace Hoff.Core.Services.Settings
 {
     public class Settings<T> : IDisposable
     {
-        protected  IEeprom Eeprom;
+        protected IEeprom Eeprom;
         private byte startLocation = 0x00;
 
         protected static T settings;

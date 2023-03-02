@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-using Hoff.Core.Interfaces;
-using Hoff.Core.Services.Logging;
+using Hoff.Core.Common.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Displays;
 using Hoff.Hardware.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Fonts;
@@ -29,8 +28,8 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
             {
                 services = DiSetup.ConfigureServices();
 
-                string loggerName = "TestLogger";
-                LogLevel minLogLevel = LogLevel.Trace;
+                const string loggerName = "TestLogger";
+                const LogLevel minLogLevel = LogLevel.Trace;
                 ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
                 DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
@@ -63,7 +62,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
         {
             // Arrange
             ISsd13 display = Setup();
-            bool draw = true;
+            const bool draw = true;
 
             // Act
             Line line = new() { X = 0, Y = 10, Length = 128 };
@@ -92,7 +91,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
             ISsd13 display = Setup();
 
             Line line = new() { X = 10, Y = 0, Length = 64 };
-            bool draw = true;
+            const bool draw = true;
 
             // Act
             display.VerticalLine(
@@ -113,11 +112,11 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
             // Arrange
             ISsd13 display = Setup();
 
-            int x = 2;
-            int y = 2;
-            string text = "Test";
-            byte fontSize = 2;
-            bool center = false;
+            const int x = 2;
+            const int y = 2;
+            const string text = "Test";
+            const byte fontSize = 2;
+            const bool center = false;
             object font = null;
 
             // Act
@@ -142,11 +141,11 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
             // Arrange
             ISsd13 display = Setup();
 
-            int x = 2;
-            int y = 2;
-            string text = "Test with font";
-            byte fontSize = 2;
-            bool center = false;
+            const int x = 2;
+            const int y = 2;
+            const string text = "Test with font";
+            const byte fontSize = 2;
+            const bool center = false;
             object font = new BasicFont();
 
             // Act

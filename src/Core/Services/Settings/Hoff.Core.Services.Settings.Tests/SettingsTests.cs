@@ -1,10 +1,7 @@
-﻿
-using Hoff.Core.Services.Settings.Tests.Helpers;
+﻿using Hoff.Core.Services.Settings.Tests.Helpers;
+using Hoff.Core.Services.Settings.Tests.Models;
 
 using nanoFramework.TestFramework;
-
-using NFUnitTest.Models;
-
 
 namespace Hoff.Core.Services.Settings.Tests
 {
@@ -17,7 +14,6 @@ namespace Hoff.Core.Services.Settings.Tests
         {
             // Arrange
             Settings<SettingsTestModel> settings = TestHelpers.Setup();
-
 
             // Act
 

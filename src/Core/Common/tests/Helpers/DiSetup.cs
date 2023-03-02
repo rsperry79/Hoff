@@ -1,14 +1,13 @@
-﻿
-using nanoFramework.DependencyInjection;
+﻿using nanoFramework.DependencyInjection;
 
-
-namespace Sensors.Environmental.HTU21D.Tests.Helpers
+namespace Hoff.Core.Common.Tests.Helpers
 {
     internal class DiSetup
     {
         internal ServiceProvider ConfigureServices()
         {
             ServiceProvider services = new ServiceCollection()
+
                 .BuildServiceProvider();
 
             return services;

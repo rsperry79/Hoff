@@ -6,14 +6,15 @@ using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
 using Hoff.Hardware.Common.Interfaces.Sensors;
+using Hoff.Hardware.Common.Models;
 
 using Iot.Device.Max31865;
-
-using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
 using UnitsNet;
+
+using static Hoff.Hardware.Common.Interfaces.Sensors.ITempatureSensor;
 
 namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
 
@@ -34,7 +35,6 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         private readonly uint _scale = 2;
 
         private const int sensorSleepTime = 10;
-        private readonly ILogger _logger;
         #endregion
 
         #region Properties
@@ -52,7 +52,9 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
                 if (this.temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
                     this.temperature = value;
-                    TemperatureSensorChanged();
+
+                    TempatureChangedEventHandler tempEvent = TemperatureChanged;
+                    tempEvent(this, new TempatureChangedEventArgs(value));
                 }
 
             }
@@ -63,7 +65,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         /// <summary>
         /// Tempature Changed Event handler
         /// </summary>
-        public event ITempatureSensor.TempatureChangedEventHandler TemperatureSensorChanged;
+        public event TempatureChangedEventHandler TemperatureChanged;
         #endregion
 
         #region Constructor
@@ -124,17 +126,21 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         /// <returns>bool</returns>
         public override bool CanTrackChanges()
         {
-
             return true;
         }
+
+        private readonly object locker;
 
         /// <summary>
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        protected override void HasSensorValueChanged()
+        protected override void RefreshSenorData()
         {
-            this.Temperature = this.sensor.Temperature;
+            lock (this.locker)
+            {
+                this.Temperature = this.sensor.Temperature;
+            }
         }
 
         #endregion

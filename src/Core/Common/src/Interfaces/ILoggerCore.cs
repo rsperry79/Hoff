@@ -2,7 +2,7 @@
 
 using nanoFramework.Logging.Debug;
 
-namespace Hoff.Core.Interfaces
+namespace Hoff.Core.Common.Interfaces
 {
     public interface ILoggerCore
     {

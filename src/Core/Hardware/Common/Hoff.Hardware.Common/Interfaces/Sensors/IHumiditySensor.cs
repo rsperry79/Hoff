@@ -1,18 +1,21 @@
 ﻿using System;
 
 using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Interfaces.Events;
+
+using UnitsNet;
 
 namespace Hoff.Hardware.Common.Interfaces.Sensors
 {
     public interface IHumiditySensor : ISensorBase, IDisposable
     {
         // Event Handlers
-        delegate bool HumidityChangedEventHandler();
-        event HumidityChangedEventHandler HumiditySensorChanged;
+        public delegate void HumidityChangedEventHandler(object sender, IHumidityChangedEventArgs humidityChangedEvent);
+        public event EventHandler<IHumidityChangedEventArgs> HumidityChanged;
 
         /// <summary>
         /// The current Humidity level
         /// </summary>
-        UnitsNet.RelativeHumidity Humidity { get; }
+        public RelativeHumidity Humidity { get; }
     }
 }

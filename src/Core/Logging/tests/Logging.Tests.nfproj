@@ -15,8 +15,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>NFUnitTest</RootNamespace>
-    <AssemblyName>NFUnitTest</AssemblyName>
+    <RootNamespace>Hoff.Core.Services.Logging.Tests</RootNamespace>
+    <AssemblyName>Hoff.Core.Services.Logging.Tests</AssemblyName>
     <IsCodedUITest>False</IsCodedUITest>
     <IsTestProject>true</IsTestProject>
     <TestProjectType>UnitTest</TestProjectType>

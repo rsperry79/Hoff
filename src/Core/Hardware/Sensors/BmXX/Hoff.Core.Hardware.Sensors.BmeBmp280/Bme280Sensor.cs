@@ -6,8 +6,10 @@ using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Interfaces.Events;
 using Hoff.Hardware.Common.Interfaces.Sensors;
 using Hoff.Hardware.Common.Interfaces.Services;
+using Hoff.Hardware.Common.Models;
 
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.FilteringMode;
@@ -19,19 +21,18 @@ using nanoFramework.Logging;
 
 using UnitsNet;
 
+using static Hoff.Hardware.Common.Interfaces.Sensors.IAltimeter;
+using static Hoff.Hardware.Common.Interfaces.Sensors.IBarometer;
+using static Hoff.Hardware.Common.Interfaces.Sensors.ITempatureSensor;
+
 namespace Hoff.Core.Hardware.Sensors.BmXX
 {
-
-    public class Bme280Sensor : SensorBase, IBme280Sensor,  IBarometer, IAltimeter, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
+    public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Implementation
-
         private const int sensorSleepTime = 10;
-
-
         private bool validAltRead = false;
         private static II2cBussControllerService deviceScan;
-
 
         /// <summary>
         /// How many decimal places to account in temperature and humidity measurements
@@ -52,17 +53,15 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// </summary>
         public RelativeHumidity Humidity
         {
-            get
-            {
-                return this.relativeHumidity;
-            }
+            get => this.relativeHumidity;
             private set
             {
                 if (this.relativeHumidity.Percent.Truncate(this._scale) != value.Percent.Truncate(this._scale))
                 {
-
                     this.relativeHumidity = value;
-                    _ = HumiditySensorChanged();
+
+                    EventHandler<IHumidityChangedEventArgs> tempEvent = HumidityChanged;
+                    tempEvent(this, new HumidityChangedEventArgs(value));
                 }
             }
         }
@@ -72,60 +71,56 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// </summary>
         public Temperature Temperature
         {
-            get
-            {
-                return this.temperature;
-            }
+            get => this.temperature;
             private set
             {
                 if (this.temperature.DegreesCelsius.Truncate(this._scale) != value.DegreesCelsius.Truncate(this._scale))
                 {
                     this.temperature = value;
-                    _ = TemperatureSensorChanged();
+
+                    TempatureChangedEventHandler tempEvent = TemperatureChanged;
+                    tempEvent(this, new TempatureChangedEventArgs(value));
                 }
             }
         }
 
         public Pressure Pressure
         {
-            get
-            {
-                return this.pressure;
-            }
+            get => this.pressure;
             private set
             {
-
                 if (this.pressure.InchesOfMercury.Truncate(this._scale) != value.InchesOfMercury.Truncate(this._scale))
                 {
                     this.pressure = value;
-                    PressureSensorChanged();
+
+                    BarometerChangedEventHandler tempEvent = PressureChanged;
+                    tempEvent(this, new BarometerChangedEventArgs(value));
                 }
             }
         }
 
         public Length Altitude
         {
-            get
-            {
-                return this.altitude;
-            }
+            get => this.altitude;
             private set
             {
                 if (this.altitude.Feet.Truncate(this._scale) != value.Feet.Truncate(this._scale))
                 {
                     this.altitude = value;
-                    AltimeterSensorChanged();
+
+                    AltimeterChangedEventHandler tempEvent = AltimeterChanged;
+                    tempEvent(this, new AltimeterChangedEventArgs(value));
                 }
             }
         }
+
         #endregion
 
         #region Events
-        public event ITempatureSensor.TempatureChangedEventHandler TemperatureSensorChanged;
-        public event IHumiditySensor.HumidityChangedEventHandler HumiditySensorChanged;
-        public event IBarometer.PressureChangedEventHandler PressureSensorChanged;
-        public event IAltimeter.AltimeterChangedEventHandler AltimeterSensorChanged;
-
+        public event TempatureChangedEventHandler TemperatureChanged;
+        public event EventHandler<IAltimeterChangedEventArgs> AltimeterChanged;
+        public event EventHandler<IHumidityChangedEventArgs> HumidityChanged;
+        public event BarometerChangedEventHandler PressureChanged;
         #endregion
 
         #region Constructor
@@ -138,7 +133,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
 
         public bool DefaultInit()
         {
-            uint scale = 2;
+            const uint scale = 2;
             int bussId = 0;
             byte deviceAddr = 0;
             I2cBusSpeed speed = I2cBusSpeed.FastMode;
@@ -173,7 +168,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     speed = deviceScan.I2C2BusSpeed;
                 }
 
-                this._logger.LogDebug($"Bme280 Autodetect");
+                this._logger.LogDebug("Bme280 Autodetect");
                 this._logger.LogDebug($"Bme280 Buss ID: {bussId}");
                 this._logger.LogDebug($"Bme280 Device Address: {deviceAddr:X}");
                 this._logger.LogDebug($"Bme280 Device Speed: {speed}");
@@ -184,10 +179,8 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
             catch (Exception ex)
             {
                 this._logger.LogError(ex.StackTrace);
-
                 throw;
             }
-
         }
 
         public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, uint scale)
@@ -202,7 +195,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                 if (this.sensor == null)
                 {
                     this.sensor = new Bme280(I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed)));
-        
+
                     if (busSpeed == I2cBusSpeed.FastMode)
                     {
                         this.sensor.TemperatureSampling = Sampling.UltraHighResolution;
@@ -226,7 +219,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     this.sensor.TryReadHumidity(out this.relativeHumidity);
                     this.sensor.TryReadTemperature(out this.temperature);
 
-                    this._logger.LogDebug($"Bme280 Sensor Init Complete");
+                    this._logger.LogDebug("Bme280 Sensor Init Complete");
                 }
 
                 return this.init;
@@ -242,8 +235,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         #endregion
 
         #region Core Methods
-
-
         /// <summary>
         /// Reset the sensor...this performs a soft reset. To perform a hard reset, the system must be
         /// power cycled
@@ -264,17 +255,13 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
             return true;
         }
 
+        private readonly object locker;
+
         /// <summary>
         /// Let the world know whether the sensor value has changed or not
         /// </summary>
         /// <returns>bool</returns>
-        protected override bool HasSensorValueChanged()
-        {
-            return this.ReadSensors();
-        }
-
-        private object locker;
-        private bool ReadSensors()
+        protected override void RefreshSenorData()
         {
             lock (this.locker)
             {
@@ -284,18 +271,13 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     this.Temperature = this.ReadTemperature();
                     this.Humidity = this.ReadHumidity();
                     this.Altitude = this.ReadAltimeter();
-
-                    return true;
                 }
                 catch (Exception ex)
                 {
                     this._logger.LogError(ex.StackTrace);
                     throw;
                 }
-
-
             }
-        
         }
         #endregion
 
@@ -345,7 +327,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// <summary>
         /// Read the temperature from the sensor
         /// </summary>
-        /// <returns>temperature  as a floating point number in celcius</returns>
+        /// <returns>temperature  as a floating point number in Celsius</returns>
         protected Temperature ReadTemperature()
         {
             try
@@ -367,11 +349,10 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
             }
         }
 
-
         /// <summary>
         /// Read the temperature from the sensor
         /// </summary>
-        /// <returns>temperature  as a floating point number in celcius</returns>
+        /// <returns>temperature  as a floating point number in Celsius</returns>
         protected Pressure ReadBarometer()
         {
             try
@@ -397,12 +378,12 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         /// <summary>
         /// Read the temperature from the sensor
         /// </summary>
-        /// <returns>temperature  as a floating point number in celcius</returns>
+        /// <returns>temperature  as a floating point number in Celsius</returns>
         protected Length ReadAltimeter()
         {
             try
             {
-                Length altValue = Length.FromMeters(0); ;
+                Length altValue = Length.FromMeters(0);
 
                 do
                 {
@@ -416,7 +397,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     Thread.Sleep(sensorSleepTime);
                 }
                 while (!this.validAltRead);
-
 
                 return altValue;
             }

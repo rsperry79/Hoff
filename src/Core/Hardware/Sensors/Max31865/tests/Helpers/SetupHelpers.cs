@@ -1,5 +1,5 @@
-﻿using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
-using Hoff.Core.Interfaces;
+﻿using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.SoC.SoCEsp32;
@@ -18,7 +18,6 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers
         public static ServiceProvider Services;
         public static DebugLogger Logger;
         private static IMax31865Senor sensor;
-
 
         internal static ServiceProvider ConfigureServices()
         {
@@ -50,10 +49,8 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers
             Services = ConfigureServices();
 
             LoggerCore loggerCore = new();
-            string loggerName = "TestLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
+            const string loggerName = "TestLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
             IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
