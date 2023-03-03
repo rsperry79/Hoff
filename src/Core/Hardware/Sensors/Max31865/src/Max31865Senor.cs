@@ -5,6 +5,7 @@ using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
 using Hoff.Hardware.Common.Abstract;
 using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Interfaces.Events;
 using Hoff.Hardware.Common.Interfaces.Sensors;
 using Hoff.Hardware.Common.Models;
 
@@ -53,7 +54,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
                 {
                     this.temperature = value;
 
-                    TempatureChangedEventHandler tempEvent = TemperatureChanged;
+                    EventHandler<ITempatureChangedEventArgs> tempEvent = TemperatureChanged;
                     tempEvent(this, new TempatureChangedEventArgs(value));
                 }
 
@@ -65,7 +66,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         /// <summary>
         /// Tempature Changed Event handler
         /// </summary>
-        public event TempatureChangedEventHandler TemperatureChanged;
+        public event EventHandler<ITempatureChangedEventArgs> TemperatureChanged;
         #endregion
 
         #region Constructor

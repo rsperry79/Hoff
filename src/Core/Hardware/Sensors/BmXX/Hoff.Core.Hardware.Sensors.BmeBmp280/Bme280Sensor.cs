@@ -78,7 +78,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                 {
                     this.temperature = value;
 
-                    TempatureChangedEventHandler tempEvent = TemperatureChanged;
+                    EventHandler<ITempatureChangedEventArgs> tempEvent = TemperatureChanged;
                     tempEvent(this, new TempatureChangedEventArgs(value));
                 }
             }
@@ -93,7 +93,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                 {
                     this.pressure = value;
 
-                    BarometerChangedEventHandler tempEvent = PressureChanged;
+                    EventHandler<IBarometerChangedEventArgs> tempEvent = PressureChanged;
                     tempEvent(this, new BarometerChangedEventArgs(value));
                 }
             }
@@ -108,19 +108,18 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                 {
                     this.altitude = value;
 
-                    AltimeterChangedEventHandler tempEvent = AltimeterChanged;
+                    EventHandler<IAltimeterChangedEventArgs> tempEvent = AltimeterChanged;
                     tempEvent(this, new AltimeterChangedEventArgs(value));
                 }
             }
         }
-
         #endregion
 
         #region Events
-        public event TempatureChangedEventHandler TemperatureChanged;
+        public event EventHandler<ITempatureChangedEventArgs> TemperatureChanged;
         public event EventHandler<IAltimeterChangedEventArgs> AltimeterChanged;
         public event EventHandler<IHumidityChangedEventArgs> HumidityChanged;
-        public event BarometerChangedEventHandler PressureChanged;
+        public event EventHandler<IBarometerChangedEventArgs> PressureChanged;
         #endregion
 
         #region Constructor

@@ -11,7 +11,7 @@ namespace Hoff.Hardware.Common.Interfaces.Sensors
     {
         // Event Handlers
         delegate void TempatureChangedEventHandler(object sender, ITempatureChangedEventArgs tempatureChangedEvent);
-        event TempatureChangedEventHandler TemperatureChanged;
+        event EventHandler<ITempatureChangedEventArgs> TemperatureChanged;
 
         /// <summary>
         /// The current temperature

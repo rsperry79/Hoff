@@ -11,7 +11,7 @@ namespace Hoff.Hardware.Common.Interfaces.Sensors
     {
         // Event Handlers
         delegate void BarometerChangedEventHandler(object sender, IBarometerChangedEventArgs humidityChangedEvent);
-        event BarometerChangedEventHandler PressureChanged;
+        event EventHandler<IBarometerChangedEventArgs> PressureChanged;
 
         /// <summary>
         /// The current temperature

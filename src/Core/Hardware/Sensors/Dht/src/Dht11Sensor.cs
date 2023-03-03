@@ -70,7 +70,7 @@ namespace Hoff.Core.Hardware.Sensors.Dht
                 {
                     this.temperature = value;
 
-                    TempatureChangedEventHandler tempEvent = TemperatureChanged;
+                    EventHandler<ITempatureChangedEventArgs> tempEvent = TemperatureChanged;
                     tempEvent(this, new TempatureChangedEventArgs(value));
                 }
             }
@@ -82,7 +82,7 @@ namespace Hoff.Core.Hardware.Sensors.Dht
         /// <summary>
         /// Temperature Changed Event handler
         /// </summary>
-        public event TempatureChangedEventHandler TemperatureChanged;
+        public event EventHandler<ITempatureChangedEventArgs> TemperatureChanged;
 
         /// <summary>
         /// Humidity changed event handler.
