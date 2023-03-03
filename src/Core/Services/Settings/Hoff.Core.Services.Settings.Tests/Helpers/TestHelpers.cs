@@ -1,10 +1,8 @@
 ﻿using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Storage.At24;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.Settings.Tests.Models;
 using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Interfaces.Storage;
 using Hoff.Hardware.Common.Services;
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;

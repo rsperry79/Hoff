@@ -2,10 +2,10 @@
 using System;
 using System.Device.I2c;
 
+
 namespace Hoff.Hardware.Common.Interfaces.Storage
 {
-    public interface IEeprom : IDisposable
-
+    public interface IEeprom<T> : IDisposable
     {
         bool DefaultInit();
         int GetPageCount();
@@ -19,9 +19,10 @@ namespace Hoff.Hardware.Common.Interfaces.Storage
         bool WriteByteArray(byte address, byte[] list);
         bool WriteString(byte address, string message);
 
-        // Event Handlers
-        delegate void DataChangedEventHandler();
-        event DataChangedEventHandler EepromDataChanged;
-    }
+        void EraseProm(bool confirm);
 
+        // Event Handlers
+        event EventHandler<bool> DataChanged;
+        internal delegate void EepromChangedEventHandler(object sender, bool dataChanged);
+    }
 }

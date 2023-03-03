@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Hoff.Hardware.Common.Interfaces.Storage;
-
 using nanoFramework.Json;
 
 namespace Hoff.Core.Services.Settings

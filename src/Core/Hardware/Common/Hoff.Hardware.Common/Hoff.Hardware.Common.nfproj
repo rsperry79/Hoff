@@ -28,6 +28,8 @@
     <Compile Include="Interfaces\Events\IBarometerChangedEventArgs.cs" />
     <Compile Include="Interfaces\Events\IHumidityChangedEventArgs.cs" />
     <Compile Include="Interfaces\Events\ITempatureChangedEventArgs.cs" />
+    <Compile Include="Interfaces\Rtc\IRtc.cs" />
+    <Compile Include="Interfaces\Rtc\IRtcExtended.cs" />
     <Compile Include="Interfaces\Sensors\IBarometer.cs" />
     <Compile Include="Interfaces\Sensors\IHumiditySensor.cs" />
     <Compile Include="Interfaces\Base\ISensorBase.cs" />

@@ -1,6 +1,5 @@
 ﻿
 using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
-using Hoff.Hardware.Common.Interfaces.Storage;
 
 using nanoFramework.TestFramework;
 

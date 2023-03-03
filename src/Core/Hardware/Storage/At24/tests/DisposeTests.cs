@@ -1,7 +1,6 @@
 ﻿using System.Device.I2c;
 
 using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
-using Hoff.Hardware.Common.Interfaces.Storage;
 
 using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;

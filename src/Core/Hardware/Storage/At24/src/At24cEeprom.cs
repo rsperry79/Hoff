@@ -13,18 +13,10 @@ using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
-using static Hoff.Hardware.Common.Interfaces.Storage.IEeprom;
-
 namespace Hoff.Core.Hardware.Storage.At24
 {
-    public class At24c256Eeprom : IEeprom, IDisposable
+    public class At24cEeprom<T> : IEeprom<T>, IDisposable
     {
-
-        //IMPLEMENT EVENT
-        //IMPLEMENT Erase
-
-
-
         #region Implementation
         private bool init = false;
         private readonly ILogger logger;
@@ -39,16 +31,23 @@ namespace Hoff.Core.Hardware.Storage.At24
         /// </summary>
         private static II2cBussControllerService deviceScan;
 
-
-        private At24c256 eeprom;
+        private At24Base eeprom;
 
         private bool disposedValue;
         private const char EOL = '\0';
 
-        public event DataChangedEventHandler EepromDataChanged;
+        // Event Handlers
+        public event EventHandler<bool> DataChanged;
+        public delegate void EepromChangedEventHandler(object sender, bool dataChanged);
+
+        private void SendEvent()
+        {
+            EventHandler<bool> tempEvent = DataChanged;
+            tempEvent(this, true);
+        }
         #endregion
 
-        public At24c256Eeprom(II2cBussControllerService scanner)
+        public At24cEeprom(II2cBussControllerService scanner)
         {
             this.logger = this.GetCurrentClassLogger();
             deviceScan = scanner;
@@ -92,9 +91,11 @@ namespace Hoff.Core.Hardware.Storage.At24
                 throw new Exception("No Common Address found");
             }
 
-            this.logger.LogDebug($"At24c256 Autodetect");
-            this.logger.LogDebug($"At24c256 Buss ID: {bussId}");
-            this.logger.LogDebug($"At24c256 Device Address: {deviceAddr}");
+            string name = typeof(T).Name;
+
+            this.logger.LogDebug($"{name} Auto-detect");
+            this.logger.LogDebug($"{name} Buss ID: {bussId}");
+            this.logger.LogDebug($"{name} Device Address: {deviceAddr}");
 
             bool complete = this.Init(bussId, deviceAddr, speed);
             return complete;
@@ -102,10 +103,28 @@ namespace Hoff.Core.Hardware.Storage.At24
 
         public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed)
         {
-            if (this.init == false)
+            if (!this.init)
             {
                 i2CDevice = I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed));
-                this.eeprom = new At24c256(i2CDevice);
+                //this.eeprom = new At24c256(i2CDevice);
+
+                switch (typeof(T).Name)
+                {
+                    case "At24c32":
+                        this.eeprom = new At24c32(i2CDevice);
+                        break;
+                    case "At24c64":
+                        this.eeprom = new At24c64(i2CDevice);
+                        break;
+                    case "At24c128":
+                        this.eeprom = new At24c128(i2CDevice);
+                        break;
+                    case "At24c256":
+                        this.eeprom = new At24c256(i2CDevice);
+                        break;
+                    default:
+                        throw new ArgumentNullException(nameof(T));
+                }
                 this.init = true;
             }
 
@@ -118,6 +137,7 @@ namespace Hoff.Core.Hardware.Storage.At24
             {
                 throw new Exception("Not Initialized");
             }
+
             return this.eeprom != null ? this.eeprom.Size : 0;
         }
 
@@ -134,6 +154,7 @@ namespace Hoff.Core.Hardware.Storage.At24
         public bool WriteByte(byte address, byte message)
         {
             uint writeResult = this.eeprom.WriteByte(address, message);
+            this.SendEvent();
             return writeResult == 1;
         }
 
@@ -176,8 +197,7 @@ namespace Hoff.Core.Hardware.Storage.At24
                     toRet[i] = (byte)receivedData[i];
                 }
 
-                return toRet;
-
+                return toRet; y
             }
             else
             {
@@ -215,6 +235,8 @@ namespace Hoff.Core.Hardware.Storage.At24
                 this.logger.LogError(ex.Message, ex);
                 throw;
             }
+
+            this.SendEvent();
             return writeResult == list.Length + 1;
         }
 
@@ -223,6 +245,8 @@ namespace Hoff.Core.Hardware.Storage.At24
             try
             {
                 byte[] encodedMessage = message.ToBytes();
+                this.SendEvent();
+
                 return this.WriteByteArray(address, encodedMessage);
             }
             catch (Exception ex)
@@ -238,6 +262,17 @@ namespace Hoff.Core.Hardware.Storage.At24
 
             string decodedMessage = Encoding.UTF8.GetString(data, 0, data.Length);
             return decodedMessage;
+        }
+
+        public void EraseProm(bool confirm)
+        {
+            if (confirm)
+            {
+                for (byte i = 0; i < this.GetSize(); i++)
+                {
+                    this.WriteByte(i, 0x00);
+                }
+            }
         }
 
         protected virtual void Dispose(bool disposing)

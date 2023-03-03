@@ -17,8 +17,6 @@ using nanoFramework.Logging;
 
 using UnitsNet;
 
-using static Hoff.Hardware.Common.Interfaces.Sensors.ITempatureSensor;
-
 namespace Hoff.Core.Hardware.Sensors.Dht
 {
     public class Dht11Sensor : SensorBase, IDht11Sensor, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable

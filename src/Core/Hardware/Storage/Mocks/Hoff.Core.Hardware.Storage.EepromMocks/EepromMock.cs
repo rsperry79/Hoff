@@ -3,7 +3,6 @@ using System.Collections;
 using System.Device.I2c;
 
 using Hoff.Hardware.Common.Helpers;
-using Hoff.Hardware.Common.Interfaces.Storage;
 
 namespace Hoff.Core.Hardware.Storage.EepromMocks
 {

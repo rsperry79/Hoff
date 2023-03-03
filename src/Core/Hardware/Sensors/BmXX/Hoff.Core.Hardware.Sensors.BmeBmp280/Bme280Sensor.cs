@@ -21,10 +21,6 @@ using nanoFramework.Logging;
 
 using UnitsNet;
 
-using static Hoff.Hardware.Common.Interfaces.Sensors.IAltimeter;
-using static Hoff.Hardware.Common.Interfaces.Sensors.IBarometer;
-using static Hoff.Hardware.Common.Interfaces.Sensors.ITempatureSensor;
-
 namespace Hoff.Core.Hardware.Sensors.BmXX
 {
     public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
