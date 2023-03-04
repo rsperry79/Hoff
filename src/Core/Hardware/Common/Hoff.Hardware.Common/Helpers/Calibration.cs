@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Hoff.Hardware.Common.Helpers
+namespace Hoff.Core.Hardware.Common.Helpers
 {
     public static class Calibration
     {

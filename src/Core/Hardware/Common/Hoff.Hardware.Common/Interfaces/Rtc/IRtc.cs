@@ -2,7 +2,7 @@
 using System;
 using System.Device.I2c;
 
-namespace Hoff.Hardware.Common.Interfaces.Rtc
+namespace Hoff.Core.Hardware.Common.Interfaces.Rtc
 {
     public interface IRtc
     {

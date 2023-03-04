@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text;
 
-namespace Hoff.Hardware.Common.Helpers
+namespace Hoff.Core.Hardware.Common.Helpers
 {
     public static class EepromExtentionHelpers
     {

@@ -2,8 +2,8 @@
 using System.Threading;
 
 using Hoff.Core.Common.Interfaces;
-using Hoff.Hardware.Common.Interfaces.Displays;
-using Hoff.Hardware.Common.Structs;
+using Hoff.Core.Hardware.Common.Interfaces.Displays;
+using Hoff.Core.Hardware.Common.Structs;
 using Hoff.Hardware.Displays.Ssd13.Fonts;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
 using Hoff.Hardware.Displays.Ssd13.Tests.Helpers;

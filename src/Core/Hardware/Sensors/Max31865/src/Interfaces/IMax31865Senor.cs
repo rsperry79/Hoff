@@ -10,7 +10,7 @@ using Iot.Device.Max31865;
 
 namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces
 {
-    public interface IMax31865Senor : ITempatureSensor, ISensorBase, IDisposable
+    public interface IMax31865Senor : ITemperatureSensor, ISensorBase, IDisposable
     {
 
 

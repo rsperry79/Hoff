@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Device.I2c;
 
-using Hoff.Hardware.Common.Helpers;
+using Hoff.Core.Hardware.Common.Helpers;
+using Hoff.Hardware.Common.Interfaces.Storage;
 
 namespace Hoff.Core.Hardware.Storage.EepromMocks
 {
@@ -12,19 +13,20 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
         private bool disposedValue;
         private const char EOL = '\0';
 
-        public event IEeprom.DataChangedEventHandler EepromDataChanged;
+        public event EventHandler<bool> DataChanged;
 
         public byte ReadByte(byte address)
         {
             return eeprom.ReadByte(address);
         }
 
-        public bool DefaultInit()
+        public bool DefaultInit(int size)
         {
-            return this.Init(1, 0x00, I2cBusSpeed.FastMode);
+            size = 256;
+            return this.Init(1, 0x00, I2cBusSpeed.FastMode, size);
         }
 
-        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed)
+        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, int size)
         {
             return true;
         }
@@ -145,6 +147,9 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return writeResult == toStore.Length + 1;
         }
 
-
+        public void EraseProm(bool confirm)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

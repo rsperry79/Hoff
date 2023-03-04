@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Device.I2c;
 
-namespace Hoff.Hardware.Common.Interfaces.Services
+namespace Hoff.Core.Hardware.Common.Interfaces.Services
 {
     public interface II2cBussControllerService
     {

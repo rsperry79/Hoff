@@ -3,9 +3,9 @@
 using System;
 using System.Device.I2c;
 
+using Hoff.Core.Hardware.Common.Interfaces.Rtc;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Rtc.RtcDevice.Interfaces;
-using Hoff.Hardware.Common.Interfaces.Rtc;
-using Hoff.Hardware.Common.Interfaces.Services;
 
 using Iot.Device.Rtc;
 

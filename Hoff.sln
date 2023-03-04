@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{AA16F2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{954F0807-304C-4B13-A33C-EC7DCFA13EB1}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Common.Tests", "src\Core\Common\tests\Common.Tests.nfproj", "{65AB2046-94E0-420A-A429-4F6ACFBA8CCA}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Common.Tests", "src\Core\Common\tests\Hoff.Core.Common.Tests.nfproj", "{65AB2046-94E0-420A-A429-4F6ACFBA8CCA}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Common", "src\Core\Common\src\Hoff.Core.Common.nfproj", "{4C7BE21A-9657-4766-9B63-D726575E0121}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Logging.Tests", "src\Core\Logging\tests\Logging.Tests.nfproj", "{42C2E912-B158-4D19-9F3D-07977ACE9E1C}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Services.Logging.Tests", "src\Core\Logging\tests\Hoff.Core.Services.Logging.Tests.nfproj", "{42C2E912-B158-4D19-9F3D-07977ACE9E1C}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Services.Logging", "src\Core\Logging\src\Hoff.Core.Services.Logging.nfproj", "{25AA1E2C-F7CB-41B4-A6D1-CCBEF181F69B}"
 EndProject
@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{EFE608F2-1788-4B5C-BC40-6F382620B625}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Integration.Tests", "src\Core\IntegrationTests\Integration.Tests.nfproj", "{86EA703C-E9B8-4FCC-9AA9-94DC1FB19F57}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.IntegrationTests.Integration.Tests", "src\Core\IntegrationTests\Hoff.Core.IntegrationTests.Integration.Tests.nfproj", "{86EA703C-E9B8-4FCC-9AA9-94DC1FB19F57}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hardware", "Hardware", "{D68B60AD-7FA0-48AC-BDB8-874A5647F676}"
 EndProject
@@ -54,15 +54,15 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Controls.PID", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2FC30DAC-A4E5-414F-A932-4FB9867C2A76}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "PID.RealTests", "src\Core\Controls\PID\tests\PID.RealTests.nfproj", "{33E70EA0-2597-41F7-ADA6-B59676E34E4C}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Controls.PID.RealTests", "src\Core\Controls\PID\tests\Hoff.Core.Controls.PID.RealTests.nfproj", "{33E70EA0-2597-41F7-ADA6-B59676E34E4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{387B9E48-16A6-4759-A137-464A9813CA95}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Hardware.Common", "src\Core\Hardware\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj", "{2CA9E545-F44C-433D-A78E-D0860548B6C8}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Hardware.Common", "src\Core\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj", "{2CA9E545-F44C-433D-A78E-D0860548B6C8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5B509DA1-651E-4D61-9191-04C667E77508}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hardware.Common.Tests", "src\Core\Hardware\Common\Hoff.Hardware.Common.Tests\Hardware.Common.Tests.nfproj", "{45BE586F-4A61-462F-B260-0CCCC5384E89}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Hardware.Common.Tests", "src\Core\Hardware\Common\Hoff.Hardware.Common.Tests\Hoff.Core.Hardware.Common.Tests.nfproj", "{45BE586F-4A61-462F-B260-0CCCC5384E89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SoC", "SoC", "{F6C15AD1-5D59-4914-BE43-51FF37879DDC}"
 EndProject
@@ -81,10 +81,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BABF9162-0E52-4ECD-9BB8-93F500D62764}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Hardware.Sensors.Dht", "src\Core\Hardware\Sensors\Dht\src\Hoff.Core.Hardware.Sensors.Dht.nfproj", "{1360E5AD-3275-406B-B265-8D51C46ADAAB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4C7BE21A-9657-4766-9B63-D726575E0121} = {4C7BE21A-9657-4766-9B63-D726575E0121}
+		{25AA1E2C-F7CB-41B4-A6D1-CCBEF181F69B} = {25AA1E2C-F7CB-41B4-A6D1-CCBEF181F69B}
+	EndProjectSection
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hardware.Sensors.Dht.Tests", "src\Core\Hardware\Sensors\Dht\tests\Hardware.Sensors.Dht.Tests.nfproj", "{704B9E1D-98A1-465C-9931-6111F43D0F23}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Hardware.Sensors.Max31865", "src\Core\Hardware\Sensors\Max31865\src\Hoff.Core.Hardware.Sensors.Max31865.nfproj", "{A2326042-7325-45ED-BFBB-BE45E34A1CCD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4C7BE21A-9657-4766-9B63-D726575E0121} = {4C7BE21A-9657-4766-9B63-D726575E0121}
+		{25AA1E2C-F7CB-41B4-A6D1-CCBEF181F69B} = {25AA1E2C-F7CB-41B4-A6D1-CCBEF181F69B}
+	EndProjectSection
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hardware.Sensors.Max31865.Tests", "src\Core\Hardware\Sensors\Max31865\tests\Hardware.Sensors.Max31865.Tests.nfproj", "{29085240-A7D4-479E-B4EB-29AEA174679E}"
 EndProject
@@ -115,6 +123,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BME280", "BME280", "{5E1BCA7D-014D-4E10-9DE8-B4675607F62F}"
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Hoff.Core.Hardware.Sensors.BmXX", "src\Core\Hardware\Sensors\BmXX\Hoff.Core.Hardware.Sensors.BmeBmp280\Hoff.Core.Hardware.Sensors.BmXX.nfproj", "{7BD97832-C3DA-4F74-90BD-663958B4C70F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4C7BE21A-9657-4766-9B63-D726575E0121} = {4C7BE21A-9657-4766-9B63-D726575E0121}
+		{25AA1E2C-F7CB-41B4-A6D1-CCBEF181F69B} = {25AA1E2C-F7CB-41B4-A6D1-CCBEF181F69B}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A871784F-B3A0-4F22-9E0F-93FAAE850BA5}"
 EndProject

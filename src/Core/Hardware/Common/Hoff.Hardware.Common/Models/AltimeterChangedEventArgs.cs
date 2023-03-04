@@ -1,8 +1,8 @@
-﻿using Hoff.Hardware.Common.Interfaces.Events;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Events;
 
 using UnitsNet;
 
-namespace Hoff.Hardware.Common.Models
+namespace Hoff.Core.Hardware.Common.Models
 {
     public class AltimeterChangedEventArgs : IAltimeterChangedEventArgs
     {

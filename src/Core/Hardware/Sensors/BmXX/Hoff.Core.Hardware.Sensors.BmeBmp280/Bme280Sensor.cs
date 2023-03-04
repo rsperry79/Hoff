@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Hoff.Core.Hardware.Common.Abstract;
+using System;
 using System.Device.I2c;
 using System.Threading;
 
 using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
-using Hoff.Hardware.Common.Abstract;
-using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
-using Hoff.Hardware.Common.Interfaces.Events;
 using Hoff.Hardware.Common.Interfaces.Sensors;
-using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Models;
 
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.FilteringMode;
@@ -20,10 +16,15 @@ using Microsoft.Extensions.Logging;
 using nanoFramework.Logging;
 
 using UnitsNet;
+using Hoff.Core.Hardware.Common.Helpers;
+using Hoff.Core.Hardware.Common.Interfaces.Events;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Hardware.Common.Models;
+using Hoff.Core.Hardware.Common.Interfaces.Sensors;
 
 namespace Hoff.Core.Hardware.Sensors.BmXX
 {
-    public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, IHumidityTempatureSensor, ITempatureSensor, IHumiditySensor, ISensorBase, IDisposable
+    public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, IHumidityTemperatureSensor, ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Implementation
         private const int sensorSleepTime = 10;
@@ -74,8 +75,8 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                 {
                     this.temperature = value;
 
-                    EventHandler<ITempatureChangedEventArgs> tempEvent = TemperatureChanged;
-                    tempEvent(this, new TempatureChangedEventArgs(value));
+                    EventHandler<ITemperatureChangedEvent> tempEvent = TemperatureChanged;
+                    tempEvent(this, new TemperatureChangedEvent(value));
                 }
             }
         }
@@ -112,7 +113,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
         #endregion
 
         #region Events
-        public event EventHandler<ITempatureChangedEventArgs> TemperatureChanged;
+        public event EventHandler<ITemperatureChangedEvent> TemperatureChanged;
         public event EventHandler<IAltimeterChangedEventArgs> AltimeterChanged;
         public event EventHandler<IHumidityChangedEventArgs> HumidityChanged;
         public event EventHandler<IBarometerChangedEventArgs> PressureChanged;

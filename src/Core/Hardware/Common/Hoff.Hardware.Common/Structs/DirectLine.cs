@@ -1,4 +1,4 @@
-﻿namespace Hoff.Hardware.Common.Structs
+﻿namespace Hoff.Core.Hardware.Common.Structs
 {
     public struct DirectLine
     {

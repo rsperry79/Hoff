@@ -34,7 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.nfproj" />
-    <ProjectReference Include="..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\..\Hardware\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
     <ProjectReference Include="..\..\..\Hardware\Storage\At24\src\Hoff.Core.Hardware.Storage.At24.nfproj" />
     <ProjectReference Include="..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
@@ -45,6 +45,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Iot.Device.At24cxx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.At24cxx.1.0.30\lib\Iot.Device.At24cxx.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
       <Private>True</Private>
@@ -70,6 +75,11 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+    <Reference Include="System.Device.I2c, Version=1.1.9.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.9\lib\System.Device.I2c.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->
@@ -78,11 +88,11 @@
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
-      <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" />
-      <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-          <PropertyGroup>
-              <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-          </PropertyGroup>
-          <Error Condition="!Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets'))" />
-      </Target>
+  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets'))" />
+  </Target>
 </Project>

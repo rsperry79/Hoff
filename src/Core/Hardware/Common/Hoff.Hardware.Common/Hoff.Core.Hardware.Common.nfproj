@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <NanoFrameworkProjectSystemPath>$(MSBuildExtensionsPath)\nanoFramework\v1.0\</NanoFrameworkProjectSystemPath>
@@ -12,8 +12,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>Hoff.Hardware.Common</RootNamespace>
-    <AssemblyName>Hoff.Hardware.Common</AssemblyName>
+    <RootNamespace>Hoff.Core.Hardware.Common</RootNamespace>
+    <AssemblyName>Hoff.Core.Hardware.Common</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
@@ -27,18 +27,18 @@
     <Compile Include="Interfaces\Events\IAltimeterChangedEventArgs.cs" />
     <Compile Include="Interfaces\Events\IBarometerChangedEventArgs.cs" />
     <Compile Include="Interfaces\Events\IHumidityChangedEventArgs.cs" />
-    <Compile Include="Interfaces\Events\ITempatureChangedEventArgs.cs" />
+    <Compile Include="Interfaces\Events\ITemperatureChangedEvent.cs" />
     <Compile Include="Interfaces\Rtc\IRtc.cs" />
     <Compile Include="Interfaces\Rtc\IRtcExtended.cs" />
     <Compile Include="Interfaces\Sensors\IBarometer.cs" />
     <Compile Include="Interfaces\Sensors\IHumiditySensor.cs" />
     <Compile Include="Interfaces\Base\ISensorBase.cs" />
     <Compile Include="Interfaces\Sensors\IAltimeter.cs" />
-    <Compile Include="Interfaces\Sensors\ITempatureSensor.cs" />
+    <Compile Include="Interfaces\Sensors\ITemperatureSensor.cs" />
     <Compile Include="Interfaces\Sensors\IHumidityTempatureSensor.cs" />
     <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
     <Compile Include="Interfaces\Storage\IEeprom.cs" />
-    <Compile Include="Models\TempatureChangedEventArgs.cs" />
+    <Compile Include="Models\TemperatureChangedEvent.cs" />
     <Compile Include="Models\BarometerChangedEventArgs.cs" />
     <Compile Include="Models\AltimeterChangedEventArgs.cs" />
     <Compile Include="Models\HumidityChangedEventArgs.cs" />
@@ -56,6 +56,11 @@
   <ItemGroup>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>

@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 
 using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Common.Interfaces.Config;
+using Hoff.Core.Hardware.Common.Interfaces.Events;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Hardware.Sensors.BmXX;
 using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
 using Hoff.Core.Services.Logging;
-using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Interfaces.Events;
-using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Services;
 using Hoff.Hardware.Displays.Ssd13;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32;
@@ -32,7 +32,6 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
         public void TempDisplayTest()
         {
             ServiceProvider services = this.ConfigureServices();
-
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
             LoggerCore loggerCore = new LoggerCore();
@@ -69,7 +68,7 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
             }
         }
 
-        private void Sensor_TemperatureSensorChanged(object sender, ITempatureChangedEventArgs tempatureChangedEvent)
+        private void Sensor_TemperatureSensorChanged(object sender, ITemperatureChangedEvent tempatureChangedEvent)
         {
             Logger.LogDebug("Changed Event");
             Display.WriteLine(10, 10, $"Temp: {Sensor.Temperature.DegreesFahrenheit:2}F");

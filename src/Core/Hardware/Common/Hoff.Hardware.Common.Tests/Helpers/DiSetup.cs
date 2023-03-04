@@ -1,13 +1,13 @@
 ﻿using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Core.Services.Logging;
-using Hoff.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using nanoFramework.DependencyInjection;
 
-namespace Hoff.Hardware.Common.Tests.Helpers
+namespace Hoff.Core.Hardware.Common.Tests.Helpers
 {
     internal static class DiSetup
     {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Events;
+using System;
 
 using Hoff.Hardware.Common.Interfaces.Base;
-using Hoff.Hardware.Common.Interfaces.Events;
 
 using UnitsNet;
 

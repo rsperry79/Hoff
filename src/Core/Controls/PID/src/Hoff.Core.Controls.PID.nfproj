@@ -12,8 +12,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>Hoff.Controls.PID</RootNamespace>
-    <AssemblyName>Hoff.Controls.PID</AssemblyName>
+    <RootNamespace>Hoff.Core.Controls.PID</RootNamespace>
+    <AssemblyName>Hoff.Core.Controls.PID</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />

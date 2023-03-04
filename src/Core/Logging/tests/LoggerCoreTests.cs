@@ -1,14 +1,15 @@
 ﻿using System;
 
+using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Services.Logging;
-using Hoff.Core.Services.Logging.Logging.Tests.Helpers;
+using Hoff.Core.Services.Logging.Tests.Helpers;
 
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
 
-namespace Hoff.Core.Logging.Tests
+namespace Hoff.Core.Services.Logging.Tests
 {
     [TestClass]
     public class LoggerCoreTests
@@ -31,7 +32,7 @@ namespace Hoff.Core.Logging.Tests
         public void LoggerDoesNotThrowTest()
         {
             // Arrange
-            LoggerCore loggerCore = new();
+            ILoggerCore loggerCore = new LoggerCore();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
             DebugLogger _logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);

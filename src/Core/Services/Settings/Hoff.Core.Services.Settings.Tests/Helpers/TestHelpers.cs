@@ -1,12 +1,17 @@
 ﻿using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Common.Interfaces.Config;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Hardware.Common.Services;
+using Hoff.Core.Hardware.Storage.At24;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.Settings.Tests.Models;
-using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Services;
+
+using Hoff.Hardware.Common.Interfaces.Storage;
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
+
+using Iot.Device.At24cxx;
 
 using Microsoft.Extensions.Logging;
 
@@ -17,6 +22,7 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
     public static class TestHelpers
 
     {
+        private static int size = 256;
         private static IEeprom prom;
 
         public static ILogger Logger;
@@ -28,7 +34,7 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
             ServiceProvider services = new ServiceCollection()
             .AddSingleton(typeof(Settings<SettingsTestModel>))
              .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-             .AddSingleton(typeof(IEeprom), typeof(At24c256Eeprom))
+             .AddSingleton(typeof(IEeprom), typeof(At24cEeprom))
              .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
             .AddSingleton(typeof(II2cBussControllerService), typeof(I2cBussControllerService))
             .AddSingleton(typeof(Settings<SettingsTestModel>))
@@ -55,7 +61,8 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
                 espConfig.SetI2C1Pins();
                 espConfig.SetI2C2Pins();
                 prom = (IEeprom)Services.GetRequiredService(typeof(IEeprom));
-                prom.DefaultInit();
+
+                prom.DefaultInit(size);
 
                 Settings = (Settings<SettingsTestModel>)Services.GetRequiredService(typeof(Settings<SettingsTestModel>));
             }

@@ -2,7 +2,7 @@
 
 using System;
 
-using Hoff.Hardware.Common.Interfaces.Rtc;
+using Hoff.Core.Hardware.Common.Interfaces.Rtc;
 
 namespace Hoff.Core.Hardware.Rtc.RtcDevice.Interfaces
 {

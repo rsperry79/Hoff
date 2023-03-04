@@ -1,11 +1,12 @@
 ﻿
 
 using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Common.Interfaces.Config;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Hardware.Rtc.RtcDevice.Interfaces;
 using Hoff.Core.Services.Logging;
-using Hoff.Hardware.Common.Interfaces.Config;
-using Hoff.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Services;
+
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
@@ -38,12 +39,21 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
 
         public static IDS3231Rtc Setup()
         {
+
             if (sensor is null)
             {
                 BaseSetup();
 
-                sensor = (IDS3231Rtc)Services.GetRequiredService(typeof(IDS3231Rtc));
-                _ = sensor.DefaultInit();
+                try
+                {
+                    sensor = (IDS3231Rtc)Services.GetRequiredService(typeof(IDS3231Rtc));
+                    _ = sensor.DefaultInit();
+                }
+                catch (System.Exception ex)
+                {
+                    Logger.LogError(ex.StackTrace);
+                    throw;
+                }
             }
 
             return sensor;
@@ -51,16 +61,43 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
 
         public static void BaseSetup()
         {
-            Services = ConfigureServices();
+            Logger = LoadLogging();
 
+            try
+            {
+                Services = ConfigureServices();
+                LoadEsp32I2c();
+            }
+            catch (System.Exception ex)
+            {
+                Logger.LogError(ex.StackTrace);
+                throw;
+            }
+
+        }
+
+        public static void LoadEsp32I2c()
+        {
+            try
+            {
+                IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
+                espConfig.SetI2C1Pins();
+                espConfig.SetI2C2Pins();
+            }
+            catch (System.Exception ex)
+            {
+                Logger.LogError(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public static DebugLogger LoadLogging()
+        {
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            ILoggerCore loggerCore = (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
-            IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
-            espConfig.SetI2C1Pins();
-            espConfig.SetI2C2Pins();
+            LoggerCore loggerCore = new LoggerCore(); // (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
+            return loggerCore.GetDebugLogger(loggerName, minLogLevel);
         }
     }
 }

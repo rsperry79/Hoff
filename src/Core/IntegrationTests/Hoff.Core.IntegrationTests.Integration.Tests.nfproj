@@ -41,20 +41,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\src\Hoff.Core.Common.nfproj" />
-    <ProjectReference Include="..\Hardware\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
-    <ProjectReference Include="..\Hardware\Displays\Ssd13\src\Hoff.Hardware.Displays.Ssd13.nfproj">
-      <Private>true</Private>
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-    </ProjectReference>
-    <ProjectReference Include="..\Hardware\Sensors\BmXX\Hoff.Core.Hardware.Sensors.BmeBmp280\Hoff.Core.Hardware.Sensors.BmXX.nfproj" />
-    <ProjectReference Include="..\Hardware\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj">
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-      <Private>true</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Iot.Device.Bmxx80, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\packages\nanoFramework.Iot.Device.Bmxx80.1.2.259\lib\Iot.Device.Bmxx80.dll</HintPath>
       <Private>True</Private>
@@ -180,6 +166,14 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\src\Hoff.Core.Common.nfproj" />
+    <ProjectReference Include="..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\Hardware\Displays\Ssd13\src\Hoff.Hardware.Displays.Ssd13.nfproj" />
+    <ProjectReference Include="..\Hardware\Sensors\BmXX\Hoff.Core.Hardware.Sensors.BmeBmp280\Hoff.Core.Hardware.Sensors.BmXX.nfproj" />
+    <ProjectReference Include="..\Hardware\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
+    <ProjectReference Include="..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->

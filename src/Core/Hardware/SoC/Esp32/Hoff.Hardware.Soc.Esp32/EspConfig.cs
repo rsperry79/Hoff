@@ -1,5 +1,4 @@
-﻿
-using Hoff.Hardware.Common.Interfaces.Config;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
 using Microsoft.Extensions.Logging;

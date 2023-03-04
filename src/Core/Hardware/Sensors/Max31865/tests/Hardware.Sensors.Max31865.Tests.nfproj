@@ -41,7 +41,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
-    <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\..\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
     <ProjectReference Include="..\src\Hoff.Core.Hardware.Sensors.Max31865.nfproj" />
   </ItemGroup>
@@ -124,8 +124,8 @@
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
-    <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" />
-    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <WarningText>Update the Import path in nfproj to the correct nanoFramework.TestFramework NuGet package folder.</WarningText>
     </PropertyGroup>

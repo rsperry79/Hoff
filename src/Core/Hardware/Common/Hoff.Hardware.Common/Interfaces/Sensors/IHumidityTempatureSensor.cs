@@ -1,9 +1,12 @@
 ﻿
 using System;
 
-namespace Hoff.Hardware.Common.Interfaces.Sensors
+using Hoff.Core.Hardware.Common.Interfaces.Sensors;
+using Hoff.Hardware.Common.Interfaces.Sensors;
+
+namespace Hoff.Core.Hardware.Common.Interfaces.Sensors
 {
-    public interface IHumidityTempatureSensor : IHumiditySensor, ITempatureSensor, IDisposable
+    public interface IHumidityTemperatureSensor : IHumiditySensor, ITemperatureSensor, IDisposable
     {
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Services;
+using System;
 using System.Collections;
 using System.Device.I2c;
 using System.Text;
 
-using Hoff.Hardware.Common.Helpers;
-using Hoff.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Common.Interfaces.Storage;
 
 using Iot.Device.At24cxx;
@@ -12,10 +11,11 @@ using Iot.Device.At24cxx;
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
+using Hoff.Core.Hardware.Common.Helpers;
 
 namespace Hoff.Core.Hardware.Storage.At24
 {
-    public class At24cEeprom<T> : IEeprom<T>, IDisposable
+    public class At24cEeprom : IEeprom, IDisposable
     {
         #region Implementation
         private bool init = false;
@@ -53,7 +53,7 @@ namespace Hoff.Core.Hardware.Storage.At24
             deviceScan = scanner;
         }
 
-        public bool DefaultInit()
+        public bool DefaultInit(int size)
         {
             int bussId = 0;
             byte deviceAddr = 0;
@@ -91,39 +91,38 @@ namespace Hoff.Core.Hardware.Storage.At24
                 throw new Exception("No Common Address found");
             }
 
-            string name = typeof(T).Name;
 
-            this.logger.LogDebug($"{name} Auto-detect");
-            this.logger.LogDebug($"{name} Buss ID: {bussId}");
-            this.logger.LogDebug($"{name} Device Address: {deviceAddr}");
+            this.logger.LogDebug($"{size} Auto-detect");
+            this.logger.LogDebug($"{size} Buss ID: {bussId}");
+            this.logger.LogDebug($"{size} Device Address: {deviceAddr}");
 
-            bool complete = this.Init(bussId, deviceAddr, speed);
+            bool complete = this.Init(bussId, deviceAddr, speed, size);
             return complete;
         }
 
-        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed)
+        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, int size)
         {
             if (!this.init)
             {
                 i2CDevice = I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed));
                 //this.eeprom = new At24c256(i2CDevice);
 
-                switch (typeof(T).Name)
+                switch (size)
                 {
-                    case "At24c32":
+                    case 32:
                         this.eeprom = new At24c32(i2CDevice);
                         break;
-                    case "At24c64":
+                    case 64:
                         this.eeprom = new At24c64(i2CDevice);
                         break;
-                    case "At24c128":
+                    case 128:
                         this.eeprom = new At24c128(i2CDevice);
                         break;
-                    case "At24c256":
+                    case 256:
                         this.eeprom = new At24c256(i2CDevice);
                         break;
                     default:
-                        throw new ArgumentNullException(nameof(T));
+                        throw new ArgumentException(nameof(size));
                 }
                 this.init = true;
             }
@@ -197,7 +196,7 @@ namespace Hoff.Core.Hardware.Storage.At24
                     toRet[i] = (byte)receivedData[i];
                 }
 
-                return toRet; y
+                return toRet; 
             }
             else
             {

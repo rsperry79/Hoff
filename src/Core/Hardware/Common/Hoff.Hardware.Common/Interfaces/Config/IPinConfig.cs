@@ -1,4 +1,4 @@
-﻿namespace Hoff.Hardware.Common.Interfaces.Config
+﻿namespace Hoff.Core.Hardware.Common.Interfaces.Config
 {
     public interface IPinConfig
     {

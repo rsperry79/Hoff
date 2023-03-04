@@ -1,7 +1,7 @@
-﻿
+﻿using Hoff.Core.Hardware.Common.Interfaces.Displays;
+
 using System.Device.I2c;
 
-using Hoff.Hardware.Common.Interfaces.Displays;
 
 using static Iot.Device.Ssd13xx.Ssd13xx;
 

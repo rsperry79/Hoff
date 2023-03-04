@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Services;
+using System;
 using System.Collections;
 using System.Device.I2c;
 
-using Hoff.Hardware.Common.Interfaces.Services;
 
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
-namespace Hoff.Hardware.Common.Services
+namespace Hoff.Core.Hardware.Common.Services
 {
 
     public class I2cBussControllerService : II2cBussControllerService

@@ -2,9 +2,9 @@
 
 namespace Hoff.Core.Common.Tests.Helpers
 {
-    internal class DiSetup
+    internal  static class DiSetup
     {
-        internal ServiceProvider ConfigureServices()
+        internal static ServiceProvider ConfigureServices()
         {
             ServiceProvider services = new ServiceCollection()
 

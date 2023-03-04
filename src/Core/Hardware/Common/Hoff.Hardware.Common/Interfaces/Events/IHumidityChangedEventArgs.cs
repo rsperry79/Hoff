@@ -1,6 +1,6 @@
 ﻿using UnitsNet;
 
-namespace Hoff.Hardware.Common.Interfaces.Events
+namespace Hoff.Core.Hardware.Common.Interfaces.Events
 {
     public interface IHumidityChangedEventArgs
     {

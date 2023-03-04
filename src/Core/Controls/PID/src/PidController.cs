@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Hoff.Controls.PID
+namespace Hoff.Core.Controls.PID
 
 {
     /// <summary>

@@ -2,14 +2,14 @@
 
 using System;
 
-namespace Hoff.Controls.PID
+namespace Hoff.Core.Controls.PID
 {
     public class PID
     {
         private double Ts;                  // Sample period in seconds
-        private double K;                   // Rollup parameter
-        private double b0, b1, b2;          // Rollup parameters
-        private double a0, a1, a2;          // Rollup parameters
+        private double K;                   // Roll-up parameter
+        private double b0, b1, b2;          // Roll-up parameters
+        private double a0, a1, a2;          // Roll-up parameters
         private double y0 = 0;              // Current output
         private double y1 = 0;              // Output one iteration old
         private double y2 = 0;              // Output two iterations old
@@ -38,18 +38,18 @@ namespace Hoff.Controls.PID
 
         /// <summary>
         /// PID iterator, call this function every sample period to get the current controller output.
-        /// setpoint and processValue should use the same units.
+        /// set-point and processValue should use the same units.
         /// </summary>
-        /// <param name="setPoint">Current Desired Setpoint</param>
+        /// <param name="setPoint">Current Desired Set-point</param>
         /// <param name="processValue">Current Process Value</param>
-        /// <param name="ts">Timespan Since Last Iteration, Use Default Sample Period for First Call</param>
+        /// <param name="ts">TimeSpan <see cref="TimeSpan"/> Since Last Iteration, Use Default Sample Period for First Call</param>
         /// <returns>Current Controller Output</returns>
         public double PID_iterate(double setPoint, double processValue, TimeSpan ts)
         {
-            // Ensure the timespan is not too small or zero.
+            // Ensure the Timespan is not too small or zero.
             this.Ts = (ts.TotalSeconds >= this.TsMin) ? ts.TotalSeconds : this.TsMin;
 
-            // Calculate rollup parameters
+            // Calculate roll-up parameters
             this.K = 2 / this.Ts;
             this.b0 = (Math.Pow(this.K, 2) * this.Kp) + (this.K * this.Ki) + (this.Ki * this.N) + (this.K * this.Kp * this.N) + (Math.Pow(this.K, 2) * this.Kd * this.N);
             this.b1 = (2 * this.Ki * this.N) - (2 * Math.Pow(this.K, 2) * this.Kp) - (2 * Math.Pow(this.K, 2) * this.Kd * this.N);

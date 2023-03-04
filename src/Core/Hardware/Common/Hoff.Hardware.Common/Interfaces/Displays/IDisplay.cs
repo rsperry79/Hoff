@@ -1,7 +1,6 @@
-﻿
-using Hoff.Hardware.Common.Structs;
+﻿using Hoff.Core.Hardware.Common.Structs;
 
-namespace Hoff.Hardware.Common.Interfaces.Displays
+namespace Hoff.Core.Hardware.Common.Interfaces.Displays
 
 {
     public interface IDisplay

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using static Hoff.Hardware.Common.Interfaces.Base.ISensorBase;
 
-namespace Hoff.Hardware.Common.Abstract
+namespace Hoff.Core.Hardware.Common.Abstract
 {
     /// <summary>
     /// This abstract class contains implementation, that is common to

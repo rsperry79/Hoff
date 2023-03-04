@@ -1,26 +1,26 @@
-﻿using System;
+﻿using Hoff.Core.Hardware.Common.Abstract;
+using System;
 using System.Device.Spi;
 
 using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
-using Hoff.Hardware.Common.Abstract;
-using Hoff.Hardware.Common.Helpers;
 using Hoff.Hardware.Common.Interfaces.Base;
-using Hoff.Hardware.Common.Interfaces.Events;
 using Hoff.Hardware.Common.Interfaces.Sensors;
-using Hoff.Hardware.Common.Models;
 
 using Iot.Device.Max31865;
 
 using nanoFramework.Logging;
 
 using UnitsNet;
+using Hoff.Core.Hardware.Common.Helpers;
+using Hoff.Core.Hardware.Common.Interfaces.Events;
+using Hoff.Core.Hardware.Common.Models;
 
 namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
 
 {
 
 
-    public class Max31865Senor : SensorBase, IMax31865Senor, ITempatureSensor, ISensorBase, IDisposable
+    public class Max31865Senor : SensorBase, IMax31865Senor, ITemperatureSensor, ISensorBase, IDisposable
     {
         #region Implementation
         private Max31865 sensor = null;
@@ -52,8 +52,8 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
                 {
                     this.temperature = value;
 
-                    EventHandler<ITempatureChangedEventArgs> tempEvent = TemperatureChanged;
-                    tempEvent(this, new TempatureChangedEventArgs(value));
+                    EventHandler<ITemperatureChangedEvent> tempEvent = TemperatureChanged;
+                    tempEvent(this, new TemperatureChangedEvent(value));
                 }
 
             }
@@ -64,7 +64,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         /// <summary>
         /// Tempature Changed Event handler
         /// </summary>
-        public event EventHandler<ITempatureChangedEventArgs> TemperatureChanged;
+        public event EventHandler<ITemperatureChangedEvent> TemperatureChanged;
         #endregion
 
         #region Constructor

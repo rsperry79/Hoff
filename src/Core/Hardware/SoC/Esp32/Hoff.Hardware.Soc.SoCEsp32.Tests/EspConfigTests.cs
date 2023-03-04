@@ -1,5 +1,4 @@
-﻿
-using Hoff.Hardware.Common.Interfaces.Config;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.Soc.SoCEsp32.Tests.Helpers;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
@@ -17,21 +16,19 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
         private static IPinConfig pins;
         private static IEspConfig espConfig;
 
-        [Setup]
+
         public void Setup()
         {
-
             services = DiSetup.ConfigureServices();
             pins = (IPinConfig)services.GetRequiredService(typeof(IPinConfig));
             espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
-
         }
 
         [TestMethod]
         public void SetSpiPinsTest()
         {
             // Arrange
-
+            this.Setup();
             // Act
             espConfig.SetSpi1Pins();
 
@@ -39,15 +36,13 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
             Assert.AreEqual(pins.Spi1_Clock, espConfig.GetPinFunction(DeviceFunction.SPI1_CLOCK));
             Assert.AreEqual(pins.Spi1_Miso, espConfig.GetPinFunction(DeviceFunction.SPI1_MISO));
             Assert.AreEqual(pins.Spi1_Mosi, espConfig.GetPinFunction(DeviceFunction.SPI1_MOSI));
-
         }
-
 
         [TestMethod]
         public void SetI2C1PinsTest()
         {
             // Arrange
-
+            this.Setup();
 
             // Act
             espConfig.SetI2C1Pins();
@@ -61,6 +56,7 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
         public void SetI2C2PinsTest()
         {
             // Arrange
+            this.Setup();
 
             // Act
             espConfig.SetI2C2Pins();

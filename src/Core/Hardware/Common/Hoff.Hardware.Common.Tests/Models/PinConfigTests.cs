@@ -1,9 +1,9 @@
-﻿using Hoff.Hardware.Common.Interfaces.Config;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using nanoFramework.TestFramework;
 
-namespace Hoff.Hardware.Common.Tests.Models
+namespace Hoff.Core.Hardware.Common.Tests.Models
 {
     [TestClass]
     public class PinConfigTests

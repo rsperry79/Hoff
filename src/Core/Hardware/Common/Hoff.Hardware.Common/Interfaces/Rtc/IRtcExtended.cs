@@ -1,6 +1,6 @@
 ﻿using UnitsNet;
 
-namespace Hoff.Hardware.Common.Interfaces.Rtc
+namespace Hoff.Core.Hardware.Common.Interfaces.Rtc
 {
     public interface IRtcExtended
     {
