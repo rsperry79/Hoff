@@ -8,23 +8,18 @@ using nanoFramework.TestFramework;
 namespace Hoff.Hardware.Soc.SoCEsp32.Tests
 {
     [TestClass]
-
     public class BaseTests
     {
-        private static GpioPin led;
+        #region Fields
+
         private static GpioPin button;
+        private static GpioController gpioController;
+        private static GpioPin led;
         private static bool wasPressed = false;
 
-        private static GpioController gpioController;
+        #endregion Fields
 
-
-        [Setup]
-        public void Setup()
-        {
-            gpioController = new GpioController();
-            led = gpioController.OpenPin(Gpio.IO02, PinMode.Output);
-            button = gpioController.OpenPin(Gpio.IO03, PinMode.Input);
-        }
+        #region Public Methods
 
         [TestMethod]
         public void BlinkLedTest()
@@ -66,6 +61,18 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
             Assert.IsTrue(index < 31);
         }
 
+        [Setup]
+        public void Setup()
+        {
+            gpioController = new GpioController();
+            led = gpioController.OpenPin(Gpio.IO02, PinMode.Output);
+            button = gpioController.OpenPin(Gpio.IO03, PinMode.Input);
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
         private void Button_ValueChanged(object sender, PinValueChangedEventArgs e)
         {
             led.Toggle();
@@ -73,5 +80,7 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
             led.Toggle();
             wasPressed = true;
         }
+
+        #endregion Private Methods
     }
 }

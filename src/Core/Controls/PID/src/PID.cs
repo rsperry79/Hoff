@@ -6,16 +6,35 @@ namespace Hoff.Core.Controls.PID
 {
     public class PID
     {
+        #region Fields
+
+        private double a0, a1, a2;
+        private double b0, b1, b2;
+        private double e0 = 0;
+
+        // Current error
+        private double e1 = 0;
+
+        // Error one iteration old
+        private double e2 = 0;
+
+        private double K;
         private double Ts;                  // Sample period in seconds
-        private double K;                   // Roll-up parameter
-        private double b0, b1, b2;          // Roll-up parameters
-        private double a0, a1, a2;          // Roll-up parameters
+
+        // Roll-up parameter
+        // Roll-up parameters
+        // Roll-up parameters
         private double y0 = 0;              // Current output
+
         private double y1 = 0;              // Output one iteration old
-        private double y2 = 0;              // Output two iterations old
-        private double e0 = 0;              // Current error
-        private double e1 = 0;              // Error one iteration old
-        private double e2 = 0;              // Error two iterations old
+        private double y2 = 0;
+
+        #endregion Fields
+
+        // Output two iterations old
+        // Error two iterations old
+
+        #region Public Constructors
 
         /// <summary>
         /// PID Constructor
@@ -35,6 +54,56 @@ namespace Hoff.Core.Controls.PID
             this.OutputUpperLimit = OutputUpperLimit;
             this.OutputLowerLimit = OutputLowerLimit;
         }
+
+        #endregion Public Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// Derivative Gain, consider resetting controller if this parameter is drastically changed.
+        /// </summary>
+        public double Kd { get; set; }
+
+        /// <summary>
+        /// Integral Gain, consider resetting controller if this parameter is drastically changed.
+        /// </summary>
+        public double Ki { get; set; }
+
+        /// <summary>
+        /// Proportional Gain, consider resetting controller if this parameter is drastically changed.
+        /// </summary>
+        public double Kp { get; set; }
+
+        /// <summary>
+        /// Derivative filter coefficient.
+        /// A smaller N for more filtering.
+        /// A larger N for less filtering.
+        /// Consider resetting controller if this parameter is drastically changed.
+        /// </summary>
+        public double N { get; set; }
+
+        /// <summary>
+        /// Lower output limit of the controller
+        /// This should obviously be a numerically lesser value than the upper output limit.
+        /// </summary>
+        public double OutputLowerLimit { get; set; }
+
+        /// <summary>
+        /// Upper output limit of the controller.
+        /// This should obviously be a numerically greater value than the lower output limit.
+        /// </summary>
+        public double OutputUpperLimit { get; set; }
+
+        /// <summary>
+        /// Minimum allowed sample period to avoid dividing by zero!
+        /// The Ts value can be mistakenly set to too low of a value or zero on the first iteration.
+        /// TsMin by default is set to 1 millisecond.
+        /// </summary>
+        public double TsMin { get; set; } = 0.001;
+
+        #endregion Properties
+
+        #region Public Methods
 
         /// <summary>
         /// PID iterator, call this function every sample period to get the current controller output.
@@ -92,47 +161,6 @@ namespace Hoff.Core.Controls.PID
             this.y0 = 0;
         }
 
-        /// <summary>
-        /// Proportional Gain, consider resetting controller if this parameter is drastically changed.
-        /// </summary>
-        public double Kp { get; set; }
-
-        /// <summary>
-        /// Integral Gain, consider resetting controller if this parameter is drastically changed.
-        /// </summary>
-        public double Ki { get; set; }
-
-        /// <summary>
-        /// Derivative Gain, consider resetting controller if this parameter is drastically changed.
-        /// </summary>
-        public double Kd { get; set; }
-
-        /// <summary>
-        /// Derivative filter coefficient.
-        /// A smaller N for more filtering.
-        /// A larger N for less filtering.
-        /// Consider resetting controller if this parameter is drastically changed.
-        /// </summary>
-        public double N { get; set; }
-
-        /// <summary>
-        /// Minimum allowed sample period to avoid dividing by zero!
-        /// The Ts value can be mistakenly set to too low of a value or zero on the first iteration.
-        /// TsMin by default is set to 1 millisecond.
-        /// </summary>
-        public double TsMin { get; set; } = 0.001;
-
-        /// <summary>
-        /// Upper output limit of the controller.
-        /// This should obviously be a numerically greater value than the lower output limit.
-        /// </summary>
-        public double OutputUpperLimit { get; set; }
-
-        /// <summary>
-        /// Lower output limit of the controller
-        /// This should obviously be a numerically lesser value than the upper output limit.
-        /// </summary>
-        public double OutputLowerLimit { get; set; }
+        #endregion Public Methods
     }
 }
-

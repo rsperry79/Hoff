@@ -5,11 +5,18 @@ namespace Hoff.Core.Hardware.Common.Interfaces.Displays
 {
     public interface IDisplay
     {
+        #region Public Methods
+
         /// <summary>
         /// Clears a directly drawn line
         /// </summary>
         /// <param name="line"></param>
         void ClearDirectLine(DirectLine line);
+
+        /// <summary>
+        /// Clears the display.
+        /// </summary>
+        void ClearScreen();
 
         /// <summary>
         /// writes a directly drawn line.
@@ -18,16 +25,13 @@ namespace Hoff.Core.Hardware.Common.Interfaces.Displays
         void DrawDirectLine(DirectLine line);
 
         /// <summary>
-        /// Clears the display.
-        /// </summary>
-        void ClearScreen();
-
-        /// <summary>
         /// Draws a  Horizontal line of x length
         /// </summary>
         /// <param name="line">The line to draw.</param>
         /// <param name="draw">Bool to write (true) or clear (false)</param>
         void HorizontalLine(Line line, bool draw = true);
+
+        void UpdateDisplay();
 
         /// <summary>
         /// Draws a Vertical line of x length
@@ -47,7 +51,6 @@ namespace Hoff.Core.Hardware.Common.Interfaces.Displays
         /// <param name="font"></param>
         void WriteLine(int x, int y, string text, byte fontSize = 1, bool center = false, object font = null);
 
-
-        void UpdateDisplay();
+        #endregion Public Methods
     }
 }

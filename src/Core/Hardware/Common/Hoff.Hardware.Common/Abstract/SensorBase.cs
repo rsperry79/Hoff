@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Threading;
 
 using Hoff.Hardware.Common.Interfaces.Base;
@@ -18,13 +16,7 @@ namespace Hoff.Core.Hardware.Common.Abstract
     /// </summary>
     public abstract class SensorBase : ISensorBase
     {
-        #region Implementation
-
-        protected ILogger _logger;
-        /// <summary>
-        /// Is this sensor tracking changes
-        /// </summary>
-        protected bool _isTrackingChanges = false;
+        #region Fields
 
         /// <summary>
         /// The thread that keeps a track of sensor value change
@@ -34,25 +26,20 @@ namespace Hoff.Core.Hardware.Common.Abstract
         /// <summary>
         /// Dispose support
         /// </summary>
-        protected bool _disposed = false; // To detect redundant calls
-        #endregion
+        protected bool _disposed = false;
 
-        #region IDispose Implementation
         /// <summary>
-        /// Dispose the sensor
+        /// Is this sensor tracking changes
         /// </summary>
-        protected abstract void DisposeSensor();
-        #endregion
+        protected bool _isTrackingChanges = false;
 
-        #region Change tracking
-        /// <summary>
-        /// Is this sensor capable of tracking changes
-        /// </summary>
-        /// <returns>bool</returns>
-        public virtual bool CanTrackChanges()
-        {
-            return false;
-        }
+        protected ILogger _logger;
+
+        #endregion Fields
+
+        // To detect redundant calls
+
+        #region Public Methods
 
         /// <summary>
         /// Start to track the changes
@@ -87,10 +74,17 @@ namespace Hoff.Core.Hardware.Common.Abstract
             }
         }
 
+        /// <summary>
+        /// Is this sensor capable of tracking changes
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool CanTrackChanges()
+        {
+            return false;
+        }
 
         public void CheckForChanges(RefreshSenorData checkForChange, int ms)
         {
-
             int divs = ms / 1000;
 
             while (this._isTrackingChanges)
@@ -114,16 +108,6 @@ namespace Hoff.Core.Hardware.Common.Abstract
         }
 
         /// <summary>
-        /// The sensor driver implementation should decide what is the meaning
-        /// of change of a sensor value. We just check if the value of sensor has changed or not.
-        /// Some sensor driver implementors may not want this automatic check and may want to have a
-        /// polling mechanism for the client applications. The client apps,can use this method in their own
-        /// polling implementation and check for value changes
-        /// </summary>
-        protected abstract void RefreshSenorData();
-
-
-        /// <summary>
         /// Stop tracking changes
         /// </summary>
         public virtual void EndTrackChanges()
@@ -136,17 +120,32 @@ namespace Hoff.Core.Hardware.Common.Abstract
                 try { this._changeTracker.Abort(); } finally { this._changeTracker = null; }
             }
         }
-        #endregion
 
+        #endregion Public Methods
 
-        #region Abstract Sensor Methods
+        #region Protected Methods
+
+        /// <summary>
+        /// Dispose the sensor
+        /// </summary>
+        protected abstract void DisposeSensor();
+
+        /// <summary>
+        /// The sensor driver implementation should decide what is the meaning
+        /// of change of a sensor value. We just check if the value of sensor has changed or not.
+        /// Some sensor driver implementors may not want this automatic check and may want to have a
+        /// polling mechanism for the client applications. The client apps,can use this method in their own
+        /// polling implementation and check for value changes
+        /// </summary>
+        protected abstract void RefreshSenorData();
+
+        #endregion Protected Methods
+
         /// <summary>
         /// Reset sensor
         /// </summary>
         //public abstract void Reset();
 
         //public abstract bool IsLastReadSuccessful();
-        #endregion
-
     }
 }

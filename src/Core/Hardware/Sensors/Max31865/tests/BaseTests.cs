@@ -1,5 +1,4 @@
-﻿
-//using System.Device.Spi;
+﻿//using System.Device.Spi;
 
 //using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
 //using Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers;
@@ -14,7 +13,6 @@
 //    [TestClass]
 //    public class BaseTests
 //    {
-
 //        [TestMethod]
 //        public void InitTest()
 //        {
@@ -30,14 +28,12 @@
 //            SetupHelpers.BaseSetup();
 //            IMax31865Senor maxSensor = (IMax31865Senor)SetupHelpers.Services.GetRequiredService(typeof(IMax31865Senor));
 
-
 //            // Act
 //            maxSensor.Init(bussId, selectPin, spiMode, thermometerType, wires, resistance, scale);
 
 //            // Assert
 //            Assert.IsNotNull(maxSensor);
 //        }
-
 
 //        [TestMethod]
 //        public void DefaultInitTest()
@@ -52,9 +48,6 @@
 //            // Assert
 //            Assert.IsTrue(result);
 //        }
-
-
-
 
 //        [TestMethod]
 //        public void CanTrackChangesTest()

@@ -1,11 +1,11 @@
-﻿
-
-using System;
+﻿using System;
 
 namespace Hoff.Core.Hardware.Common.Helpers
 {
     public static class Calibration
     {
+        #region Public Methods
+
         /// <summary>
         /// Apply calibration to the measured value..using 2-point calibration method
         /// Apply calibration formula to readings...see https://learn.adafruit.com/calibrating-sensors/two-point-calibration
@@ -22,5 +22,7 @@ namespace Hoff.Core.Hardware.Common.Helpers
                 ? throw new ArgumentException()
                 : rawRange == 0 ? throw new ArgumentException() : ((measuredVal - rawLow) * refRange / rawRange) + refLow;
         }
+
+        #endregion Public Methods
     }
 }

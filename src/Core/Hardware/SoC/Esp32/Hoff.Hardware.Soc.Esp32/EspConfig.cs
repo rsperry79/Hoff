@@ -11,9 +11,16 @@ namespace Hoff.Hardware.SoC.SoCEsp32
 {
     public class EspConfig : IEspConfig
     {
+        #region Fields
+
         private readonly IPinConfig Config;
 
         private readonly ILogger logger;
+
+        #endregion Fields
+
+        #region Public Constructors
+
         /// <summary>
         /// Instantiates the class and sets the config for the other functions.
         /// The intent is to allow config loaded from Dependency Injection.
@@ -25,14 +32,19 @@ namespace Hoff.Hardware.SoC.SoCEsp32
             this.logger = this.GetCurrentClassLogger();
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         /// <summary>
-        /// Sets the SPI Pins from the IPinConfig loaded in the ctor
+        /// Gets the pin number for the specified function.
         /// </summary>
-        public void SetSpi1Pins()
+        /// <param name="deviceFunction">The function wanted.</param>
+        /// <returns>an int for the pin set.<see cref="int"/></returns>
+        public int GetPinFunction(DeviceFunction deviceFunction)
         {
-            Configuration.SetPinFunction(this.Config.Spi1_Mosi, DeviceFunction.SPI1_MOSI);
-            Configuration.SetPinFunction(this.Config.Spi1_Miso, DeviceFunction.SPI1_MISO);
-            Configuration.SetPinFunction(this.Config.Spi1_Clock, DeviceFunction.SPI1_CLOCK);
+            int funct = Configuration.GetFunctionPin(deviceFunction);
+            return funct;
         }
 
         /// <summary>
@@ -56,14 +68,15 @@ namespace Hoff.Hardware.SoC.SoCEsp32
         }
 
         /// <summary>
-        /// Gets the pin number for the specified function.
+        /// Sets the SPI Pins from the IPinConfig loaded in the ctor
         /// </summary>
-        /// <param name="deviceFunction">The function wanted.</param>
-        /// <returns>an int for the pin set.<see cref="int"/></returns>
-        public int GetPinFunction(DeviceFunction deviceFunction)
+        public void SetSpi1Pins()
         {
-            int funct = Configuration.GetFunctionPin(deviceFunction);
-            return funct;
+            Configuration.SetPinFunction(this.Config.Spi1_Mosi, DeviceFunction.SPI1_MOSI);
+            Configuration.SetPinFunction(this.Config.Spi1_Miso, DeviceFunction.SPI1_MISO);
+            Configuration.SetPinFunction(this.Config.Spi1_Clock, DeviceFunction.SPI1_CLOCK);
         }
+
+        #endregion Public Methods
     }
 }

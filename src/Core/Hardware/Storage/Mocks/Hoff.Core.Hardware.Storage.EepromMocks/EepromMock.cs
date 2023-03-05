@@ -9,16 +9,27 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
 {
     public class EepromMock : IEeprom, IDisposable
     {
+        #region Fields
+
+        private const char EOL = '\0';
         private static At24cMock eeprom;
         private bool disposedValue;
-        private const char EOL = '\0';
+
+        #endregion Fields
+
+        #region Public Constructors
+
+        public EepromMock(At24cMock device) => eeprom = device;
+
+        #endregion Public Constructors
+
+        #region Events
 
         public event EventHandler<bool> DataChanged;
 
-        public byte ReadByte(byte address)
-        {
-            return eeprom.ReadByte(address);
-        }
+        #endregion Events
+
+        #region Public Methods
 
         public bool DefaultInit(int size)
         {
@@ -26,19 +37,16 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return this.Init(1, 0x00, I2cBusSpeed.FastMode, size);
         }
 
-        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, int size)
+        public void Dispose()
         {
-            return true;
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
-        public int GetSize()
+        public void EraseProm(bool confirm)
         {
-            return eeprom != null ? eeprom.Size : 0;
-        }
-
-        public int GetPageSize()
-        {
-            return eeprom != null ? eeprom.PageSize : 0;
+            throw new NotImplementedException();
         }
 
         public int GetPageCount()
@@ -46,57 +54,24 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return eeprom != null ? eeprom.PageCount : 0;
         }
 
-        public EepromMock(At24cMock device) => eeprom = device;
-
-        public bool WriteByte(byte address, byte message)
+        public int GetPageSize()
         {
-            uint writeResult = eeprom.WriteByte(address, message);
-            writeResult += eeprom.WriteByte(address + 1, (byte)EOL);
-
-            return writeResult == 2;
+            return eeprom != null ? eeprom.PageSize : 0;
         }
 
-        public bool Write(byte address, byte[] message)
+        public int GetSize()
         {
-            uint writeResult = eeprom.Write(address, message);
-            writeResult += eeprom.WriteByte(address + message.Length, (byte)EOL);
-
-            return writeResult == message.Length;
+            return eeprom != null ? eeprom.Size : 0;
         }
 
-
-
-        public bool WriteString(byte address, string message)
+        public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, int size)
         {
-            byte[] encodedMessage = message.ToBytes();
-            return this.Write(address, encodedMessage);
+            return true;
         }
 
-        public string ReadString(byte address)
+        public byte ReadByte(byte address)
         {
-            Array data = this.ReadByteArray(address);
-            return data.ToString();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-                    eeprom.Dispose();
-                }
-
-                this.disposedValue = true;
-            }
-        }
-
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            return eeprom.ReadByte(address);
         }
 
         public byte[] ReadByteArray(byte address)
@@ -122,11 +97,8 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
                     {
                         hasEol = true;
                     }
-
-
                 }
                 while (hasEol);
-
 
                 byte[] toRet = new byte[receivedData.Count];
                 receivedData.CopyTo(toRet, 0);
@@ -138,6 +110,28 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             }
         }
 
+        public string ReadString(byte address)
+        {
+            Array data = this.ReadByteArray(address);
+            return data.ToString();
+        }
+
+        public bool Write(byte address, byte[] message)
+        {
+            uint writeResult = eeprom.Write(address, message);
+            writeResult += eeprom.WriteByte(address + message.Length, (byte)EOL);
+
+            return writeResult == message.Length;
+        }
+
+        public bool WriteByte(byte address, byte message)
+        {
+            uint writeResult = eeprom.WriteByte(address, message);
+            writeResult += eeprom.WriteByte(address + 1, (byte)EOL);
+
+            return writeResult == 2;
+        }
+
         public bool WriteByteArray(byte address, byte[] list)
         {
             byte[] toStore = list;
@@ -147,9 +141,29 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return writeResult == toStore.Length + 1;
         }
 
-        public void EraseProm(bool confirm)
+        public bool WriteString(byte address, string message)
         {
-            throw new NotImplementedException();
+            byte[] encodedMessage = message.ToBytes();
+            return this.Write(address, encodedMessage);
         }
+
+        #endregion Public Methods
+
+        #region Protected Methods
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    eeprom.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
+        }
+
+        #endregion Protected Methods
     }
 }

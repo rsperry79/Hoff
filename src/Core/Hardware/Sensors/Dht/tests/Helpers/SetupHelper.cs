@@ -15,22 +15,29 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers
 {
     internal static class SetupHelper
     {
+        #region Fields
+
+        internal static DebugLogger Logger;
         internal static int Pin = 11;
 
-        private static IDht11Sensor sensor;
         internal static ServiceProvider Services;
-        internal static DebugLogger Logger;
 
-        internal static ServiceProvider ConfigureServices()
+        private static IDht11Sensor sensor;
+
+        #endregion Fields
+
+        #region Public Methods
+
+        public static void BaseSetup()
         {
-            ServiceProvider services = new ServiceCollection()
-             .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-             .AddSingleton(typeof(IDht11Sensor), typeof(Dht11Sensor))
-             .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
-             .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
-             .BuildServiceProvider();
+            Services = ConfigureServices();
 
-            return services;
+            LoggerCore loggerCore = new();
+            const string loggerName = "TestLogger";
+
+            // Setup
+            const LogLevel minLogLevel = LogLevel.Trace;
+            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
         }
 
         public static IDht11Sensor Setup()
@@ -45,16 +52,22 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers
             return sensor;
         }
 
-        public static void BaseSetup()
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        internal static ServiceProvider ConfigureServices()
         {
-            Services = ConfigureServices();
+            ServiceProvider services = new ServiceCollection()
+             .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
+             .AddSingleton(typeof(IDht11Sensor), typeof(Dht11Sensor))
+             .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
+             .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
+             .BuildServiceProvider();
 
-            LoggerCore loggerCore = new();
-            const string loggerName = "TestLogger";
-
-            // Setup
-            const LogLevel minLogLevel = LogLevel.Trace;
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            return services;
         }
+
+        #endregion Internal Methods
     }
 }

@@ -20,8 +20,15 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
     [TestClass]
     public class SSD13Tests
     {
-        private static ServiceProvider services;
+        #region Fields
+
         private static ISsd13 display;
+        private static ServiceProvider services;
+
+        #endregion Fields
+
+        #region Public Methods
+
         public static ISsd13 Setup()
         {
             if (display is null)
@@ -164,6 +171,8 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
             Assert.IsNotNull(display);
             display.ClearScreen();
         }
+
+        #endregion Public Methods
 
         //[TestMethod]
         //public void DrawDirectLineTest()

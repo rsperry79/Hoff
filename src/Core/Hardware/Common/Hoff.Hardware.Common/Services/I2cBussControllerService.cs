@@ -1,8 +1,8 @@
-﻿using Hoff.Core.Hardware.Common.Interfaces.Services;
-using System;
+﻿using System;
 using System.Collections;
 using System.Device.I2c;
 
+using Hoff.Core.Hardware.Common.Interfaces.Services;
 
 using Microsoft.Extensions.Logging;
 
@@ -10,24 +10,20 @@ using nanoFramework.Logging;
 
 namespace Hoff.Core.Hardware.Common.Services
 {
-
     public class I2cBussControllerService : II2cBussControllerService
     {
-        private static bool init = false;
+        #region Fields
+
         private static readonly ArrayList i2C1 = new();
         private static readonly ArrayList i2C2 = new();
-
         private static I2cBusSpeed i2C1BusSpeed = I2cBusSpeed.FastMode;
         private static I2cBusSpeed i2C2BusSpeed = I2cBusSpeed.FastMode;
-
+        private static bool init = false;
         private static ILogger logger;
 
-        public ArrayList I2C2 => i2C2;
-        public ArrayList I2C1 => i2C1;
+        #endregion Fields
 
-        public I2cBusSpeed I2C1BusSpeed => i2C1BusSpeed;
-        public I2cBusSpeed I2C2BusSpeed => i2C2BusSpeed;
-
+        #region Public Constructors
 
         public I2cBussControllerService()
         {
@@ -39,6 +35,19 @@ namespace Hoff.Core.Hardware.Common.Services
                 logger.LogDebug($"Exit ScanForI2cDevices");
             }
         }
+
+        #endregion Public Constructors
+
+        #region Properties
+
+        public ArrayList I2C1 => i2C1;
+        public I2cBusSpeed I2C1BusSpeed => i2C1BusSpeed;
+        public ArrayList I2C2 => i2C2;
+        public I2cBusSpeed I2C2BusSpeed => i2C2BusSpeed;
+
+        #endregion Properties
+
+        #region Public Methods
 
         public void SetIC2BussSpeed(int bussID, I2cBusSpeed speed)
         {
@@ -64,6 +73,10 @@ namespace Hoff.Core.Hardware.Common.Services
             }
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         private ushort ScanForI2cDevices()
         {
             try
@@ -71,7 +84,6 @@ namespace Hoff.Core.Hardware.Common.Services
                 ushort totalDevices = 0;
                 for (int b = 1; b < 3; b++)
                 {
-
                     ushort numberOfDevices = 0;
 
                     I2cBusSpeed speed = I2cBusSpeed.FastMode;
@@ -80,7 +92,6 @@ namespace Hoff.Core.Hardware.Common.Services
 
                     for (byte i = 0; i < 127; i++)
                     {
-
                         using (I2cDevice i2cDevice = new I2cDevice(new I2cConnectionSettings(b, i, speed)))
                         {
                             try
@@ -128,5 +139,7 @@ namespace Hoff.Core.Hardware.Common.Services
                 throw;
             }
         }
+
+        #endregion Private Methods
     }
 }

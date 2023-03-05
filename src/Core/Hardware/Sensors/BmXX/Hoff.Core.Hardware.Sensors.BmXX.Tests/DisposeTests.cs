@@ -8,6 +8,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
     [TestClass]
     public class DisposeTests
     {
+        #region Public Methods
 
         [TestMethod]
         public void DisposeTest()
@@ -16,8 +17,8 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
 
             using (IBme280Sensor bme280Sensor = SetupHelper.Setup())
             { }
-
-
         }
+
+        #endregion Public Methods
     }
 }

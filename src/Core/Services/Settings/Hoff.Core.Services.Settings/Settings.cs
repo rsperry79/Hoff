@@ -8,11 +8,17 @@ namespace Hoff.Core.Services.Settings
 {
     public class Settings<T> : IDisposable
     {
-        protected IEeprom Eeprom;
-        private byte startLocation = 0x00;
+        #region Fields
 
         protected static T settings;
+        protected IEeprom Eeprom;
+
         private bool disposedValue;
+        private byte startLocation = 0x00;
+
+        #endregion Fields
+
+        #region Public Constructors
 
         public Settings(IEeprom eeprom)
         {
@@ -24,19 +30,10 @@ namespace Hoff.Core.Services.Settings
             }
         }
 
-        protected void GetSettings()
-        {
-            try
-            {
-                string data = this.Eeprom.ReadString(this.startLocation);
-                T temp = (T)JsonConvert.DeserializeObject(data, typeof(T));
-            }
-            catch (Exception)
-            {
+        #endregion Public Constructors
 
-                throw;
-            }
-        }
+        #region Properties
+
         public byte StartLocation
         {
             get => this.startLocation;
@@ -50,12 +47,27 @@ namespace Hoff.Core.Services.Settings
             }
         }
 
+        #endregion Properties
+
+        #region Public Methods
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
         public bool WriteSettings()
         {
             string result = JsonConvert.SerializeObject(this);
             bool write = this.Eeprom.WriteString(this.startLocation, result);
             return write;
         }
+
+        #endregion Public Methods
+
+        #region Protected Methods
 
         protected virtual void Dispose(bool disposing)
         {
@@ -70,11 +82,19 @@ namespace Hoff.Core.Services.Settings
             }
         }
 
-        public void Dispose()
+        protected void GetSettings()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            try
+            {
+                string data = this.Eeprom.ReadString(this.startLocation);
+                T temp = (T)JsonConvert.DeserializeObject(data, typeof(T));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+        #endregion Protected Methods
     }
 }

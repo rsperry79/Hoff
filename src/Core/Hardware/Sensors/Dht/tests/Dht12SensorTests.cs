@@ -77,8 +77,9 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests
         //    Assert.IsNotNull(dht11Sensor);
         //}
 
-        [TestMethod]
+        #region Public Methods
 
+        [TestMethod]
         public void RawTest()
         {
             ServiceProvider services = SetupHelper.ConfigureServices();
@@ -108,10 +109,11 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests
             while (!Dht.IsLastReadSuccessful && index < 120);
         }
 
+        #endregion Public Methods
+
         //[TestMethod]
         //public void RawTest2()
         //{
-
         //    using (IDht11Sensor dht = SetupHelper.Setup())
         //    {
         //        UnitsNet.Temperature temperature = dht.Temperature;

@@ -13,8 +13,9 @@ namespace Hoff.Core.Hardware.Common.Tests.Services
     [TestClass]
     internal class DeviceScanTests
     {
-        [TestMethod]
+        #region Public Methods
 
+        [TestMethod]
         public void I2cScanner()
         {
             ServiceProvider services = DiSetup.ConfigureServices();
@@ -29,5 +30,7 @@ namespace Hoff.Core.Hardware.Common.Tests.Services
             Assert.IsTrue(scanner.I2C1.Count > 0);
             Assert.IsTrue(scanner.I2C2.Count == 0);
         }
+
+        #endregion Public Methods
     }
 }

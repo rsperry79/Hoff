@@ -11,8 +11,6 @@ using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
 
-using Iot.Device.At24cxx;
-
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.DependencyInjection;
@@ -22,12 +20,18 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
     public static class TestHelpers
 
     {
-        private static int size = 256;
-        private static IEeprom prom;
+        #region Fields
 
         public static ILogger Logger;
-        public static Settings<SettingsTestModel> Settings;
         public static ServiceProvider Services;
+        public static Settings<SettingsTestModel> Settings;
+
+        private static IEeprom prom;
+        private static int size = 256;
+
+        #endregion Fields
+
+        #region Public Methods
 
         public static ServiceProvider ConfigureServices()
         {
@@ -69,5 +73,7 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
 
             return Settings;
         }
+
+        #endregion Public Methods
     }
 }

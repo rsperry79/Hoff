@@ -8,8 +8,6 @@ using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
 
-using Iot.Device.At24cxx;
-
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.DependencyInjection;
@@ -19,13 +17,21 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
 {
     public static class SetupHelper
     {
+        #region Fields
+
+        public static DebugLogger Logger;
         public static IEeprom prom;
         public static ServiceProvider Services;
-        public static DebugLogger Logger;
+
         private static int size = 32;
+
+        #endregion Fields
+
+        #region Public Methods
+
         public static ServiceProvider ConfigureServices()
         {
-            ServiceProvider services = new ServiceCollection()
+            Services = new ServiceCollection()
              .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
              .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
              .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
@@ -33,7 +39,7 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
              .AddSingleton(typeof(IEeprom), typeof(At24cEeprom))
              .BuildServiceProvider();
 
-            return services;
+            return Services;
         }
 
         public static IEeprom Setup()
@@ -51,10 +57,11 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
                 espConfig.SetI2C1Pins();
                 espConfig.SetI2C2Pins();
 
-                prom = (IEeprom)Services.GetRequiredService(typeof(IEeprom));
-                prom.DefaultInit(size);
+                prom = (IEeprom)ActivatorUtilities.CreateInstance(Services, typeof(IEeprom), new object[] { true, 32 });
             }
             return prom;
         }
+
+        #endregion Public Methods
     }
 }

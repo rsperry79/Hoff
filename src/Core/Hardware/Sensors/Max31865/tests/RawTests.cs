@@ -17,6 +17,8 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests
     [TestClass]
     public class RawTests
     {
+        #region Public Methods
+
         [TestMethod]
         public void RawTest()
         {
@@ -53,5 +55,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests
                 throw;
             }
         }
+
+        #endregion Public Methods
     }
 }

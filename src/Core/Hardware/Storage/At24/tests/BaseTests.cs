@@ -1,8 +1,5 @@
-﻿
-using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
+﻿using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
 using Hoff.Hardware.Common.Interfaces.Storage;
-
-using Iot.Device.At24cxx;
 
 using nanoFramework.TestFramework;
 
@@ -11,17 +8,18 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
     [TestClass]
     public class BaseTests
     {
+        #region Public Methods
 
         [TestMethod]
-        public void GetSizeTest()
+        public void GetPageCountTest()
         {
             // Arrange
             IEeprom at24c256Eeprom = SetupHelper.Setup();
             // Act
-            int result = at24c256Eeprom.GetSize();
+            int result = at24c256Eeprom.GetPageCount();
 
             // Assert
-            Assert.AreEqual(32768, result);
+            Assert.AreEqual(512, result);
         }
 
         [TestMethod]
@@ -37,15 +35,17 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
         }
 
         [TestMethod]
-        public void GetPageCountTest()
+        public void GetSizeTest()
         {
             // Arrange
             IEeprom at24c256Eeprom = SetupHelper.Setup();
             // Act
-            int result = at24c256Eeprom.GetPageCount();
+            int result = at24c256Eeprom.GetSize();
 
             // Assert
-            Assert.AreEqual(512, result);
+            Assert.AreEqual(32768, result);
         }
+
+        #endregion Public Methods
     }
 }

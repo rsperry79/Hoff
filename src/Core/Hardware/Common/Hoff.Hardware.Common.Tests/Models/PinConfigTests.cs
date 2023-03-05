@@ -8,6 +8,8 @@ namespace Hoff.Core.Hardware.Common.Tests.Models
     [TestClass]
     public class PinConfigTests
     {
+        #region Public Methods
+
         [TestMethod]
         public void TestMethod1()
         {
@@ -52,5 +54,7 @@ namespace Hoff.Core.Hardware.Common.Tests.Models
             Assert.AreEqual(clock3, pinConfig.I2C2_CLOCK);
             Assert.AreEqual(data2, pinConfig.I2C2_DATA);
         }
+
+        #endregion Public Methods
     }
 }

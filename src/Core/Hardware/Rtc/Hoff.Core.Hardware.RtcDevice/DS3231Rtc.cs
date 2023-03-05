@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Device.I2c;
 
 using Hoff.Core.Hardware.Common.Interfaces.Rtc;
@@ -19,20 +17,29 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice
 {
     public class DS3231Rtc : IDS3231Rtc, IRtcExtended, IRtc, IDisposable
     {
-        #region Implementation
-        private static II2cBussControllerService deviceScan;
-        protected ILogger _logger;
-        private Ds3231 rtc;
-        private bool init = false;
-        protected bool _disposed = false; // To detect redundant calls
-        #endregion
+        #region Fields
 
-        #region Constructor
+        protected bool _disposed = false;
+        protected ILogger _logger;
+        private static II2cBussControllerService deviceScan;
+        private bool init = false;
+        private Ds3231 rtc;
+
+        #endregion Fields
+
+        // To detect redundant calls
+
+        #region Public Constructors
+
         public DS3231Rtc(II2cBussControllerService scanner)
         {
             this._logger = this.GetCurrentClassLogger();
             deviceScan = scanner;
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public bool DefaultInit()
         {
@@ -70,6 +77,20 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice
             }
         }
 
+        public void Dispose()
+        {
+            if (!this._disposed)
+            {
+                this.DisposeSensor();
+                this._disposed = true;
+            }
+        }
+
+        public Temperature GetRtcTemperature()
+        {
+            return this.rtc.Temperature;
+        }
+
         public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed)
         {
             try
@@ -91,9 +112,7 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice
                 throw;
             }
         }
-        #endregion
 
-        #region Core Methods
         public DateTime ReadDateTime()
         {
             return this.rtc.DateTime;
@@ -103,31 +122,16 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice
         {
             this.rtc.DateTime = time;
         }
-        #endregion
 
-        #region RtcExtended
-        public Temperature GetRtcTemperature()
-        {
-            return this.rtc.Temperature;
-        }
-        #endregion
+        #endregion Public Methods
 
-        #region IDisposable Support
+        #region Protected Methods
+
         protected void DisposeSensor()
         {
             this.rtc.Dispose();
         }
 
-        public void Dispose()
-        {
-            if (!this._disposed)
-            {
-                this.DisposeSensor();
-                this._disposed = true;
-            }
-        }
-
-
-        #endregion
+        #endregion Protected Methods
     }
 }

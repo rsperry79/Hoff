@@ -1,8 +1,5 @@
-﻿
-using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
+﻿using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
 using Hoff.Hardware.Common.Interfaces.Storage;
-
-using Iot.Device.At24cxx;
 
 using nanoFramework.TestFramework;
 
@@ -11,8 +8,6 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
     [TestClass]
     public class StringTests
     {
-
-
         //[TestMethod]
         //public void WriteTest()
         //{
@@ -28,8 +23,27 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
         //    Assert.IsTrue(result);
         //}
 
+        #region Fields
+
         private const byte stringWriteAddr = 0x90;
         private const string stringWriteMesage = "This is a test";
+
+        #endregion Fields
+
+        #region Public Methods
+
+        [TestMethod]
+        public void ReadStringTest()
+        {
+            // Arrange
+            IEeprom at24cEeprom = SetupHelper.Setup();
+
+            // Act
+            string result = at24cEeprom.ReadString(stringWriteAddr);
+
+            // Assert
+            Assert.AreEqual(stringWriteMesage, result);
+        }
 
         [TestMethod]
         public void WriteStringTest()
@@ -44,21 +58,6 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        public void ReadStringTest()
-        {
-            // Arrange
-            IEeprom at24cEeprom = SetupHelper.Setup();
-
-
-            // Act
-            string result = at24cEeprom.ReadString(stringWriteAddr);
-
-            // Assert
-            Assert.AreEqual(stringWriteMesage, result);
-        }
-
-
-
+        #endregion Public Methods
     }
 }

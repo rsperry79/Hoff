@@ -11,32 +11,15 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
     [TestClass]
     public class EspConfigTests
     {
+        #region Fields
+
+        private static IEspConfig espConfig;
+        private static IPinConfig pins;
         private static ServiceProvider services;
 
-        private static IPinConfig pins;
-        private static IEspConfig espConfig;
+        #endregion Fields
 
-
-        public void Setup()
-        {
-            services = DiSetup.ConfigureServices();
-            pins = (IPinConfig)services.GetRequiredService(typeof(IPinConfig));
-            espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
-        }
-
-        [TestMethod]
-        public void SetSpiPinsTest()
-        {
-            // Arrange
-            this.Setup();
-            // Act
-            espConfig.SetSpi1Pins();
-
-            // Assert
-            Assert.AreEqual(pins.Spi1_Clock, espConfig.GetPinFunction(DeviceFunction.SPI1_CLOCK));
-            Assert.AreEqual(pins.Spi1_Miso, espConfig.GetPinFunction(DeviceFunction.SPI1_MISO));
-            Assert.AreEqual(pins.Spi1_Mosi, espConfig.GetPinFunction(DeviceFunction.SPI1_MOSI));
-        }
+        #region Public Methods
 
         [TestMethod]
         public void SetI2C1PinsTest()
@@ -65,5 +48,28 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
             Assert.AreEqual(pins.I2C2_CLOCK, espConfig.GetPinFunction(DeviceFunction.I2C2_CLOCK));
             Assert.AreEqual(pins.I2C2_DATA, espConfig.GetPinFunction(DeviceFunction.I2C2_DATA));
         }
+
+        [TestMethod]
+        public void SetSpiPinsTest()
+        {
+            // Arrange
+            this.Setup();
+            // Act
+            espConfig.SetSpi1Pins();
+
+            // Assert
+            Assert.AreEqual(pins.Spi1_Clock, espConfig.GetPinFunction(DeviceFunction.SPI1_CLOCK));
+            Assert.AreEqual(pins.Spi1_Miso, espConfig.GetPinFunction(DeviceFunction.SPI1_MISO));
+            Assert.AreEqual(pins.Spi1_Mosi, espConfig.GetPinFunction(DeviceFunction.SPI1_MOSI));
+        }
+
+        public void Setup()
+        {
+            services = DiSetup.ConfigureServices();
+            pins = (IPinConfig)services.GetRequiredService(typeof(IPinConfig));
+            espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
+        }
+
+        #endregion Public Methods
     }
 }

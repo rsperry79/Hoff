@@ -14,6 +14,8 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests.Helpers
 {
     internal static class DiSetup
     {
+        #region Internal Methods
+
         internal static ServiceProvider ConfigureServices()
         {
             return new ServiceCollection()
@@ -26,5 +28,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests.Helpers
 
                 .BuildServiceProvider();
         }
+
+        #endregion Internal Methods
     }
 }

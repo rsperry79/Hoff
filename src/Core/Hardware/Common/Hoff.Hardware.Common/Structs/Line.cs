@@ -2,8 +2,12 @@
 {
     public struct Line
     {
+        #region Properties
+
+        public int Length { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public int Length { get; set; }
+
+        #endregion Properties
     }
 }

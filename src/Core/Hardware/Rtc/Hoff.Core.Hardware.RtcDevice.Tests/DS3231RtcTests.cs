@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Device.I2c;
-using System.Globalization;
 
 using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Hardware.Rtc.RtcDevice.Interfaces;
 using Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers;
-using Hoff.Core.Services.Logging;
 
 using Microsoft.Extensions.Logging;
 
@@ -19,8 +17,6 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests
     [TestClass]
     public class DS3231RtcTests
     {
-
-
         //public void RawTest()
         //{
         //    const string loggerName = "TestLogger";
@@ -30,6 +26,7 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests
         //    ILogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
         //}
 
+        #region Public Methods
 
         [TestMethod]
         public void DefaultInitTest()
@@ -62,7 +59,6 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests
             ILogger logger = SetupHelper.Logger;
             try
             {
-
                 IDS3231Rtc dS3231Rtc = (IDS3231Rtc)SetupHelper.Services.GetRequiredService(typeof(IDS3231Rtc));
 
                 const int bussId = 1;
@@ -97,6 +93,20 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests
         }
 
         [TestMethod]
+        public void ReadTempTest()
+        {
+            // Arrange
+            IDS3231Rtc dS3231Rtc = SetupHelper.Setup();
+            ILogger logger = SetupHelper.Logger;
+            // Act
+            Temperature result = dS3231Rtc.GetRtcTemperature();
+            logger.LogDebug($"Read: {result.DegreesCelsius}C");
+
+            // Assert
+            Assert.IsTrue(result.DegreesCelsius > 0);
+        }
+
+        [TestMethod]
         public void SetDateTimeTest()
         {
             // Arrange
@@ -113,20 +123,6 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests
             logger.LogDebug($"Read: {result}");
         }
 
-
-        [TestMethod]
-        public void ReadTempTest()
-        {
-            // Arrange
-            IDS3231Rtc dS3231Rtc = SetupHelper.Setup();
-            ILogger logger = SetupHelper.Logger;
-            // Act
-            Temperature result = dS3231Rtc.GetRtcTemperature();
-            logger.LogDebug($"Read: {result.DegreesCelsius}C");
-
-            // Assert
-            Assert.IsTrue(result.DegreesCelsius > 0);
-
-        }
+        #endregion Public Methods
     }
 }

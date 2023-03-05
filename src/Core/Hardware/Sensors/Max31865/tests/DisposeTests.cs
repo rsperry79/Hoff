@@ -8,7 +8,6 @@
 //    [TestClass]
 //    public class DisposeTests
 //    {
-
 //        [TestMethod]
 //        public void DisposeTest()
 //        {
@@ -16,7 +15,6 @@
 
 //            using (IMax31865Senor bme280Sensor = SetupHelpers.Setup())
 //            { }
-
 
 //        }
 //    }

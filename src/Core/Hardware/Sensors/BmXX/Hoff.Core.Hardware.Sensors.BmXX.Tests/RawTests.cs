@@ -16,6 +16,8 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
     [TestClass]
     public class RawTests
     {
+        #region Public Methods
+
         [TestMethod]
         public void RawTest()
         {
@@ -30,7 +32,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
                 I2cDevice i2cDevice = I2cDevice.Create(new I2cConnectionSettings(busId, 0x76, I2cBusSpeed.FastMode));
                 Bme280 i2CBmp280 = new Bme280(i2cDevice)
                 {
-
                     // set higher sampling
                     TemperatureSampling = Sampling.UltraHighResolution,
                     PressureSampling = Sampling.UltraHighResolution,
@@ -64,7 +65,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
                     index++;
                 }
                 while (index < loops);
-
             }
             catch (Exception ex)
             {
@@ -72,5 +72,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
                 throw;
             }
         }
+
+        #endregion Public Methods
     }
 }

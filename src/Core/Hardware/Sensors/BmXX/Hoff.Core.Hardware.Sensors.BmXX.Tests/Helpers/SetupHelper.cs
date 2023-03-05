@@ -17,9 +17,30 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
 {
     public static class SetupHelper
     {
-        private static IBme280Sensor sensor;
-        public static ServiceProvider Services;
+        #region Fields
+
         public static DebugLogger Logger;
+        public static ServiceProvider Services;
+
+        private static IBme280Sensor sensor;
+
+        #endregion Fields
+
+        #region Public Methods
+
+        public static void BaseSetup()
+        {
+            Services = ConfigureServices();
+
+            const string loggerName = "TestLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
+            ILoggerCore loggerCore = (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
+            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+
+            IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
+            espConfig.SetI2C1Pins();
+            espConfig.SetI2C2Pins();
+        }
 
         public static ServiceProvider ConfigureServices()
         {
@@ -47,18 +68,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
             return sensor;
         }
 
-        public static void BaseSetup()
-        {
-            Services = ConfigureServices();
-
-            const string loggerName = "TestLogger";
-            const LogLevel minLogLevel = LogLevel.Trace;
-            ILoggerCore loggerCore = (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
-
-            IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
-            espConfig.SetI2C1Pins();
-            espConfig.SetI2C2Pins();
-        }
+        #endregion Public Methods
     }
 }

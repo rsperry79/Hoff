@@ -6,20 +6,24 @@ namespace Hoff.Core.Hardware.Common.Helpers
 {
     public static class EepromExtentionHelpers
     {
+        #region Public Methods
+
         public static byte[] ToByteArray(this Array list)
         {
             byte[] toRet = new byte[list.Length];
 
-
             for (int i = 0; i < list.Length; i++)
             {
-
                 toRet[i] = (byte)list.GetValue(i);
                 ;
             }
 
-
             return toRet;
+        }
+
+        public static byte[] ToBytes(this string message)
+        {
+            return Encoding.UTF8.GetBytes(message);
         }
 
         public static char[] ToCharArray(this ArrayList list)
@@ -33,7 +37,6 @@ namespace Hoff.Core.Hardware.Common.Helpers
             }
 
             return toRet;
-
         }
 
         public static string ToString(this Array list)
@@ -42,10 +45,6 @@ namespace Hoff.Core.Hardware.Common.Helpers
             return decodedMessage;
         }
 
-        public static byte[] ToBytes(this string message)
-        {
-            return Encoding.UTF8.GetBytes(message);
-        }
-
+        #endregion Public Methods
     }
 }

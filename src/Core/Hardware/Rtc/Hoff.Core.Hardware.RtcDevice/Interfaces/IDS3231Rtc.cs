@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 
 using Hoff.Core.Hardware.Common.Interfaces.Rtc;
 

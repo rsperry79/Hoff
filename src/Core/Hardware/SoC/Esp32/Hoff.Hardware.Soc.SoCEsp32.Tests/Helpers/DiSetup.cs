@@ -9,6 +9,8 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests.Helpers
 {
     internal static class DiSetup
     {
+        #region Internal Methods
+
         internal static ServiceProvider ConfigureServices()
         {
             return new ServiceCollection()
@@ -16,5 +18,7 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests.Helpers
                 .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
                 .BuildServiceProvider();
         }
+
+        #endregion Internal Methods
     }
 }

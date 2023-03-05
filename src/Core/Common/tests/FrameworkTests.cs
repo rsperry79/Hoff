@@ -8,17 +8,7 @@ namespace Hoff.Core.Common.Tests
     [TestClass]
     public class FrameworkTests
     {
-        [TestMethod]
-        public void TestRaisesException()
-        {
-            Debug.WriteLine("Test will raise exception");
-            Assert.ThrowsException(typeof(Exception), this.ThrowMe);
-        }
-
-        private void ThrowMe()
-        {
-            throw new Exception("Test failed and it's a shame");
-        }
+        #region Public Methods
 
         [TestMethod]
         public void TestCheckAllEqual()
@@ -133,6 +123,13 @@ namespace Hoff.Core.Common.Tests
         }
 
         [TestMethod]
+        public void TestRaisesException()
+        {
+            Debug.WriteLine("Test will raise exception");
+            Assert.ThrowsException(typeof(Exception), this.ThrowMe);
+        }
+
+        [TestMethod]
         public void TestStringComparison()
         {
             Debug.WriteLine("Test string, Contains, EndsWith, StartWith");
@@ -153,5 +150,16 @@ namespace Hoff.Core.Common.Tests
             Assert.StartsWith(contains, startcontains);
             Assert.EndsWith(contains, tocontains);
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void ThrowMe()
+        {
+            throw new Exception("Test failed and it's a shame");
+        }
+
+        #endregion Private Methods
     }
 }

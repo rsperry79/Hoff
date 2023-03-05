@@ -8,19 +8,32 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
     /// </summary>
     public class At24cMock : IDisposable
     {
-
-        private static int currentPosition = 0;
-        private static readonly ArrayList mockDevice = new ArrayList();
+        #region Fields
 
         public const byte DefaultI2cAddress = 80;
-
         public static bool LoadDefaults = true;
+
+        private static readonly ArrayList mockDevice = new ArrayList();
+        private static int currentPosition = 0;
+
+        #endregion Fields
+
+        #region Properties
 
         public int PageCount => 512;
 
         public int PageSize => 64;
 
         public int Size => this.PageCount * this.PageSize;
+
+        #endregion Properties
+
+        #region Public Methods
+
+        public void Dispose()
+        {
+            // throw new NotImplementedException();
+        }
 
         public byte[] Read(int address, int length)
         {
@@ -44,7 +57,6 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return (byte)mockDevice[currentPosition];
         }
 
-
         public byte ReadByte(int address)
         {
             return (byte)mockDevice[address];
@@ -67,9 +79,6 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
             return 1;
         }
 
-        public void Dispose()
-        {
-            // throw new NotImplementedException();
-        }
+        #endregion Public Methods
     }
 }

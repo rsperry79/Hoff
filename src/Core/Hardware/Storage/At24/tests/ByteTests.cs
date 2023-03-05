@@ -1,8 +1,5 @@
-﻿
-using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
+﻿using Hoff.Core.Hardware.Storage.At24.Tests.Helpers;
 using Hoff.Hardware.Common.Interfaces.Storage;
-
-using Iot.Device.At24cxx;
 
 using nanoFramework.TestFramework;
 
@@ -11,23 +8,7 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
     [TestClass]
     public class ByteTests
     {
-        [TestMethod]
-        public void ByteTest()
-        {
-            byte byteAddress = 0x10;
-            byte byteMessage = 1;
-
-            // Arrange
-            IEeprom at24cEeprom = SetupHelper.Setup();
-
-            // write
-            bool write = at24cEeprom.WriteByte(byteAddress, byteMessage);
-            Assert.IsTrue(write);
-
-            // read
-            byte result = at24cEeprom.ReadByte(byteAddress);
-            Assert.AreEqual(byteMessage, result);
-        }
+        #region Public Methods
 
         [TestMethod]
         public void ByteArrayTest()
@@ -52,5 +33,25 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
                 Assert.AreEqual(byteArrayMessage[i], read[i], $"index: {i}");
             }
         }
+
+        [TestMethod]
+        public void ByteTest()
+        {
+            byte byteAddress = 0x10;
+            byte byteMessage = 1;
+
+            // Arrange
+            IEeprom at24cEeprom = SetupHelper.Setup();
+
+            // write
+            bool write = at24cEeprom.WriteByte(byteAddress, byteMessage);
+            Assert.IsTrue(write);
+
+            // read
+            byte result = at24cEeprom.ReadByte(byteAddress);
+            Assert.AreEqual(byteMessage, result);
+        }
+
+        #endregion Public Methods
     }
 }

@@ -1,7 +1,10 @@
-﻿using Hoff.Core.Hardware.Common.Abstract;
-using System;
+﻿using System;
 using System.Device.Spi;
 
+using Hoff.Core.Hardware.Common.Abstract;
+using Hoff.Core.Hardware.Common.Helpers;
+using Hoff.Core.Hardware.Common.Interfaces.Events;
+using Hoff.Core.Hardware.Common.Models;
 using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Base;
 using Hoff.Hardware.Common.Interfaces.Sensors;
@@ -11,34 +14,56 @@ using Iot.Device.Max31865;
 using nanoFramework.Logging;
 
 using UnitsNet;
-using Hoff.Core.Hardware.Common.Helpers;
-using Hoff.Core.Hardware.Common.Interfaces.Events;
-using Hoff.Core.Hardware.Common.Models;
 
 namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
 
 {
-
-
     public class Max31865Senor : SensorBase, IMax31865Senor, ITemperatureSensor, ISensorBase, IDisposable
     {
-        #region Implementation
-        private Max31865 sensor = null;
+        #region Fields
 
-        private bool init;
+        private const int sensorSleepTime = 10;
 
-        private SpiDevice spiDevice;
         /// <summary>
         /// How many decimal places to account in temperature and humidity measurements
         /// </summary>
         private readonly uint _scale = 2;
 
-        private const int sensorSleepTime = 10;
-        #endregion
+        private readonly object locker;
+        private bool disposedValue;
+        private bool init;
+        private Max31865 sensor = null;
+        private SpiDevice spiDevice;
+        private Temperature temperature;
+
+        #endregion Fields
+
+        #region Public Constructors
+
+        public Max31865Senor() => this._logger = this.GetCurrentClassLogger();
+
+        #endregion Public Constructors
+
+        #region Private Destructors
+
+        ~Max31865Senor()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            this.Dispose(disposing: false);
+        }
+
+        #endregion Private Destructors
+
+        #region Events
+
+        /// <summary>
+        /// Tempature Changed Event handler
+        /// </summary>
+        public event EventHandler<ITemperatureChangedEvent> TemperatureChanged;
+
+        #endregion Events
 
         #region Properties
-        private Temperature temperature;
-        private bool disposedValue;
 
         /// <summary>
         /// Accessor/Mutator for temperature in Celsius
@@ -55,21 +80,21 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
                     EventHandler<ITemperatureChangedEvent> tempEvent = TemperatureChanged;
                     tempEvent(this, new TemperatureChangedEvent(value));
                 }
-
             }
         }
-        #endregion
 
-        #region Event Handlers
+        #endregion Properties
+
+        #region Public Methods
+
         /// <summary>
-        /// Tempature Changed Event handler
+        /// This sensor suports change tracking
         /// </summary>
-        public event EventHandler<ITemperatureChangedEvent> TemperatureChanged;
-        #endregion
-
-        #region Constructor
-        public Max31865Senor() => this._logger = this.GetCurrentClassLogger();
-
+        /// <returns>bool</returns>
+        public override bool CanTrackChanges()
+        {
+            return true;
+        }
 
         public bool DefaultInit()
         {
@@ -84,8 +109,15 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
             return this.Init(bussId, selectPin, spiMode, thermometerType, wires, resistance, scale);
         }
 
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
         public bool Init(
-            int bussId,
+                    int bussId,
             int selectPin,
             SpiMode mode,
             PlatinumResistanceThermometerType thermometerType,
@@ -114,64 +146,11 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
             }
 
             return this.init;
-
-        }
-        #endregion
-
-        #region Change tracking
-        /// <summary>
-        /// This sensor suports change tracking
-        /// </summary>
-        /// <returns>bool</returns>
-        public override bool CanTrackChanges()
-        {
-            return true;
         }
 
-        private readonly object locker;
+        #endregion Public Methods
 
-        /// <summary>
-        /// Let the world know whether the sensor value has changed or not
-        /// </summary>
-        /// <returns>bool</returns>
-        protected override void RefreshSenorData()
-        {
-            lock (this.locker)
-            {
-                this.Temperature = this.sensor.Temperature;
-            }
-        }
-
-        #endregion
-
-        #region IDisposable Support
-        protected override void DisposeSensor()
-        {
-            this.sensor.Dispose();
-            this.spiDevice.Dispose();
-            this.spiDevice = null;
-            this.sensor = null;
-        }
-
-        ~Max31865Senor()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: false);
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-        #endregion
-
-        #region Helpers
-        private Temperature ReadTemperature()
-        {
-            return this.sensor.Temperature;
-        }
+        #region Protected Methods
 
         protected virtual void Dispose(bool disposing)
         {
@@ -192,7 +171,35 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
             }
         }
 
+        protected override void DisposeSensor()
+        {
+            this.sensor.Dispose();
+            this.spiDevice.Dispose();
+            this.spiDevice = null;
+            this.sensor = null;
+        }
 
-        #endregion
+        /// <summary>
+        /// Let the world know whether the sensor value has changed or not
+        /// </summary>
+        /// <returns>bool</returns>
+        protected override void RefreshSenorData()
+        {
+            lock (this.locker)
+            {
+                this.Temperature = this.sensor.Temperature;
+            }
+        }
+
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        private Temperature ReadTemperature()
+        {
+            return this.sensor.Temperature;
+        }
+
+        #endregion Private Methods
     }
 }

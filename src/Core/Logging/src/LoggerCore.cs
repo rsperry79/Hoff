@@ -53,7 +53,6 @@ namespace Hoff.Core.Services.Logging
                 port ??= "COM6";
                 LogDispatcher.LoggerFactory = new SerialLoggerFactory(port);
 #endif
-
             }
             finally
             {

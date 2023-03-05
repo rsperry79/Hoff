@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.Logging.Tests.Helpers;
 
 using Microsoft.Extensions.Logging;
@@ -14,6 +13,8 @@ namespace Hoff.Core.Services.Logging.Tests
     [TestClass]
     public class LoggerCoreTests
     {
+        #region Public Methods
+
         [TestMethod]
         public void CreateNewLoggerTest()
         {
@@ -26,6 +27,38 @@ namespace Hoff.Core.Services.Logging.Tests
             // Act
             Assert.IsNotNull(logger);
             Assert.AreEqual(loggerName, logger.LoggerName);
+        }
+
+        [TestMethod]
+        public void GetMemoryStreamLoggerTest()
+        {
+            // Arrange
+            LoggerCore loggerCore = new();
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.GetMemoryStreamLogger();
+            TestComponent testComponent = new();
+
+            // Act
+            Assert.IsNotNull(logger);
+            testComponent.DoSomeTestLogging();
+        }
+
+        [TestMethod]
+        public void GetSerialLoggerTest()
+        {
+            // Arrange
+            LoggerCore loggerCore = new();
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.GetSerialLogger();
+            TestComponent testComponent = new();
+
+            // Act
+            Assert.IsNotNull(logger);
+            testComponent.DoSomeTestLogging();
         }
 
         [TestMethod]
@@ -63,36 +96,6 @@ namespace Hoff.Core.Services.Logging.Tests
             _logger.LogCritical(42, new Exception("Insane problem"), "CRITICAL {0} {1}", new object[] { "param 1", 42 });
         }
 
-        [TestMethod]
-        public void GetSerialLoggerTest()
-        {
-            // Arrange
-            LoggerCore loggerCore = new();
-            const string loggerName = "SerialLogger";
-            const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
-            loggerCore.GetSerialLogger();
-            TestComponent testComponent = new();
-
-            // Act
-            Assert.IsNotNull(logger);
-            testComponent.DoSomeTestLogging();
-        }
-
-        [TestMethod]
-        public void GetMemoryStreamLoggerTest()
-        {
-            // Arrange
-            LoggerCore loggerCore = new();
-            const string loggerName = "SerialLogger";
-            const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
-            loggerCore.GetMemoryStreamLogger();
-            TestComponent testComponent = new();
-
-            // Act
-            Assert.IsNotNull(logger);
-            testComponent.DoSomeTestLogging();
-        }
+        #endregion Public Methods
     }
 }

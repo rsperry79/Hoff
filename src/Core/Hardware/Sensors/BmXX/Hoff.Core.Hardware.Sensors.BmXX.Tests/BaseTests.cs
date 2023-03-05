@@ -11,6 +11,34 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
     [TestClass]
     public class BaseTests
     {
+        #region Public Methods
+
+        [TestMethod]
+        public void CanTrackChangesTest()
+        {
+            // Arrange
+            IBme280Sensor bme280Sensor = SetupHelper.Setup();
+
+            // Act
+            bool result = bme280Sensor.CanTrackChanges();
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void DefaultInitTest()
+        {
+            // Arrange
+            SetupHelper.BaseSetup();
+
+            IBme280Sensor bme280Sensor = (IBme280Sensor)SetupHelper.Services.GetRequiredService(typeof(IBme280Sensor));
+            // Act
+            bool result = bme280Sensor.DefaultInit();
+
+            // Assert
+            Assert.IsTrue(result);
+        }
 
         [TestMethod]
         public void InitTest()
@@ -36,21 +64,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
         }
 
         [TestMethod]
-        public void DefaultInitTest()
-        {
-            // Arrange
-            SetupHelper.BaseSetup();
-
-            IBme280Sensor bme280Sensor = (IBme280Sensor)SetupHelper.Services.GetRequiredService(typeof(IBme280Sensor));
-            // Act
-            bool result = bme280Sensor.DefaultInit();
-
-            // Assert
-            Assert.IsTrue(result);
-        }
-
-
-        [TestMethod]
         public void ResetTest()
         {
             // Arrange
@@ -62,17 +75,6 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
             // Assert
         }
 
-        [TestMethod]
-        public void CanTrackChangesTest()
-        {
-            // Arrange
-            IBme280Sensor bme280Sensor = SetupHelper.Setup();
-
-            // Act
-            bool result = bme280Sensor.CanTrackChanges();
-
-            // Assert
-            Assert.IsTrue(result);
-        }
+        #endregion Public Methods
     }
 }

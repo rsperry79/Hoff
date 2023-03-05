@@ -1,7 +1,11 @@
-﻿using Hoff.Core.Hardware.Common.Abstract;
-using System;
+﻿using System;
 using System.Diagnostics;
 
+using Hoff.Core.Hardware.Common.Abstract;
+using Hoff.Core.Hardware.Common.Helpers;
+using Hoff.Core.Hardware.Common.Interfaces.Events;
+using Hoff.Core.Hardware.Common.Interfaces.Sensors;
+using Hoff.Core.Hardware.Common.Models;
 using Hoff.Core.Hardware.Sensors.Dht.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Base;
 using Hoff.Hardware.Common.Interfaces.Sensors;
@@ -13,33 +17,64 @@ using Microsoft.Extensions.Logging;
 using nanoFramework.Logging;
 
 using UnitsNet;
-using Hoff.Core.Hardware.Common.Helpers;
-using Hoff.Core.Hardware.Common.Interfaces.Events;
-using Hoff.Core.Hardware.Common.Models;
-using Hoff.Core.Hardware.Common.Interfaces.Sensors;
 
 namespace Hoff.Core.Hardware.Sensors.Dht
 {
     public class Dht11Sensor : SensorBase, IDht11Sensor, IHumidityTemperatureSensor, ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
-        #region Implementation
+        #region Fields
+
         private static DhtBase Dht = null;
+
+        private readonly object locker;
+        private readonly ILogger logger;
 
         /// <summary>
         /// How many decimal places to account in temperature and humidity measurements
         /// </summary>
         private uint _scale = 2;
 
-        private readonly ILogger logger;
+        private bool disposedValue;
 
-        public Dht11Sensor() => this.logger = this.GetCurrentClassLogger();
-        #endregion
-
-        #region Properties
         /// <summary>
         /// Accessors/Mutator for relative humidity %
         /// </summary>
         private RelativeHumidity relativeHumidity;
+
+        private Temperature temperature;
+
+        #endregion Fields
+
+        #region Public Constructors
+
+        public Dht11Sensor() => this.logger = this.GetCurrentClassLogger();
+
+        #endregion Public Constructors
+
+        #region Private Destructors
+
+        ~Dht11Sensor()
+        {
+            this.Dispose(disposing: false);
+        }
+
+        #endregion Private Destructors
+
+        #region Events
+
+        /// <summary>
+        /// Humidity changed event handler.
+        /// </summary>
+        public event EventHandler<IHumidityChangedEventArgs> HumidityChanged;
+
+        /// <summary>
+        /// Temperature Changed Event handler
+        /// </summary>
+        public event EventHandler<ITemperatureChangedEvent> TemperatureChanged;
+
+        #endregion Events
+
+        #region Properties
 
         public RelativeHumidity Humidity
         {
@@ -56,10 +91,6 @@ namespace Hoff.Core.Hardware.Sensors.Dht
             }
         }
 
-        private Temperature temperature;
-
-        private bool disposedValue;
-
         public Temperature Temperature
         {
             get => this.temperature;
@@ -75,33 +106,10 @@ namespace Hoff.Core.Hardware.Sensors.Dht
             }
         }
 
-        #endregion
+        #endregion Properties
 
-        #region Event Handlers
-        /// <summary>
-        /// Temperature Changed Event handler
-        /// </summary>
-        public event EventHandler<ITemperatureChangedEvent> TemperatureChanged;
+        #region Public Methods
 
-        /// <summary>
-        /// Humidity changed event handler.
-        /// </summary>
-        public event EventHandler<IHumidityChangedEventArgs> HumidityChanged;
-
-        #endregion
-
-        #region Constructor
-
-        public void Init(int pin, uint scale = 2)
-        {
-            Dht = new Dht11(pin);
-
-            this._scale = scale;
-            this.logger.LogTrace("before sleep");
-        }
-        #endregion
-
-        #region Change tracking
         /// <summary>
         /// This sensor supports change tracking
         /// </summary>
@@ -111,44 +119,23 @@ namespace Hoff.Core.Hardware.Sensors.Dht
             return true;
         }
 
-        private readonly object locker;
-        /// <summary>
-        /// Let the world know whether the sensor value has changed or not
-        /// </summary>
-        /// <returns>bool</returns>
-        protected override void RefreshSenorData()
-        {
-            lock (this.locker)
-            {
-                try
-                {
-                    this.temperature = this.ReadTemperature();
-                    this.Humidity = this.ReadHumidity();
-                }
-                catch (Exception)
-                {
-                    Debug.WriteLine("HasSensorValueChanged");
-                }
-            }
-        }
-        #endregion
-
-        #region IDisposable Support
-        protected override void DisposeSensor()
-        {
-            Dht.Dispose();
-        }
-
-        ~Dht11Sensor()
-        {
-            this.Dispose(disposing: false);
-        }
-
         public void Dispose()
         {
             this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+        public void Init(int pin, uint scale = 2)
+        {
+            Dht = new Dht11(pin);
+
+            this._scale = scale;
+            this.logger.LogTrace("before sleep");
+        }
+
+        #endregion Public Methods
+
+        #region Protected Methods
 
         protected virtual void Dispose(bool disposing)
         {
@@ -169,9 +156,35 @@ namespace Hoff.Core.Hardware.Sensors.Dht
             }
         }
 
-        #endregion
+        protected override void DisposeSensor()
+        {
+            Dht.Dispose();
+        }
 
-        #region Helpers
+        /// <summary>
+        /// Let the world know whether the sensor value has changed or not
+        /// </summary>
+        /// <returns>bool</returns>
+        protected override void RefreshSenorData()
+        {
+            lock (this.locker)
+            {
+                try
+                {
+                    this.temperature = this.ReadTemperature();
+                    this.Humidity = this.ReadHumidity();
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("HasSensorValueChanged");
+                }
+            }
+        }
+
+        #endregion Protected Methods
+
+        #region Private Methods
+
         private RelativeHumidity ReadHumidity()
         {
             try
@@ -205,6 +218,7 @@ namespace Hoff.Core.Hardware.Sensors.Dht
 
             return default;
         }
-        #endregion
+
+        #endregion Private Methods
     }
 }

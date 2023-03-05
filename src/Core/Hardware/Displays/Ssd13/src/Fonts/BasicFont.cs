@@ -9,6 +9,8 @@ namespace Hoff.Hardware.Displays.Ssd13.Fonts
     /// </summary>
     public class BasicFont : IFont
     {
+        #region Fields
+
         /// <summary>
         /// The font definition.
         /// </summary>
@@ -112,15 +114,23 @@ namespace Hoff.Hardware.Displays.Ssd13.Fonts
             new byte [] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}    // U+007F
         };
 
-        /// <summary>
-        /// Font width.
-        /// </summary>
-        public override byte Width => 8;
+        #endregion Fields
+
+        #region Properties
 
         /// <summary>
         /// Font height.
         /// </summary>
         public override byte Height => 8;
+
+        /// <summary>
+        /// Font width.
+        /// </summary>
+        public override byte Width => 8;
+
+        #endregion Properties
+
+        #region Indexers
 
         /// <summary>
         ///     Get the binary representation of an ASCII character from the
@@ -139,6 +149,7 @@ namespace Hoff.Hardware.Displays.Ssd13.Fonts
                 return index is < 32 or > 127 ? _fontTable[0x20] : _fontTable[index - 0x20];
             }
         }
+
+        #endregion Indexers
     }
 }
-

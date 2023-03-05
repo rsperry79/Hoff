@@ -1,8 +1,8 @@
-﻿using Hoff.Core.Hardware.Common.Interfaces.Displays;
+﻿using System.Device.I2c;
+
+using Hoff.Core.Hardware.Common.Interfaces.Displays;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Structs;
-using System.Device.I2c;
-
 using Hoff.Hardware.Displays.Ssd13.Fonts;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
 
@@ -18,11 +18,17 @@ namespace Hoff.Hardware.Displays.Ssd13
 {
     public class Display : ISsd13, IDisplay
     {
-        private bool init;
-        private I2cDevice i2CDevice;
-        private Ssd1306 ssdDisplay;
+        #region Fields
+
         private readonly ILogger _logger;
         private readonly II2cBussControllerService deviceScan;
+        private I2cDevice i2CDevice;
+        private bool init;
+        private Ssd1306 ssdDisplay;
+
+        #endregion Fields
+
+        #region Public Constructors
 
         public Display(II2cBussControllerService scanner)
         {
@@ -37,6 +43,21 @@ namespace Hoff.Hardware.Displays.Ssd13
                 this._logger.LogError(ex.StackTrace);
                 throw;
             }
+        }
+
+        #endregion Public Constructors
+
+        #region Public Methods
+
+        public void ClearDirectLine(DirectLine line)
+        {
+            this.ssdDisplay.ClearDirectAligned(line.X, line.Y, line.Width, line.Height);
+        }
+
+        public void ClearScreen()
+        {
+            this.ssdDisplay.ClearScreen();
+            this.ssdDisplay.Display();
         }
 
         public bool DefaultInit()
@@ -77,16 +98,24 @@ namespace Hoff.Hardware.Displays.Ssd13
             this._logger.LogDebug($"SSD1306 Buss ID: {bussId}");
             this._logger.LogDebug($"SSD1306 Device Address: {deviceAddr}");
 
-
             bool complete = this.Init(bussId, deviceAddr, speed, DisplayResolution.OLED128x64);
             return complete;
+        }
+
+        public void DrawDirectLine(DirectLine line)
+        {
+            this.ssdDisplay.DrawDirectAligned(line.X, line.Y, line.Width, line.Height, line.Data);
+        }
+
+        public void HorizontalLine(Line line, bool draw = true)
+        {
+            this.ssdDisplay.DrawHorizontalLine(line.X, line.Y, line.Length, draw);
         }
 
         public bool Init(int bussId, byte deviceAddr, I2cBusSpeed busSpeed, DisplayResolution resolution)
         {
             if (!this.init)
             {
-
                 this.i2CDevice = I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed));
                 this.ssdDisplay = new Ssd1306(this.i2CDevice, resolution);
                 this.ClearScreen();
@@ -96,26 +125,9 @@ namespace Hoff.Hardware.Displays.Ssd13
             return this.init;
         }
 
-        public void DrawDirectLine(DirectLine line)
+        public void UpdateDisplay()
         {
-            this.ssdDisplay.DrawDirectAligned(line.X, line.Y, line.Width, line.Height, line.Data);
-        }
-
-
-        public void ClearDirectLine(DirectLine line)
-        {
-            this.ssdDisplay.ClearDirectAligned(line.X, line.Y, line.Width, line.Height);
-        }
-
-        public void ClearScreen()
-        {
-            this.ssdDisplay.ClearScreen();
             this.ssdDisplay.Display();
-        }
-
-        public void HorizontalLine(Line line, bool draw = true)
-        {
-            this.ssdDisplay.DrawHorizontalLine(line.X, line.Y, line.Length, draw);
         }
 
         public void VerticalLine(Line line, bool draw = true)
@@ -129,9 +141,6 @@ namespace Hoff.Hardware.Displays.Ssd13
             this.ssdDisplay.DrawString(x, y, text, fontSize, center);
         }
 
-        public void UpdateDisplay()
-        {
-            this.ssdDisplay.Display();
-        }
+        #endregion Public Methods
     }
 }

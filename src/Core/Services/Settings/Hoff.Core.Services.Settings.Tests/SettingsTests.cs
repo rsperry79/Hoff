@@ -8,8 +8,9 @@ namespace Hoff.Core.Services.Settings.Tests
     [TestClass]
     public class SettingsTests
     {
-        [TestMethod]
+        #region Public Methods
 
+        [TestMethod]
         public void GetSettingsTest()
         {
             // Arrange
@@ -32,5 +33,7 @@ namespace Hoff.Core.Services.Settings.Tests
             // Assert
             Assert.IsTrue(result);
         }
+
+        #endregion Public Methods
     }
 }

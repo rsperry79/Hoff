@@ -1,6 +1,4 @@
-﻿
-
-using Hoff.Core.Common.Interfaces;
+﻿using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Services;
@@ -20,44 +18,16 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
 {
     public static class SetupHelper
     {
-        private static IDS3231Rtc sensor;
-        public static ServiceProvider Services;
+        #region Fields
+
         public static DebugLogger Logger;
+        public static ServiceProvider Services;
 
-        public static ServiceProvider ConfigureServices()
-        {
-            ServiceProvider services = new ServiceCollection()
-             .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-             .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
-             .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
-             .AddSingleton(typeof(IDS3231Rtc), typeof(DS3231Rtc))
-             .AddSingleton(typeof(II2cBussControllerService), typeof(I2cBussControllerService))
-             .BuildServiceProvider();
+        private static IDS3231Rtc sensor;
 
-            return services;
-        }
+        #endregion Fields
 
-        public static IDS3231Rtc Setup()
-        {
-
-            if (sensor is null)
-            {
-                BaseSetup();
-
-                try
-                {
-                    sensor = (IDS3231Rtc)Services.GetRequiredService(typeof(IDS3231Rtc));
-                    _ = sensor.DefaultInit();
-                }
-                catch (System.Exception ex)
-                {
-                    Logger.LogError(ex.StackTrace);
-                    throw;
-                }
-            }
-
-            return sensor;
-        }
+        #region Public Methods
 
         public static void BaseSetup()
         {
@@ -73,7 +43,19 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
                 Logger.LogError(ex.StackTrace);
                 throw;
             }
+        }
 
+        public static ServiceProvider ConfigureServices()
+        {
+            ServiceProvider services = new ServiceCollection()
+             .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
+             .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
+             .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
+             .AddSingleton(typeof(IDS3231Rtc), typeof(DS3231Rtc))
+             .AddSingleton(typeof(II2cBussControllerService), typeof(I2cBussControllerService))
+             .BuildServiceProvider();
+
+            return services;
         }
 
         public static void LoadEsp32I2c()
@@ -99,5 +81,28 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
             LoggerCore loggerCore = new LoggerCore(); // (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
             return loggerCore.GetDebugLogger(loggerName, minLogLevel);
         }
+
+        public static IDS3231Rtc Setup()
+        {
+            if (sensor is null)
+            {
+                BaseSetup();
+
+                try
+                {
+                    sensor = (IDS3231Rtc)Services.GetRequiredService(typeof(IDS3231Rtc));
+                    _ = sensor.DefaultInit();
+                }
+                catch (System.Exception ex)
+                {
+                    Logger.LogError(ex.StackTrace);
+                    throw;
+                }
+            }
+
+            return sensor;
+        }
+
+        #endregion Public Methods
     }
 }

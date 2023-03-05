@@ -25,9 +25,28 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
     [TestClass]
     public class TempDisplayTests
     {
+        #region Fields
+
         public static Display Display;
-        public static Bme280Sensor Sensor;
         public static DebugLogger Logger;
+        public static Bme280Sensor Sensor;
+
+        #endregion Fields
+
+        #region Public Methods
+
+        public ServiceProvider ConfigureServices()
+        {
+            return new ServiceCollection()
+                .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
+                .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
+                .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
+                .AddSingleton(typeof(II2cBussControllerService), typeof(I2cBussControllerService))
+                .AddSingleton(typeof(ISsd13), typeof(Display))
+                .AddSingleton(typeof(IBme280Sensor), typeof(Bme280Sensor))
+                .BuildServiceProvider();
+        }
+
         [TestMethod]
         public void TempDisplayTest()
         {
@@ -68,6 +87,10 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
             }
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         private void Sensor_TemperatureSensorChanged(object sender, ITemperatureChangedEvent tempatureChangedEvent)
         {
             Logger.LogDebug("Changed Event");
@@ -75,16 +98,6 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
             Display.UpdateDisplay();
         }
 
-        public ServiceProvider ConfigureServices()
-        {
-            return new ServiceCollection()
-                .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-                .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
-                .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
-                .AddSingleton(typeof(II2cBussControllerService), typeof(I2cBussControllerService))
-                .AddSingleton(typeof(ISsd13), typeof(Display))
-                .AddSingleton(typeof(IBme280Sensor), typeof(Bme280Sensor))
-                .BuildServiceProvider();
-        }
+        #endregion Private Methods
     }
 }
