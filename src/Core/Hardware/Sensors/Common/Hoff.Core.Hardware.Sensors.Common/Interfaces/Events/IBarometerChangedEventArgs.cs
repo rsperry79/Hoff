@@ -1,6 +1,6 @@
 ﻿using UnitsNet;
 
-namespace Hoff.Core.Hardware.Common.Interfaces.Events
+namespace Hoff.Hardware.Common.Senors.Interfaces.Events
 {
     public interface IBarometerChangedEventArgs
     {

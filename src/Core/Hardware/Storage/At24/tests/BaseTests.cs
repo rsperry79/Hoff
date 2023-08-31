@@ -11,7 +11,9 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
         #region Public Methods
 
         [TestMethod]
-        public void GetPageCountTest()
+
+
+       public void GetPageCountTest()
         {
             // Arrange
             IEeprom at24c256Eeprom = SetupHelper.Setup();

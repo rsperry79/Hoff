@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading;
 
-using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Senors.Interfaces.Base;
 
 using Microsoft.Extensions.Logging;
 
-using static Hoff.Hardware.Common.Interfaces.Base.ISensorBase;
+using static Hoff.Hardware.Common.Senors.Interfaces.Base.ISensorBase;
 
-namespace Hoff.Core.Hardware.Common.Abstract
+namespace Hoff.Core.Hardware.Senors.Common.Abstract
 {
     /// <summary>
     /// This abstract class contains implementation, that is common to

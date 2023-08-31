@@ -2,12 +2,12 @@
 
 using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Config;
-using Hoff.Core.Hardware.Common.Interfaces.Events;
-using Hoff.Core.Hardware.Common.Interfaces.Services;
+ using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Hardware.Sensors.BmXX;
 using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
 using Hoff.Core.Services.Logging;
+using Hoff.Hardware.Common.Senors.Interfaces.Events;
 using Hoff.Hardware.Displays.Ssd13;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32;

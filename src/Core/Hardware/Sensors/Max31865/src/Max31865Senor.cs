@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Device.Spi;
 
-using Hoff.Core.Hardware.Common.Abstract;
 using Hoff.Core.Hardware.Common.Helpers;
-using Hoff.Core.Hardware.Common.Interfaces.Events;
-using Hoff.Core.Hardware.Common.Models;
+using Hoff.Core.Hardware.Senors.Common.Abstract;
 using Hoff.Core.Hardware.Sensors.Max31865Sensor.Interfaces;
-using Hoff.Hardware.Common.Interfaces.Base;
-using Hoff.Hardware.Common.Interfaces.Sensors;
+using Hoff.Hardware.Common.Senors.Interfaces;
+using Hoff.Hardware.Common.Senors.Interfaces.Base;
+using Hoff.Hardware.Common.Senors.Interfaces.Events;
+using Hoff.Hardware.Common.Senors.Models;
 
 using Iot.Device.Max31865;
 

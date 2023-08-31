@@ -1,4 +1,4 @@
-﻿namespace Hoff.Hardware.Common.Interfaces.Base
+﻿namespace Hoff.Hardware.Common.Senors.Interfaces.Base
 {
     public interface ISensorBase
     {

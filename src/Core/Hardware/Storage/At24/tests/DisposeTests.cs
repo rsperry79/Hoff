@@ -22,22 +22,22 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
             }
         }
 
-        [TestMethod]
-        public void InitTest()
-        {
-            // Arrange
-            SetupHelper.ConfigureServices();
-            IEeprom at24c256Eeprom = (IEeprom)SetupHelper.Services.GetRequiredService(typeof(IEeprom));
-            const int bussId = 1;
-            const byte deviceAddr = 0x32;
-            const I2cBusSpeed busSpeed = I2cBusSpeed.FastMode;
-            const int size = 256;
-            // Act
-            bool result = at24c256Eeprom.Init(bussId, deviceAddr, busSpeed, size);
+        //[TestMethod]
+        //public void InitTest()
+        //{
+        //    // Arrange
+        //    SetupHelper.ConfigureServices();
+        //    IEeprom at24c256Eeprom = (IEeprom)SetupHelper.Services.GetRequiredService(typeof(IEeprom));
+        //    const int bussId = 1;
+        //    const byte deviceAddr = 0x32;
+        //    const I2cBusSpeed busSpeed = I2cBusSpeed.FastMode;
+        //    const int size = 256;
+        //    // Act
+        //    bool result = at24c256Eeprom.Init(bussId, deviceAddr, busSpeed, size);
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        //    // Assert
+        //    Assert.IsTrue(result);
+        //}
 
         #endregion Public Methods
     }

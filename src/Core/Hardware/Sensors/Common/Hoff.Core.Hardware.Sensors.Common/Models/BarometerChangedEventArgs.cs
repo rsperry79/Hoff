@@ -1,8 +1,8 @@
-﻿using Hoff.Core.Hardware.Common.Interfaces.Events;
+﻿using Hoff.Hardware.Common.Senors.Interfaces.Events;
 
 using UnitsNet;
 
-namespace Hoff.Core.Hardware.Common.Models
+namespace Hoff.Hardware.Common.Senors.Models
 {
     public class BarometerChangedEventArgs : IBarometerChangedEventArgs
     {

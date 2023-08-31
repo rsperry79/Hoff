@@ -1,12 +1,12 @@
 ﻿using System;
 
-using Hoff.Core.Hardware.Common.Interfaces.Events;
-using Hoff.Hardware.Common.Interfaces.Base;
+using Hoff.Hardware.Common.Senors.Interfaces.Base;
+using Hoff.Hardware.Common.Senors.Interfaces.Events;
 
 using UnitsNet;
 
-namespace Hoff.Hardware.Common.Interfaces.Sensors
-{
+namespace Hoff.Hardware.Common.Senors.Interfaces
+{ 
     public interface IBarometer : ISensorBase, IDisposable
     {
         #region Delegates

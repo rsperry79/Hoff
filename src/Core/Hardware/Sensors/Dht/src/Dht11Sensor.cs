@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Hoff.Core.Hardware.Common.Abstract;
 using Hoff.Core.Hardware.Common.Helpers;
-using Hoff.Core.Hardware.Common.Interfaces.Events;
-using Hoff.Core.Hardware.Common.Interfaces.Sensors;
-using Hoff.Core.Hardware.Common.Models;
+using Hoff.Core.Hardware.Senors.Common.Abstract;
 using Hoff.Core.Hardware.Sensors.Dht.Interfaces;
-using Hoff.Hardware.Common.Interfaces.Base;
-using Hoff.Hardware.Common.Interfaces.Sensors;
+using Hoff.Hardware.Common.Senors.Interfaces;
+using Hoff.Hardware.Common.Senors.Interfaces.Base;
+using Hoff.Hardware.Common.Senors.Interfaces.Events;
+using Hoff.Hardware.Common.Senors.Models;
 
 using Iot.Device.DHTxx;
 
@@ -20,7 +19,7 @@ using UnitsNet;
 
 namespace Hoff.Core.Hardware.Sensors.Dht
 {
-    public class Dht11Sensor : SensorBase, IDht11Sensor, IHumidityTemperatureSensor, ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
+    public class Dht11Sensor : SensorBase, IDht11Sensor, ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Fields
 

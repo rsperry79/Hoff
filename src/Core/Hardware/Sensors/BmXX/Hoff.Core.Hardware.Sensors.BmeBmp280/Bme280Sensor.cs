@@ -2,15 +2,15 @@
 using System.Device.I2c;
 using System.Threading;
 
-using Hoff.Core.Hardware.Common.Abstract;
 using Hoff.Core.Hardware.Common.Helpers;
-using Hoff.Core.Hardware.Common.Interfaces.Events;
-using Hoff.Core.Hardware.Common.Interfaces.Sensors;
+
 using Hoff.Core.Hardware.Common.Interfaces.Services;
-using Hoff.Core.Hardware.Common.Models;
+using Hoff.Core.Hardware.Senors.Common.Abstract;
 using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
-using Hoff.Hardware.Common.Interfaces.Base;
-using Hoff.Hardware.Common.Interfaces.Sensors;
+using Hoff.Hardware.Common.Senors.Interfaces;
+using Hoff.Hardware.Common.Senors.Interfaces.Base;
+using Hoff.Hardware.Common.Senors.Interfaces.Events;
+using Hoff.Hardware.Common.Senors.Models;
 
 using Iot.Device.Bmxx80;
 using Iot.Device.Bmxx80.FilteringMode;
@@ -24,7 +24,7 @@ using UnitsNet;
 
 namespace Hoff.Core.Hardware.Sensors.BmXX
 {
-    public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, IHumidityTemperatureSensor, ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
+    public class Bme280Sensor : SensorBase, IBme280Sensor, IBarometer, IAltimeter, ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Fields
 

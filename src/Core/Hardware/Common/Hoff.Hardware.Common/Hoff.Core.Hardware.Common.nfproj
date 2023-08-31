@@ -18,30 +18,15 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="Abstract\SensorBase.cs" />
     <Compile Include="Helpers\Calibration.cs" />
     <Compile Include="Helpers\EepromExtentionHelpers.cs" />
     <Compile Include="Helpers\NumberExtentionMethods.cs" />
     <Compile Include="Interfaces\Config\IPinConfig.cs" />
     <Compile Include="Interfaces\Displays\IDisplay.cs" />
-    <Compile Include="Interfaces\Events\IAltimeterChangedEventArgs.cs" />
-    <Compile Include="Interfaces\Events\IBarometerChangedEventArgs.cs" />
-    <Compile Include="Interfaces\Events\IHumidityChangedEventArgs.cs" />
-    <Compile Include="Interfaces\Events\ITemperatureChangedEvent.cs" />
     <Compile Include="Interfaces\Rtc\IRtc.cs" />
     <Compile Include="Interfaces\Rtc\IRtcExtended.cs" />
-    <Compile Include="Interfaces\Sensors\IBarometer.cs" />
-    <Compile Include="Interfaces\Sensors\IHumiditySensor.cs" />
-    <Compile Include="Interfaces\Base\ISensorBase.cs" />
-    <Compile Include="Interfaces\Sensors\IAltimeter.cs" />
-    <Compile Include="Interfaces\Sensors\ITemperatureSensor.cs" />
-    <Compile Include="Interfaces\Sensors\IHumidityTempatureSensor.cs" />
     <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
     <Compile Include="Interfaces\Storage\IEeprom.cs" />
-    <Compile Include="Models\TemperatureChangedEvent.cs" />
-    <Compile Include="Models\BarometerChangedEventArgs.cs" />
-    <Compile Include="Models\AltimeterChangedEventArgs.cs" />
-    <Compile Include="Models\HumidityChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\I2cBussControllerService.cs" />
     <Compile Include="Structs\DirectLine.cs" />
@@ -61,11 +46,6 @@
     </Reference>
     <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="nanoFramework.Hardware.Esp32, Version=1.6.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.Hardware.Esp32.1.6.1\lib\nanoFramework.Hardware.Esp32.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -89,8 +69,8 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="System.Device.I2c, Version=1.1.9.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.9\lib\System.Device.I2c.dll</HintPath>
+    <Reference Include="System.Device.I2c, Version=1.1.11.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.11\lib\System.Device.I2c.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -104,41 +84,12 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="UnitsNet.Duration, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Duration.5.5.0\lib\UnitsNet.Duration.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="UnitsNet.Temperature">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.31.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
-    <Reference Include="UnitsNet.ElectricResistance, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.5.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.Frequency, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Frequency.5.5.0\lib\UnitsNet.Frequency.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.Length, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Length.5.5.0\lib\UnitsNet.Length.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.Pressure, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Pressure.5.5.0\lib\UnitsNet.Pressure.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.RelativeHumidity, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.5.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.Temperature, Version=5.5.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.5.0\lib\UnitsNet.Temperature.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\Base\" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

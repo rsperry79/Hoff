@@ -1,5 +1,4 @@
-﻿using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Common.Interfaces.Config;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Services.Logging;
@@ -32,7 +31,7 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
         public static ServiceProvider ConfigureServices()
         {
             Services = new ServiceCollection()
-             .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
+             .AddSingleton(typeof(LoggerCore), typeof(LoggerCore))
              .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
              .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
              .AddSingleton(typeof(II2cBussControllerService), typeof(I2cBussControllerService))
