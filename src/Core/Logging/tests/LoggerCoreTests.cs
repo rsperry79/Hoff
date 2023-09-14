@@ -1,26 +1,27 @@
-using Hoff.Core.Logging.Tests.Helpers;
+﻿using System;
+
+using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Services.Logging.Tests.Helpers;
 
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
 
-using System;
-
-namespace Hoff.Core.Logging.Tests
+namespace Hoff.Core.Services.Logging.Tests
 {
     [TestClass]
     public class LoggerCoreTests
     {
+        #region Public Methods
+
         [TestMethod]
         public void CreateNewLoggerTest()
         {
             // Arrange
-            LoggerCore loggerCore = new LoggerCore();
-            string loggerName = "TestLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
+            LoggerCore loggerCore = new();
+            const string loggerName = "TestLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
             // Act
@@ -29,14 +30,44 @@ namespace Hoff.Core.Logging.Tests
         }
 
         [TestMethod]
+        public void GetMemoryStreamLoggerTest()
+        {
+            // Arrange
+            LoggerCore loggerCore = new();
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.GetMemoryStreamLogger();
+            TestComponent testComponent = new();
+
+            // Act
+            Assert.IsNotNull(logger);
+            testComponent.DoSomeTestLogging();
+        }
+
+        [TestMethod]
+        public void GetSerialLoggerTest()
+        {
+            // Arrange
+            LoggerCore loggerCore = new();
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.GetSerialLogger();
+            TestComponent testComponent = new();
+
+            // Act
+            Assert.IsNotNull(logger);
+            testComponent.DoSomeTestLogging();
+        }
+
+        [TestMethod]
         public void LoggerDoesNotThrowTest()
         {
             // Arrange
-            LoggerCore loggerCore = new LoggerCore();
-            string loggerName = "SerialLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
+            ILoggerCore loggerCore = new LoggerCore();
+            const string loggerName = "SerialLogger";
+            const LogLevel minLogLevel = LogLevel.Trace;
             DebugLogger _logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
             // Act
@@ -65,41 +96,6 @@ namespace Hoff.Core.Logging.Tests
             _logger.LogCritical(42, new Exception("Insane problem"), "CRITICAL {0} {1}", new object[] { "param 1", 42 });
         }
 
-        [TestMethod]
-        public void GetSerialLoggerTest()
-        {
-            // Arrange
-            LoggerCore loggerCore = new LoggerCore();
-            string loggerName = "SerialLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
-            loggerCore.GetSerialLogger();
-            TestComponent testComponent = new();
-
-            // Act
-            Assert.IsNotNull(logger);
-            testComponent.DoSomeTestLogging();
-        }
-
-
-        [TestMethod]
-        public void GetMemoryStreamLoggerTest()
-        {
-            // Arrange
-            LoggerCore loggerCore = new LoggerCore();
-            string loggerName = "SerialLogger";
-
-            // Setup
-            LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
-            loggerCore.GetMemoryStreamLogger();
-            TestComponent testComponent = new();
-
-            // Act
-            Assert.IsNotNull(logger);
-            testComponent.DoSomeTestLogging();
-        }
+        #endregion Public Methods
     }
 }

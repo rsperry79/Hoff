@@ -1,25 +1,34 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+
+using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
 
-using System;
-
-namespace Hoff.Core.Logging.Tests.Helpers
+namespace Hoff.Core.Services.Logging.Tests.Helpers
 {
     internal class TestComponent
     {
+        #region Fields
+
         private readonly ILogger _logger;
 
-        public TestComponent()
-        {
-            _logger = this.GetCurrentClassLogger();
-        }
+        #endregion Fields
+
+        #region Public Constructors
+
+        public TestComponent() => this._logger = this.GetCurrentClassLogger();
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public void DoSomeTestLogging()
         {
-            _logger.LogInformation("An informative message");
-            _logger.LogError("An error situation");
-            _logger.LogWarning(new Exception("Something is not supported"), "With exception context");
+            this._logger.LogInformation("An informative message");
+            this._logger.LogError("An error situation");
+            this._logger.LogWarning(new Exception("Something is not supported"), "With exception context");
         }
+
+        #endregion Public Methods
     }
 }

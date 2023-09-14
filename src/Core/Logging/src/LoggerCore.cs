@@ -1,4 +1,6 @@
-﻿using Hoff.Core.Interfaces;
+﻿using System.IO;
+
+using Hoff.Core.Common.Interfaces;
 
 using Microsoft.Extensions.Logging;
 
@@ -7,38 +9,29 @@ using nanoFramework.Logging.Debug;
 using nanoFramework.Logging.Serial;
 using nanoFramework.Logging.Stream;
 
-using System.IO;
-
 #if BUIID_FOR_ESP32
 using nanoFramework.Hardware.Esp32;
 #endif
 
-
-namespace Hoff.Core.Logging
+namespace Hoff.Core.Services.Logging
 {
-   
-
     public class LoggerCore : ILoggerCore
     {
-        private static DebugLogger _logger { get; set; }
-        public LoggerCore()
-        {
+        private static DebugLogger Logger { get; set; }
 
-        }
-
-        public DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel)
+        public DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel = LogLevel.Trace)
         {
-            _logger = new DebugLogger(loggerName)
+            Logger = new DebugLogger(loggerName)
             {
                 MinLogLevel = logLevel
             };
 
             LogDispatcher.LoggerFactory = new DebugLoggerFactory();
 
-            return _logger;
+            return Logger;
         }
 
-        public void GetSerialLogger()
+        public void GetSerialLogger(string port = null)
         {
             try
             {
@@ -55,12 +48,11 @@ namespace Hoff.Core.Logging
                 // open COM2
                 LogDispatcher.LoggerFactory = new SerialLoggerFactory("COM2");
 #else
-                ///////////////////////////////////////////////////////////////////////////////////////////////////
-                // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
-                // open COM6
-                LogDispatcher.LoggerFactory = new SerialLoggerFactory("COM6");
-#endif
 
+                // COM6 in STM32F769IDiscovery board (Tx, Rx pins exposed in Arduino header CN13: TX->D1, RX->D0)
+                port ??= "COM6";
+                LogDispatcher.LoggerFactory = new SerialLoggerFactory(port);
+#endif
             }
             finally
             {
@@ -70,7 +62,7 @@ namespace Hoff.Core.Logging
 
         public void GetMemoryStreamLogger()
         {
-            MemoryStream memoryStream = new MemoryStream();
+            MemoryStream memoryStream = new();
             LogDispatcher.LoggerFactory = new StreamLoggerFactory(memoryStream);
         }
     }
