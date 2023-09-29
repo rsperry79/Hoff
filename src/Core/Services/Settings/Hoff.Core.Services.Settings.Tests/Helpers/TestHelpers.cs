@@ -27,7 +27,7 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
         public static Settings<SettingsTestModel> Settings;
 
         private static IEeprom prom;
-        private static int size = 256;
+        private static readonly int size = 256;
 
         #endregion Fields
 

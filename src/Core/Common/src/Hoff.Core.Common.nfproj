@@ -54,7 +54,7 @@
       <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.31.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.34.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

@@ -48,8 +48,10 @@
     <ProjectReference Include="..\src\Hoff.Core.Hardware.Sensors.Max31865.nfproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Iot.Device.Max31865">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Max31865.1.2.378\lib\Iot.Device.Max31865.dll</HintPath>
+    <Reference Include="Iot.Device.Max31865, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Max31865.1.2.396\lib\Iot.Device.Max31865.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
@@ -96,13 +98,13 @@
       <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="UnitsNet.ElectricResistance">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.31.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.34.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Frequency">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Frequency.5.31.0\lib\UnitsNet.Frequency.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Frequency.5.34.0\lib\UnitsNet.Frequency.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.31.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.34.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

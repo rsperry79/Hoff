@@ -1,0 +1,23 @@
+﻿{
+  "compileOnSave": true,
+
+  "compilerOptions": {
+    "module": "System",
+    "noImplicitAny": false,
+    "noEmitOnError": false,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "outFile": "Resources/js/core.js"
+  },
+  "typeRoots": [
+    "./node_modules/@types"
+  ],
+  "types": [
+    "JQuery",
+    "bootstrap"
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}

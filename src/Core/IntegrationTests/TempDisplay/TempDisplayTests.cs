@@ -2,7 +2,7 @@
 
 using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Config;
- using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Hardware.Sensors.BmXX;
 using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;

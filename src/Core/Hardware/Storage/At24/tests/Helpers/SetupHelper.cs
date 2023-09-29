@@ -22,7 +22,7 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
         public static IEeprom prom;
         public static ServiceProvider Services;
 
-        private static int size = 32;
+        private static readonly int size = 32;
 
         #endregion Fields
 

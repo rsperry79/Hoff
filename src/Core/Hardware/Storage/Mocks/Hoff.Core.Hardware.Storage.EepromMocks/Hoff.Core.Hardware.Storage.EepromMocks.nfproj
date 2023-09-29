@@ -31,7 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Iot.Device.At24cxx">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.At24cxx.1.0.106\lib\Iot.Device.At24cxx.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.At24cxx.1.0.161\lib\Iot.Device.At24cxx.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
