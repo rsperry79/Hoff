@@ -78,7 +78,7 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
 
-            LoggerCore loggerCore = new LoggerCore(); // (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
+            LoggerCore loggerCore = new(); // (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
             return loggerCore.GetDebugLogger(loggerName, minLogLevel);
         }
 

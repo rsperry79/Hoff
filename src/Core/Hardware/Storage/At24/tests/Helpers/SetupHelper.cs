@@ -58,6 +58,7 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
 
                 prom = (IEeprom)ActivatorUtilities.CreateInstance(Services, typeof(IEeprom), new object[] { true, 32 });
             }
+
             return prom;
         }
 

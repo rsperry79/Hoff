@@ -54,9 +54,8 @@ namespace Hoff.Server.ApHelper.Ap
             // Maximum number of simultaneous connections, reserves memory for connections
             wapconf.MaxConnections = 3;
 
-  
             // To set-up Access point with no Authentication
-            wapconf.Authentication = AuthenticationType.Open; 
+            wapconf.Authentication = AuthenticationType.Open;
 
             // Save the configuration so on restart Access point will be running.
             wapconf.SaveConfiguration();

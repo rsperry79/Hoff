@@ -13,7 +13,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
         public const byte DefaultI2cAddress = 80;
         public static bool LoadDefaults = true;
 
-        private static readonly ArrayList mockDevice = new ArrayList();
+        private static readonly ArrayList mockDevice = new();
         private static int currentPosition = 0;
 
         #endregion Fields

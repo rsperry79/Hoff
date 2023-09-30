@@ -16,8 +16,8 @@ namespace Hoff.Server.Core
         private static DhcpServer dhcpserver;
         private static DebugLogger Logger;
 
-        private static readonly IPAddress address = new IPAddress(new byte[] { 192, 168, 4, 1 });
-        private static readonly IPAddress mask = new IPAddress(new byte[] { 255, 255, 255, 0 });
+        private static readonly IPAddress address = new(new byte[] { 192, 168, 4, 1 });
+        private static readonly IPAddress mask = new(new byte[] { 255, 255, 255, 0 });
         private static string url;
 
         public static void Main()
@@ -28,26 +28,21 @@ namespace Hoff.Server.Core
             Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
             url = $"http://{address}";
 
-
             dhcpserver = new DhcpServer
             {
                 CaptivePortalUrl = url
             };
 
             Logger.LogInformation($"CaptivePortalUrl: {url}");
-            dhcpserver.Start(address, mask);
-
-
-
+            _ = dhcpserver.Start(address, mask);
 
             //SoftAp softAp = new SoftAp(Logger);
             //softAp.StartAndWaitForConfig();
 
-
             //The webapp url
             Logger.LogInformation($"http://{IPAddress.GetDefaultLocalAddress()}/");
-
-            Web.Server server = new Web.Server(Logger);
+            _ = new
+            Web.Server(Logger);
 
             Thread.Sleep(Timeout.Infinite);
         }

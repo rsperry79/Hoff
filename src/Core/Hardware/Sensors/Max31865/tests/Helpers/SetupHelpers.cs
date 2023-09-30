@@ -46,7 +46,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers
                 BaseSetup();
 
                 sensor = (IMax31865Senor)Services.GetRequiredService(typeof(IMax31865Senor));
-                sensor.DefaultInit();
+                _ = sensor.DefaultInit();
             }
 
             return sensor;

@@ -12,7 +12,6 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests
 
         [TestMethod]
 
-
         public void GetPageCountTest()
         {
             // Arrange

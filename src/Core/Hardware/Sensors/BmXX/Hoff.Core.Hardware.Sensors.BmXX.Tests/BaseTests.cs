@@ -53,7 +53,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
             uint scale = 2;
 
             // Act
-            bme280Sensor.Init(
+            _ = bme280Sensor.Init(
                 busSelector,
                 deviceAddr,
                 speed,

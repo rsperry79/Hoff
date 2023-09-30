@@ -62,7 +62,6 @@ namespace Hoff.Server.ApHelper
                 this.Logger.LogCritical(ex, ex.Message);
 
             }
-
         }
 
         private void ProcessRequest(HttpListenerContext context)
@@ -73,7 +72,6 @@ namespace Hoff.Server.ApHelper
                 {
                     throw new ArgumentNullException(nameof(context));
                 }
-
 
                 HttpListenerRequest request = context.Request;
                 this.Logger.LogInformation($"reqest methode: {request.HttpMethod}");
@@ -111,6 +109,7 @@ namespace Hoff.Server.ApHelper
                             this.Logger.LogCritical(ex, ex.Message);
                             throw;
                         }
+
                         break;
 
                     case "POST":
@@ -153,6 +152,7 @@ namespace Hoff.Server.ApHelper
                             this.Logger.LogCritical(ex, ex.Message);
                             throw;
                         }
+
                         break;
                 }
 

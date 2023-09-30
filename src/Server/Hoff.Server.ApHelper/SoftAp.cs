@@ -27,8 +27,8 @@ namespace Hoff.Server.ApHelper
         private static DhcpServer dhcpserver;
         private static DebugLogger Logger;
 
-        private static readonly IPAddress address = new IPAddress(new byte[] { 192, 168, 4, 1 });
-        private static readonly IPAddress mask = new IPAddress(new byte[] { 255, 255, 255, 0 });
+        private static readonly IPAddress address = new(new byte[] { 192, 168, 4, 1 });
+        private static readonly IPAddress mask = new(new byte[] { 255, 255, 255, 0 });
 
         public SoftAp(DebugLogger logger)
         {
@@ -48,7 +48,7 @@ namespace Hoff.Server.ApHelper
                     CaptivePortalUrl = url
                 };
                 Logger.LogInformation($"CaptivePortalUrl: {url}");
-                dhcpserver.Start(address, mask);
+                _ = dhcpserver.Start(address, mask);
                 LoadSoftAp();
             }
 
@@ -90,7 +90,7 @@ namespace Hoff.Server.ApHelper
             Logger.LogInformation($"Connected as {IpAdr}");
             // We can even wait for a DateTime now
             Thread.Sleep(100);
-            bool ready = (WifiNetworkHelper.Status == NetworkHelperStatus.NetworkIsReady);
+            bool ready = WifiNetworkHelper.Status == NetworkHelperStatus.NetworkIsReady;
             if (ready)
             {
                 if (DateTime.UtcNow.Year > DateTime.MinValue.Year)
@@ -110,7 +110,6 @@ namespace Hoff.Server.ApHelper
             {
                 return false;
             }
-
         }
 
         private static bool GetConnection()
@@ -151,6 +150,7 @@ namespace Hoff.Server.ApHelper
                 Logger.LogInformation($"Setup Soft AP, Rebooting device");
                 Power.RebootDevice();
             }
+
             server.Start();
             Logger.LogInformation("Running Soft AP, waiting for client to connect");
 

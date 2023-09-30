@@ -53,12 +53,12 @@ namespace Hoff.Core.Hardware.Storage.At24
 
             if (auto)
             {
-                this.DefaultInit(size);
+                _ = this.DefaultInit(size);
             }
             else
             {
                 I2cBusSpeed speed = buss == 1 ? deviceScan.I2C1BusSpeed : deviceScan.I2C2BusSpeed;
-                this.Init(buss, address, speed, size);
+                _ = this.Init(buss, address, speed, size);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Hoff.Core.Hardware.Storage.At24
             {
                 for (byte i = 0; i < this.GetSize(); i++)
                 {
-                    this.WriteByte(i, 0x00);
+                    _ = this.WriteByte(i, 0x00);
                 }
             }
         }
@@ -109,12 +109,7 @@ namespace Hoff.Core.Hardware.Storage.At24
 
         public int GetSize()
         {
-            if (!this.init)
-            {
-                throw new Exception("Not Initialized");
-            }
-
-            return this.eeprom != null ? this.eeprom.Size : 0;
+            return !this.init ? throw new Exception("Not Initialized") : this.eeprom != null ? this.eeprom.Size : 0;
         }
 
         public byte ReadByte(byte address)
@@ -124,14 +119,14 @@ namespace Hoff.Core.Hardware.Storage.At24
 
         public byte[] ReadByteArray(byte address)
         {
-            ArrayList receivedData = new ArrayList();
+            ArrayList receivedData = new();
             bool hasEol = false;
 
             byte receivedCharacter = this.eeprom.ReadByte(address);
 
             if (receivedCharacter != EOL)
             {
-                receivedData.Add(receivedCharacter);
+                _ = receivedData.Add(receivedCharacter);
 
                 do
                 {
@@ -253,10 +248,9 @@ namespace Hoff.Core.Hardware.Storage.At24
 
         private bool DefaultInit(int size)
         {
-            int bussId = 0;
-            byte deviceAddr = 0;
-            I2cBusSpeed speed = I2cBusSpeed.FastMode;
-
+            int bussId;
+            byte deviceAddr;
+            I2cBusSpeed speed;
             if (deviceScan.I2C1.Contains(At24c256.DefaultI2cAddress))
             {
                 bussId = 1;
@@ -301,27 +295,14 @@ namespace Hoff.Core.Hardware.Storage.At24
                 i2CDevice = I2cDevice.Create(new I2cConnectionSettings(bussId, deviceAddr, busSpeed));
                 //this.eeprom = new At24c256(i2CDevice);
 
-                switch (size)
+                this.eeprom = size switch
                 {
-                    case 32:
-                        this.eeprom = new At24c32(i2CDevice);
-                        break;
-
-                    case 64:
-                        this.eeprom = new At24c64(i2CDevice);
-                        break;
-
-                    case 128:
-                        this.eeprom = new At24c128(i2CDevice);
-                        break;
-
-                    case 256:
-                        this.eeprom = new At24c256(i2CDevice);
-                        break;
-
-                    default:
-                        throw new ArgumentException(nameof(size));
-                }
+                    32 => new At24c32(i2CDevice),
+                    64 => new At24c64(i2CDevice),
+                    128 => new At24c128(i2CDevice),
+                    256 => new At24c256(i2CDevice),
+                    _ => throw new ArgumentException(nameof(size)),
+                };
                 this.init = true;
             }
 

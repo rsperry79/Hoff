@@ -38,7 +38,9 @@ namespace Hoff.Server.Web
         {
             core = -30602,
             index = -2501,
+            css_core_min = 7377,
             core_js = 12432,
+            css_core = 17338,
         }
         [System.SerializableAttribute()]
         internal enum BinaryResources : short

@@ -76,14 +76,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".eslintignore" />
+    <None Include="compilerconfig.json.defaults" />
     <None Include="packages.config" />
     <Content Include=".eslintrc.json" />
+    <None Include="compilerconfig.json" />
     <Content Include="package.json" />
+    <Content Include="Resources\css\core.css" />
+    <Content Include="Resources\css\core.min.css" />
     <Content Include="Resources\Html\index.html" />
     <Content Include="Resources\Images\favicon.png" />
     <Content Include="src\ts\Settings.ts" />
     <None Include="Resources\js\core.js" />
     <None Include="Resources\js\core.js.map" />
+    <None Include="src\scss\Core.scss" />
     <None Include="src\ts\index.ts" />
   </ItemGroup>
   <ItemGroup>

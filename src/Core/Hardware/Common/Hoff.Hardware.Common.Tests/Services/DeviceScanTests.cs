@@ -19,14 +19,14 @@ namespace Hoff.Core.Hardware.Common.Tests.Services
         public void I2cScanner()
         {
             ServiceProvider services = DiSetup.ConfigureServices();
-            LoggerCore loggerCore = new LoggerCore();
-            ILogger logger = loggerCore.GetDebugLogger("TestLogger", LogLevel.Trace);
+            LoggerCore loggerCore = new();
+            _ = loggerCore.GetDebugLogger("TestLogger", LogLevel.Trace);
 
             IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetI2C1Pins();
             espConfig.SetI2C2Pins();
 
-            I2cBussControllerService scanner = new I2cBussControllerService();
+            I2cBussControllerService scanner = new();
             Assert.IsTrue(scanner.I2C1.Count > 0);
             Assert.IsTrue(scanner.I2C2.Count == 0);
         }

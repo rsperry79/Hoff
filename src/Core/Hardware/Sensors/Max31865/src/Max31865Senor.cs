@@ -127,7 +127,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         {
             if (!this.init)
             {
-                if (mode != SpiMode.Mode1 || mode != SpiMode.Mode3)
+                if (mode is not SpiMode.Mode1 or not SpiMode.Mode3)
                 {
                     throw new ArgumentException(nameof(SpiMode));
                 }

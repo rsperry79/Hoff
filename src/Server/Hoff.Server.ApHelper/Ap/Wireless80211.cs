@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Threading;
 
 using nanoFramework.Networking;
@@ -33,7 +32,7 @@ namespace Hoff.Server.ApHelper.Ap
         public static bool Configure(string ssid, string password)
         {
             // And we have to force connect once here even for a short time
-            bool success = WifiNetworkHelper.ConnectDhcp(ssid, password, token: new CancellationTokenSource(10000).Token);
+            _ = WifiNetworkHelper.ConnectDhcp(ssid, password, token: new CancellationTokenSource(10000).Token);
             Wireless80211Configuration wconf = GetConfiguration();
             wconf.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect | Wireless80211Configuration.ConfigurationOptions.Enable;
             wconf.SaveConfiguration();

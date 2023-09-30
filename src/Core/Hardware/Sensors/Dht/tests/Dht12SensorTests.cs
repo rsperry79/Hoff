@@ -87,7 +87,7 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests
             nanoFramework.Logging.Debug.DebugLogger logger = loggerCore.GetDebugLogger("TestLogger", LogLevel.Trace);
 
             // Arrange
-            Dht11 Dht = new Dht11(6);
+            Dht11 Dht = new(6);
 
             int index = 0;
             // Act

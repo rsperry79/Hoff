@@ -12,7 +12,6 @@ using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.DependencyInjection;
-using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
 
 namespace Hoff.Hardware.Displays.Ssd13.Tests
@@ -38,14 +37,14 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
                 const string loggerName = "TestLogger";
                 const LogLevel minLogLevel = LogLevel.Trace;
                 ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
-                DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+                _ = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
                 IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
                 espConfig.SetI2C1Pins();
 
                 //// Arrange
                 display = (ISsd13)services.GetRequiredService(typeof(ISsd13));
-                display.DefaultInit();
+                _ = display.DefaultInit();
             }
 
             return display;

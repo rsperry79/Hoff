@@ -66,7 +66,6 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
                 espConfig.SetI2C2Pins();
                 prom = (IEeprom)Services.GetRequiredService(typeof(IEeprom));
 
-
                 Settings = (Settings<SettingsTestModel>)Services.GetRequiredService(typeof(Settings<SettingsTestModel>));
             }
 

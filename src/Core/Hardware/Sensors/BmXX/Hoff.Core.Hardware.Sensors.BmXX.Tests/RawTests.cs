@@ -30,7 +30,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
             try
             {
                 I2cDevice i2cDevice = I2cDevice.Create(new I2cConnectionSettings(busId, 0x76, I2cBusSpeed.FastMode));
-                Bme280 i2CBmp280 = new Bme280(i2cDevice)
+                Bme280 i2CBmp280 = new(i2cDevice)
                 {
                     // set higher sampling
                     TemperatureSampling = Sampling.UltraHighResolution,
@@ -52,7 +52,7 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests
                     }
                     while (!readResult.TemperatureIsValid);
 
-                    i2CBmp280.TryReadAltitude(out UnitsNet.Length altValue);
+                    _ = i2CBmp280.TryReadAltitude(out UnitsNet.Length altValue);
 
                     // Print out the measured data
                     logger.LogDebug($"Humidity: {readResult.Humidity.Percent}%");

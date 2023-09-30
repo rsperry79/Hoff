@@ -53,7 +53,7 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
             ServiceProvider services = this.ConfigureServices();
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            LoggerCore loggerCore = new LoggerCore();
+            LoggerCore loggerCore = new();
             Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
             try
             {
@@ -61,7 +61,7 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests.TempDisplay
 
                 espConfig.SetI2C1Pins();
                 espConfig.SetI2C2Pins();
-                I2cBussControllerService scanner = new I2cBussControllerService();
+                I2cBussControllerService scanner = new();
 
                 Display = new Display(scanner);
                 _ = Display.DefaultInit();

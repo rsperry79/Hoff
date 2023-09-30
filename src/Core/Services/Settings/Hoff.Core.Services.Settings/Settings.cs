@@ -75,7 +75,7 @@ namespace Hoff.Core.Services.Settings
             {
                 if (disposing)
                 {
-                    this.WriteSettings();
+                    _ = this.WriteSettings();
                 }
 
                 this.disposedValue = true;

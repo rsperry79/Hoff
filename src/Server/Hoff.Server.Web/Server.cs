@@ -31,11 +31,10 @@ namespace Hoff.Server.Web
             socketServer.MessageReceived += WsServer_MessageReceived;
             socketServer.Start();
 
-
             //WebServer
             webServer = new WebServer(80, HttpProtocol.Http);
             webServer.CommandReceived += WebServer_CommandReceived;
-            webServer.Start();
+            _ = webServer.Start();
 
         }
 
@@ -58,7 +57,7 @@ namespace Hoff.Server.Web
                 if (request.Headers["Upgrade"] == "websocket")
                 {
                     //Upgrade to a WebSocket
-                    socketServer.AddWebSocket(e.Context);
+                    _ = socketServer.AddWebSocket(e.Context);
                 }
                 else
                 {
@@ -85,6 +84,19 @@ namespace Hoff.Server.Web
             {
                 response.ContentType = "application/javascript";
                 string responseString = Resources.GetString(Resources.StringResources.core_js);
+                OutPutResponse(response, responseString);
+            }
+
+            else if (url[0] == "/core.css")
+            {
+                response.ContentType = "text/css";
+                string responseString = Resources.GetString(Resources.StringResources.css_core);
+                OutPutResponse(response, responseString);
+            }
+            else if (url[0] == "/core.css.map")
+            {
+                response.ContentType = "text/css";
+                string responseString = Resources.GetString(Resources.StringResources.css_core_min);
                 OutPutResponse(response, responseString);
             }
             else
