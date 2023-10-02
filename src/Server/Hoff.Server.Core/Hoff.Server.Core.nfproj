@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\Hoff.Server.ApHelper\Hoff.Server.ApHelper.nfproj" />
     <ProjectReference Include="..\Hoff.Server.Web\Hoff.Server.Web.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

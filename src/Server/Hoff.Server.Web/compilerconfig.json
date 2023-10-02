@@ -1,6 +1,6 @@
 ﻿[
   {
-    "outputFile": "Resources/css/core.css",
+    "outputFile": "Resources/css/Core.css",
     "inputFile": "src/scss/Core.scss"
   }
 ]

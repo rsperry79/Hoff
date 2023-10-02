@@ -1,10 +1,12 @@
-﻿
-using System;
+﻿using System;
+using System.Device.Wifi;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 
 using Hoff.Server.ApHelper.Ap;
+using Hoff.Server.Common.Interfaces;
+using Hoff.Server.Common.Models;
 
 using Iot.Device.DhcpServer;
 
@@ -16,70 +18,118 @@ using nanoFramework.Runtime.Native;
 
 namespace Hoff.Server.ApHelper
 {
-    public class SoftAp
+    public class ApConfig : IApConfig
     {
+        public static WifiSettings WifiSettings;
 
         // Connected Station count
         private static int connectedCount = 0;
         private static string url;
+        private static bool adHocServer;
+        private static bool isConfigured;
 
-        private static SoftApWebServer server;
         private static DhcpServer dhcpserver;
         private static DebugLogger Logger;
 
-        private static readonly IPAddress address = new(new byte[] { 192, 168, 4, 1 });
-        private static readonly IPAddress mask = new(new byte[] { 255, 255, 255, 0 });
+        public static IPAddress address = new(new byte[] { 192, 168, 4, 1 });
+        public static IPAddress mask = new(new byte[] { 255, 255, 255, 0 });
 
-        public SoftAp(DebugLogger logger)
+        private static Wireless80211Configuration Config;
+        private static WifiNetworkReport networkReport;
+
+        public ApConfig(DebugLogger logger, IPAddress serverIp = null, IPAddress serverMask = null, bool adHoc = false)
         {
             Logger = logger;
-            server = new SoftApWebServer(Logger);
+
+            if (serverIp != null)
+            {
+                address = serverIp;
+            }
+
+            if (serverMask != null)
+            {
+                mask = serverMask;
+            }
+
+            adHocServer = adHoc;
 
             url = $"http://{address}";
         }
 
         public bool StartAndWaitForConfig()
         {
+
+
             if (!Wireless80211.IsEnabled())
             {
                 Logger.LogInformation($"Wireless80211.IsEnabled: {Wireless80211.IsEnabled()} ");
+
+
+
                 dhcpserver = new DhcpServer
                 {
                     CaptivePortalUrl = url
                 };
+
                 Logger.LogInformation($"CaptivePortalUrl: {url}");
                 _ = dhcpserver.Start(address, mask);
-                LoadSoftAp();
             }
 
-            bool result = CheckAndWaitForConnection();
+            NetworkChange.NetworkAPStationChanged += NetworkChange_NetworkAPStationChanged;
+            bool result = CheckForConnection();
 
-            Logger.LogInformation("exiting wait loop.");
             return result;
         }
 
-        ~SoftAp()
+        public static void SetConfiguration(string ssid, string password)
         {
-            dhcpserver.Dispose();
+            Wireless80211Configuration current = Wireless80211.GetConfiguration();
+
+            if (current.Ssid != ssid)
+            {
+                if (current.Password != password && password != null)
+                {
+                    Wireless80211.Configure(ssid, password);
+                    dhcpserver.Stop();
+                    WirelessAP.Disable();
+                    Thread.Sleep(200);
+                    Power.RebootDevice();
+                }
+            }
         }
 
-        private static bool CheckAndWaitForConnection()
+        public static void GetAvailableAPs()
+        {
+            WifiAdapter wifi = WifiAdapter.FindAllAdapters()[0];
+            wifi.ScanAsync();
+
+            // Set up the AvailableNetworksChanged event to pick up when scan has completed
+            wifi.AvailableNetworksChanged += Wifi_AvailableNetworksChanged;
+
+            // give it some time to perform the initial "connect"
+            // trying to scan while the device is still in the connect procedure will throw an exception
+            Thread.Sleep(TimeSpan.FromSeconds(10));
+        }
+
+        ~ApConfig()
+        {
+            dhcpserver?.Dispose();
+        }
+
+        private static bool CheckForConnection()
         {
             bool wasSetup = false;
-            do
-            {
-                bool enabled = Wireless80211.IsEnabled();
-                if (enabled)
-                {
-                    bool success = GetConnection();
-                    if (success)
-                    {
-                        wasSetup = ValidateConnection();
-                    }
-                }
 
-                Thread.Sleep(1000);
-            } while (!wasSetup);
+            bool enabled = Wireless80211.IsEnabled();
+            if (enabled)
+            {
+                bool success = GetConnection();
+                if (success)
+                {
+                    wasSetup = ValidateConnection();
+                }
+            }
+
 
             return wasSetup;
         }
@@ -117,10 +167,11 @@ namespace Hoff.Server.ApHelper
             try
             {
                 Logger.LogInformation($"Running in normal mode, connecting to Access point");
-                Wireless80211Configuration conf = Wireless80211.GetConfiguration();
+                Config = GetConf();
+                GetAvailableAPs();
                 bool success;
                 // For devices like STM32, the password can't be read
-                if (string.IsNullOrEmpty(conf.Password))
+                if (string.IsNullOrEmpty(Config.Password))
                 {
                     // In this case, we will let the automatic connection happen
                     success = WifiNetworkHelper.Reconnect(requiresDateTime: true, token: new CancellationTokenSource(60000).Token);
@@ -129,7 +180,7 @@ namespace Hoff.Server.ApHelper
                 {
                     // If we have access to the password, we will force the reconnection
                     // This is mainly for ESP32 which will connect normally like that.
-                    success = WifiNetworkHelper.ConnectDhcp(conf.Ssid, conf.Password, requiresDateTime: true, token: new CancellationTokenSource(60000).Token);
+                    success = WifiNetworkHelper.ConnectDhcp(Config.Ssid, Config.Password, requiresDateTime: true, token: new CancellationTokenSource(60000).Token);
                 }
 
                 return success;
@@ -141,21 +192,20 @@ namespace Hoff.Server.ApHelper
             }
         }
 
-        private static void LoadSoftAp()
+        private static Wireless80211Configuration GetConf()
         {
-            Wireless80211.Disable();
-            if (WirelessAP.Setup() == false)
+            Wireless80211Configuration conf = Wireless80211.GetConfiguration();
+
+            if (conf.Ssid != string.Empty)
             {
-                // Reboot device to Activate Access Point on restart
-                Logger.LogInformation($"Setup Soft AP, Rebooting device");
-                Power.RebootDevice();
+                isConfigured = true;
             }
 
-            server.Start();
-            Logger.LogInformation("Running Soft AP, waiting for client to connect");
+            WifiSettings = new WifiSettings(adHocServer, isConfigured, conf.Ssid, conf.Password);
 
-            NetworkChange.NetworkAPStationChanged += NetworkChange_NetworkAPStationChanged;
+            return conf;
         }
+
 
         /// <summary>
         /// Event handler for Stations connecting or Disconnecting
@@ -176,15 +226,34 @@ namespace Hoff.Server.ApHelper
                 Logger.LogInformation($"Station mac {macString} RSSI:{station.Rssi} PhyMode:{station.PhyModes} ");
 
                 connectedCount++;
+            }
+        }
 
-                // Start web server when it connects otherwise the bind to network will fail as
-                // no connected network. Start web server when first station connects
-                if (connectedCount == 1)
+
+        /// <summary>
+        /// Event handler for when Wifi scan completes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void Wifi_AvailableNetworksChanged(WifiAdapter sender, object e)
+        {
+            Logger.LogInformation("Wifi_AvailableNetworksChanged - get report");
+
+            // Get Report of all scanned Wifi networks
+            networkReport = sender.NetworkReport;
+
+            // Enumerate though networks looking for our network
+            foreach (WifiAvailableNetwork net in networkReport.AvailableNetworks)
+            {
+                if (WifiSettings.APsAvailable != null && !WifiSettings.APsAvailable.Contains(net))
                 {
-                    // Wait for Station to be fully connected before starting web server
-                    // other you will get a Network error
-                    Thread.Sleep(1000);
+                    WifiSettings.APsAvailable.Add(net);
                 }
+
+                // Show all networks found
+                Logger.LogInformation($"Net SSID :{net.Ssid},  BSSID : {net.Bsid},  RSSI : {net.NetworkRssiInDecibelMilliwatts},  Signal : {net.SignalBars}");
+
+
             }
         }
     }

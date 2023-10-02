@@ -4,6 +4,11 @@ using System.Net.WebSockets.Server;
 using System.Net.WebSockets.WebSocketFrame;
 using System.Text;
 
+using Hoff.Server.ApHelper;
+using Hoff.Server.Common.Helpers;
+using Hoff.Server.Common.Models;
+using Hoff.Server.Web.Helpers;
+
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging.Debug;
@@ -25,7 +30,7 @@ namespace Hoff.Server.Web
             socketServer = new WebSocketServer(new WebSocketServerOptions()
             {
                 MaxClients = 10,
-                IsStandAlone = false
+                IsStandAlone = false,
             });
 
             socketServer.MessageReceived += WsServer_MessageReceived;
@@ -63,10 +68,19 @@ namespace Hoff.Server.Web
                 {
                     //Return the WebApp
                     response.ContentType = "text/html";
-                    string responseString = Resources.GetString(Resources.StringResources.index);
+                    string responseString = Resources.StringResources.template.Inject(Resources.GetString(Resources.StringResources.main));
+
                     OutPutResponse(response, responseString);
                 }
             }
+            else if (url[0] == "/settings")
+            {
+                //Return the settings page
+                response.ContentType = "text/html";
+                string responseString = Resources.StringResources.template.Inject(Resources.GetString(Resources.StringResources.settings));
+                OutPutResponse(response, responseString);
+            }
+
             else if (url[0] == "/favicon.ico")
             {
                 response.ContentType = "image/png";
@@ -74,19 +88,19 @@ namespace Hoff.Server.Web
                 OutPutByteResponse(response, responseBytes);
             }
 
-            else if (url[0] == "/core.js")
+            else if (url[0] == "/index.js")
             {
                 response.ContentType = "application/javascript";
-                string responseString = Resources.GetString(Resources.StringResources.core);
-                OutPutResponse(response, responseString);
-            }
-            else if (url[0] == "/core.js.map")
-            {
-                response.ContentType = "application/javascript";
-                string responseString = Resources.GetString(Resources.StringResources.core_js);
+                string responseString = Resources.GetString(Resources.StringResources.index_jsx);
                 OutPutResponse(response, responseString);
             }
 
+            else if (url[0] == "/sockets.js")
+            {
+                response.ContentType = "application/javascript";
+                string responseString = Resources.GetString(Resources.StringResources.sockets);
+                OutPutResponse(response, responseString);
+            }
             else if (url[0] == "/core.css")
             {
                 response.ContentType = "text/css";
@@ -107,6 +121,8 @@ namespace Hoff.Server.Web
             }
         }
 
+
+
         //WebSocket Server Receive message
         private static void WsServer_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
@@ -114,6 +130,49 @@ namespace Hoff.Server.Web
             if (e.Frame.MessageType == WebSocketMessageType.Binary && e.Frame.MessageLength == 3)
             {
                 wsServer.BroadCast(e.Frame.Buffer);
+            }
+            else if (e.Frame.MessageType == WebSocketMessageType.Text)
+            {
+                string raw = Encoding.UTF8.GetString(e.Frame.Buffer, 0, e.Frame.MessageLength);
+
+                bool matched = GetByCommand(raw, wsServer, e.Frame.EndPoint);
+
+                if (!matched)
+                {
+                    GetByEncoded(raw, wsServer);
+                }
+            }
+        }
+
+        private static bool GetByCommand(string raw, WebSocketServer ws, IPEndPoint endPoint)
+        {
+            bool matched = false;
+
+            if (raw == "GetWifiSettings")
+            {
+                WifiSettings settings = ApConfig.WifiSettings;
+                Logger.LogInformation(settings.IsConfigured.ToString());
+
+                WsBaseMessage baseMessage = settings.ToWsEncodedBaseMessage();
+                Logger.LogInformation($"{baseMessage.MessageType}");
+                Logger.LogInformation($"{baseMessage.Message}");
+                ws.SendText(endPoint.ToString(), baseMessage.ToEncodedMessage());
+                matched = true;
+
+                Logger.LogInformation(baseMessage.ToString());
+            }
+
+            return matched;
+        }
+
+        private static void GetByEncoded(string raw, WebSocketServer ws)
+        {
+            WsMessage EncodedMessage = new WsMessage(raw);
+            if (EncodedMessage.GetType() == typeof(WifiSettings))
+            {
+                WifiSettings settings = (WifiSettings)EncodedMessage.Decode();
+                ApConfig.SetConfiguration(settings.SSID, settings.Password);
+
             }
         }
 

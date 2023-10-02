@@ -1,23 +1,29 @@
 ﻿{
   "compileOnSave": true,
-
   "compilerOptions": {
-    "module": "System",
-    "noImplicitAny": false,
+    "rootDir": "src/ts/",
+    "lib": [ "DOM", "ES2015" ],
+    "module": "ES2015",
+    "moduleResolution": "Node",
     "noEmitOnError": false,
-    "removeComments": false,
-    "sourceMap": true,
-    "target": "es5",
-    "outFile": "Resources/js/core.js"
+    "noImplicitAny": false,
+    "outDir": "Resources/js/",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "target": "ES2015",
+    "jsx": "react",
+    "skipLibCheck": true,
+    "esModuleInterop": true
   },
-  "typeRoots": [
-    "./node_modules/@types"
-  ],
-  "types": [
-    "JQuery",
-    "bootstrap"
-  ],
+
   "include": [
-    "src/**/*"
+    "**/*",
+    "*"
+  ],
+  "inlineSources": true,
+  "typeRoots": [
+    "node_modules/@types/**/*"
   ]
 }

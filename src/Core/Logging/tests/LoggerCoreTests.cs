@@ -76,7 +76,8 @@ namespace Hoff.Core.Services.Logging.Tests
             _logger.LogTrace("Trace: the Debug Logger is initialized");
             _logger.LogInformation($"Logger name is: {_logger.LoggerName}, you can use that to trace which component is used");
             _logger.LogInformation("The next call to the class will log as well");
-            _logger.LogInformation("For this component, we're using the Logger Factory pattern. It will use the debugger as well");
+            _logger.LogInformation("For this component, we're using the Logger Factory pattern. It will use the 
+                ger as well");
 
             _logger.LogInformation("Your responsibility is to make sure you set the right level as well as formatting the strings");
             _logger.LogInformation("More examples below. All will display as the log level is Trace.");
