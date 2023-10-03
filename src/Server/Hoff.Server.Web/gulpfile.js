@@ -16,5 +16,7 @@ gulp.task('yarn', function () {
         .pipe(yarn());
 });
 
+
+task('build-Debug', gulp.series([parallel(ScssTasks.Tasks, JsTasks.Tasks, CopyTasks.Tasks)]));
 task('default', gulp.series([ parallel(ScssTasks.Tasks, JsTasks.Tasks, CopyTasks.Tasks)]));
 task('clean', gulp.series([CleanTasks.Tasks]));
