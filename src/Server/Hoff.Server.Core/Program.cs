@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿
+
+using System.Net;
 using System.Threading;
 
 using Hoff.Core.Services.Logging;
@@ -28,7 +30,7 @@ namespace Hoff.Server.Core
             Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
 
             ApHelper = new ApConfig(Logger, address, mask);
-            ApHelper.StartAndWaitForConfig();
+            _ = ApHelper.StartAndWaitForConfig();
 
             _ = new Web.Server(Logger);
             Thread.Sleep(Timeout.Infinite);

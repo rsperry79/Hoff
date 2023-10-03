@@ -34,20 +34,18 @@ namespace Hoff.Server.Web
             return ((byte[])(nanoFramework.Runtime.Native.ResourceUtility.GetObject(ResourceManager, id)));
         }
         [System.SerializableAttribute()]
-        internal enum BinaryResources : short
-        {
-            favicon = -22914,
-        }
-        [System.SerializableAttribute()]
         internal enum StringResources : short
         {
+            core = -30602,
             settings = -20938,
-            sockets = -15416,
-            index_jsx = 135,
             template = 3646,
             main = 4691,
             css_core_min = 7377,
-            css_core = 17338,
+        }
+        [System.SerializableAttribute()]
+        internal enum BinaryResources : short
+        {
+            favicon = -22914,
         }
     }
 }

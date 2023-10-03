@@ -59,12 +59,9 @@ namespace Hoff.Server.ApHelper
         public bool StartAndWaitForConfig()
         {
 
-
             if (!Wireless80211.IsEnabled())
             {
                 Logger.LogInformation($"Wireless80211.IsEnabled: {Wireless80211.IsEnabled()} ");
-
-
 
                 dhcpserver = new DhcpServer
                 {
@@ -89,7 +86,7 @@ namespace Hoff.Server.ApHelper
             {
                 if (current.Password != password && password != null)
                 {
-                    Wireless80211.Configure(ssid, password);
+                    _ = Wireless80211.Configure(ssid, password);
                     dhcpserver.Stop();
                     WirelessAP.Disable();
                     Thread.Sleep(200);
@@ -129,7 +126,6 @@ namespace Hoff.Server.ApHelper
                     wasSetup = ValidateConnection();
                 }
             }
-
 
             return wasSetup;
         }
@@ -206,7 +202,6 @@ namespace Hoff.Server.ApHelper
             return conf;
         }
 
-
         /// <summary>
         /// Event handler for Stations connecting or Disconnecting
         /// </summary>
@@ -229,7 +224,6 @@ namespace Hoff.Server.ApHelper
             }
         }
 
-
         /// <summary>
         /// Event handler for when Wifi scan completes
         /// </summary>
@@ -247,12 +241,11 @@ namespace Hoff.Server.ApHelper
             {
                 if (WifiSettings.APsAvailable != null && !WifiSettings.APsAvailable.Contains(net))
                 {
-                    WifiSettings.APsAvailable.Add(net);
+                    _ = WifiSettings.APsAvailable.Add(net);
                 }
 
                 // Show all networks found
                 Logger.LogInformation($"Net SSID :{net.Ssid},  BSSID : {net.Bsid},  RSSI : {net.NetworkRssiInDecibelMilliwatts},  Signal : {net.SignalBars}");
-
 
             }
         }

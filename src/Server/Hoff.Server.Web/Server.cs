@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using nanoFramework.Logging.Debug;
 using nanoFramework.WebServer;
 
+using static Hoff.Server.Web.Resources;
+
 namespace Hoff.Server.Web
 {
     public class Server
@@ -26,7 +28,7 @@ namespace Hoff.Server.Web
         {
             Logger = logger;
 
-            //Initialize WebsocketServer with Webserver intergration
+            //Initialize WebsocketServer with WebServer integration
             socketServer = new WebSocketServer(new WebSocketServerOptions()
             {
                 MaxClients = 10,
@@ -46,81 +48,32 @@ namespace Hoff.Server.Web
         //WebServer receive message
         private static void WebServer_CommandReceived(object obj, WebServerEventArgs e)
         {
-
             HttpListenerRequest request = e.Context.Request;
-            Logger.LogInformation($"Request method: {request.HttpMethod}");
+            string[] url = request?.RawUrl.Split('?');
 
             HttpListenerResponse response = e.Context.Response;
             Logger.LogInformation($"response url: {request.RawUrl}");
 
-            string[] url = request?.RawUrl.Split('?');
 
-            //check the path of the request
-            if (request.RawUrl == "/")
+            //check if this is a WebSocket request or a page request 
+            if (request.Headers["Upgrade"] == "websocket")
             {
-                //check if this is a WebSocket request or a page request 
-                if (request.Headers["Upgrade"] == "websocket")
-                {
-                    //Upgrade to a WebSocket
-                    _ = socketServer.AddWebSocket(e.Context);
-                }
-                else
-                {
-                    //Return the WebApp
-                    response.ContentType = "text/html";
-                    string responseString = Resources.StringResources.template.Inject(Resources.GetString(Resources.StringResources.main));
-
-                    OutPutResponse(response, responseString);
-                }
-            }
-            else if (url[0] == "/settings")
-            {
-                //Return the settings page
-                response.ContentType = "text/html";
-                string responseString = Resources.StringResources.template.Inject(Resources.GetString(Resources.StringResources.settings));
-                OutPutResponse(response, responseString);
-            }
-
-            else if (url[0] == "/favicon.ico")
-            {
-                response.ContentType = "image/png";
-                byte[] responseBytes = Resources.GetBytes(Resources.BinaryResources.favicon);
-                OutPutByteResponse(response, responseBytes);
-            }
-
-            else if (url[0] == "/index.js")
-            {
-                response.ContentType = "application/javascript";
-                string responseString = Resources.GetString(Resources.StringResources.index_jsx);
-                OutPutResponse(response, responseString);
-            }
-
-            else if (url[0] == "/sockets.js")
-            {
-                response.ContentType = "application/javascript";
-                string responseString = Resources.GetString(Resources.StringResources.sockets);
-                OutPutResponse(response, responseString);
-            }
-            else if (url[0] == "/core.css")
-            {
-                response.ContentType = "text/css";
-                string responseString = Resources.GetString(Resources.StringResources.css_core);
-                OutPutResponse(response, responseString);
-            }
-            else if (url[0] == "/core.css.map")
-            {
-                response.ContentType = "text/css";
-                string responseString = Resources.GetString(Resources.StringResources.css_core_min);
-                OutPutResponse(response, responseString);
+                //Upgrade to a WebSocket
+                _ = socketServer.AddWebSocket(e.Context);
             }
             else
             {
-                //Send Page not Found
-                response.StatusCode = 404;
-                WebServer.OutPutStream(response, "Page not Found!");
+                bool resultText = url[0] switch
+                {
+                    "/" => response.Send(StringResources.template.Inject(GetString(StringResources.main)), "text/html"),
+                    "/settings" => response.Send(StringResources.template.Inject(GetString(StringResources.settings)), "text/html"),
+                    "/favicon.ico" => response.Send(Resources.GetBytes(BinaryResources.favicon), "image/png"),
+                    "/core.js" => response.Send(Resources.GetString(StringResources.core), "application/javascript"),
+                    "/core.css" => response.Send(Resources.GetString(StringResources.css_core_min), "text/css"),
+                    _ => response.Send(404, "Resource Not Found")
+                };
             }
         }
-
 
 
         //WebSocket Server Receive message
@@ -167,26 +120,14 @@ namespace Hoff.Server.Web
 
         private static void GetByEncoded(string raw, WebSocketServer ws)
         {
-            WsMessage EncodedMessage = new WsMessage(raw);
+            WsMessage EncodedMessage = new(raw);
             if (EncodedMessage.GetType() == typeof(WifiSettings))
             {
                 WifiSettings settings = (WifiSettings)EncodedMessage.Decode();
                 ApConfig.SetConfiguration(settings.SSID, settings.Password);
-
             }
         }
 
-        private static void OutPutResponse(HttpListenerResponse response, string responseString)
-        {
-            byte[] encoded = Encoding.UTF8.GetBytes(responseString);
-            OutPutByteResponse(response, encoded);
-        }
 
-        private static void OutPutByteResponse(HttpListenerResponse response, byte[] responseBytes)
-        {
-            response.ContentLength64 = responseBytes.Length;
-            response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
-
-        }
     }
 }

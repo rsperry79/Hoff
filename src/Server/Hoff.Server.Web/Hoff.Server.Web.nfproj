@@ -77,8 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="compilerconfig.json.defaults" />
-    <None Include="Resources\js\index.js" />
-    <None Include="Resources\js\sockets.js" />
+    <None Include="Resources\js\core.js" />
     <None Include="tsconfig.json" />
     <None Include=".eslintignore" />
     <None Include="packages.config" />
@@ -93,7 +92,7 @@
     <Content Include="Resources\Images\favicon.png" />
     <Content Include="src\ts\sockets.ts" />
     <None Include="src\scss\Core.scss" />
-    <None Include="src\ts\index.tsx" />
+    <None Include="src\ts\core.tsx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

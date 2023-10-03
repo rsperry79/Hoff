@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+const connection = new WebSocket("ws://" + location.hostname + ":80");
 class Settings {
     constructor() {
         this.wifiSettings = new WifiSettings();
@@ -64,7 +65,6 @@ class WsMessage {
         this.MessageType = "";
     }
 }
-const connection = new WebSocket("ws://" + location.hostname + ":80");
 const settings = new Settings();
 connection.onmessage = function (evt) {
     const message = JSON.parse(evt.data);
@@ -84,3 +84,5 @@ connection.onopen = function () {
         this.send("GetWifiSettings");
     });
 };
+$(() => {
+});

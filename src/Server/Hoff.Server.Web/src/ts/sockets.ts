@@ -1,5 +1,8 @@
 ﻿const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+const connection = new WebSocket("ws://" + location.hostname + ":80");
+
+
 class Settings {
     public wifiSettings: WifiSettings;
     constructor() {
@@ -70,7 +73,6 @@ class WifiSettings {
         this.APsAvailable = [];
     }
 }
-
 class WsMessage {
     Message: string;
     MessageType: string;
@@ -80,9 +82,8 @@ class WsMessage {
     }
 }
 
-const connection = new WebSocket("ws://" + location.hostname + ":80");
-
 const settings: Settings = new Settings();
+
 connection.onmessage = function (evt) {
 
     const message: WsMessage = JSON.parse(evt.data);

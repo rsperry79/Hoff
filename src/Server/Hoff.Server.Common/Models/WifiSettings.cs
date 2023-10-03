@@ -13,10 +13,7 @@ namespace Hoff.Server.Common.Models
         public string Password { get; set; }
 
         public WifiSettings(bool adHocEnabled, bool isConfigured, string ssid, string password, ArrayList aPsAvailable)
-            : this(adHocEnabled, isConfigured, ssid, password)
-        {
-            this.APsAvailable = aPsAvailable;
-        }
+            : this(adHocEnabled, isConfigured, ssid, password) => this.APsAvailable = aPsAvailable;
 
         public WifiSettings(bool adHocEnabled, bool isConfigured, string ssid, string password)
         {
@@ -25,7 +22,5 @@ namespace Hoff.Server.Common.Models
             this.SSID = ssid;
             this.Password = password;
         }
-
-
     }
 }

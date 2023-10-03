@@ -3,11 +3,11 @@
   "compilerOptions": {
     "rootDir": "src/ts/",
     "lib": [ "DOM", "ES2015" ],
-    "module": "ES2015",
+    "module": "AMD",
     "moduleResolution": "Node",
     "noEmitOnError": false,
     "noImplicitAny": false,
-    "outDir": "Resources/js/",
+    "outFile": "Resources/js/core.js",
     "removeComments": true,
     "resolveJsonModule": true,
     "strictNullChecks": true,
