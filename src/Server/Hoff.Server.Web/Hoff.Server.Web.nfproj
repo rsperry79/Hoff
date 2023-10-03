@@ -76,23 +76,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="compilerconfig.json.defaults" />
-    <None Include="Resources\js\core.js" />
+    <None Include=".stylelintrc" />
+    <None Include="gulpfile.js" />
+    <None Include="gulp\Clean.js" />
+    <None Include="gulp\ConfigHelpers.js" />
+    <None Include="gulp\Copy.js" />
+    <None Include="gulp\glob.js" />
+    <None Include="gulp\JavaScript.js" />
+    <None Include="gulp\Scss.js" />
+    <None Include="Resources\js\settings_code.js" />
+    <None Include="Resources\js\sockets.js" />
+    <None Include="src\ts\settings_code.ts" />
     <None Include="tsconfig.json" />
     <None Include=".eslintignore" />
     <None Include="packages.config" />
-    <None Include="compilerconfig.json" />
+    <Content Include="gulp\Config\buildConfig.json" />
+    <Content Include="package.json" />
+    <Resource Include="Resources\css\Core.css" />
     <Content Include="Resources\Html\main.html" />
     <Content Include="Resources\Html\settings.html" />
-    <Content Include="src\ts\.eslintrc.json" />
-    <Content Include="package.json" />
-    <Content Include="Resources\css\core.css" />
-    <Content Include="Resources\css\core.min.css" />
     <Content Include="Resources\Html\template.html" />
     <Content Include="Resources\Images\favicon.png" />
+    <Content Include="src\html\main.html" />
+    <Content Include="src\html\settings.html" />
+    <Content Include="src\html\template.html" />
+    <Content Include="src\images\favicon.png" />
+    <Content Include="src\ts\.eslintrc.json" />
     <Content Include="src\ts\sockets.ts" />
     <None Include="src\scss\Core.scss" />
-    <None Include="src\ts\core.tsx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

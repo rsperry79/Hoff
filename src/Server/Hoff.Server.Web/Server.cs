@@ -68,8 +68,9 @@ namespace Hoff.Server.Web
                     "/" => response.Send(StringResources.template.Inject(GetString(StringResources.main)), "text/html"),
                     "/settings" => response.Send(StringResources.template.Inject(GetString(StringResources.settings)), "text/html"),
                     "/favicon.ico" => response.Send(Resources.GetBytes(BinaryResources.favicon), "image/png"),
-                    "/core.js" => response.Send(Resources.GetString(StringResources.core), "application/javascript"),
-                    "/core.css" => response.Send(Resources.GetString(StringResources.css_core_min), "text/css"),
+                    "/settings_code" => response.Send(Resources.GetString(StringResources.settings_code), "application/javascript"),
+                    "/socket.js" => response.Send(Resources.GetString(StringResources.sockets), "application/javascript"),
+                    "/core.css" => response.Send(Resources.GetString(StringResources.Core_css), "text/css"),
                     _ => response.Send(404, "Resource Not Found")
                 };
             }
@@ -127,7 +128,5 @@ namespace Hoff.Server.Web
                 ApConfig.SetConfiguration(settings.SSID, settings.Password);
             }
         }
-
-
     }
 }
