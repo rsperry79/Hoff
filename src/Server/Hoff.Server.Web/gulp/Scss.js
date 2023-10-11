@@ -12,13 +12,14 @@ const { SetBuildEnv } = require('./ConfigHelpers');
 const host = SetBuildEnv();
 
 // plugins
-var sass = require('gulp-sass')(require('sass'));
-var postcss = require('gulp-postcss');
-var autoprefixer = require('autoprefixer');
-var minifyCss = require('gulp-minify-css')
-var stripInlineComments = require('postcss-strip-inline-comments');
-var gulpStylelint = require('gulp-stylelint');
-var gutil = require('gulp-util');
+const sass = require('gulp-sass')(require('sass'));
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const minifyCss = require('gulp-minify-css')
+const stripInlineComments = require('postcss-strip-inline-comments');
+const gutil = require('gulp-util');
+const gulpStylelint = require('@movahhedi/gulp-stylelint');
+
 
 // plugin config
 var postCssPlugins = [
@@ -35,10 +36,8 @@ function lintCss() {
     return gulp
         .src(scssPath)
         .pipe(gulpStylelint({
-            reporters: [
-                { formatter: 'string', console: true }
-            ]
-        }));
+            fix: true
+        }))
 };
 
 function buildScss() {

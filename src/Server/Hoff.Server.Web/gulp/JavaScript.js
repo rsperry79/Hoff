@@ -21,7 +21,7 @@ const srcTempPath = resolveApp('./temp/js/*.js');
 const destJsPath = resolveApp('./Resources/js');
 // plugins
 const ts = require('gulp-typescript');
-const tsconf = resolveApp('./tsconfig.json');
+const tsconf = resolveApp('./src/ts/tsconfig.json');
 
 // tasks
 function buildTs() {

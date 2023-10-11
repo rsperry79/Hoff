@@ -33,7 +33,9 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers
             LoggerCore loggerCore = new();
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            Logger = loggerCore.GetDebugLogger(loggerName);
 
             IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetSpi1Pins();

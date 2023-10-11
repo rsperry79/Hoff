@@ -55,7 +55,7 @@
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->
-  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets')" />
+  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets')" />
   <ProjectExtensions>
     <ProjectCapabilities>
       <ProjectConfigurationsDeclaredAsItems />
@@ -65,6 +65,6 @@
     <PropertyGroup>
       <WarningText>Update the Import path in nfproj to the correct nanoFramework.TestFramework NuGet package folder.</WarningText>
     </PropertyGroup>
-    <Warning Condition="!Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets')" Text="'$(WarningText)'" />
+    <Warning Condition="!Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets')" Text="'$(WarningText)'" />
   </Target>
 </Project>

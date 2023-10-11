@@ -37,7 +37,9 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers
 
             // Setup
             const LogLevel minLogLevel = LogLevel.Trace;
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            Logger = loggerCore.GetDebugLogger(loggerName);
         }
 
         public static IDht11Sensor Setup()

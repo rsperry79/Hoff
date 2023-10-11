@@ -1,14 +1,19 @@
-﻿import { Settings } from "./settings_code"
-
-const userSettings: Settings = new Settings();
+﻿import { WsMessage } from "./WsMessage";
+import { Settings } from "./settings_code"
+const connection = new WebSocket("ws://" + location.hostname + ":80");
+(window as any).userSettings  = new Settings(connection);
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-const connection = new WebSocket("ws://" + location.hostname + ":80");  
+
 connection.onmessage = function (evt) {
 
     const message: WsMessage = JSON.parse(evt.data);
-    if (message.MessageType === "Hoff.Server.Common.Models.WifiSettings") {
+    if (message.MessageType === "Hoff.Core.Services.WirelessConfig.Models.WifiSetting") {
 
-        userSettings.UpdateSettingsDisplay(message.Message);
+        (window as any).userSettings.UpdateSettingsDisplay(message.Message);
+    }
+    else if (message.MessageType === "UiMessage") {
+        const div = <HTMLDivElement>document.getElementById('ui_message');
+        div.innerHTML = message.Message;
     }
 };
 
@@ -22,11 +27,3 @@ connection.onopen = async function () {
     this.send("GetWifiSettings");
 };
 
-export class WsMessage {
-    Message: string;
-    MessageType: string;
-    constructor() {
-        this.Message = "";
-        this.MessageType = "";
-    }
-}

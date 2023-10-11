@@ -1,16 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
-
-	<PropertyGroup Label="Globals">
+  <PropertyGroup Label="Globals">
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <NanoFrameworkProjectSystemPath>$(MSBuildExtensionsPath)\nanoFramework\v1.0\</NanoFrameworkProjectSystemPath>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.Default.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.Default.props')" />
-
-	<PropertyGroup>
-		<GulpCleanTask>clean</GulpCleanTask>
-	</PropertyGroup>
+  <PropertyGroup>
+    <GulpCleanTask>clean</GulpCleanTask>
+  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -33,7 +30,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Server.cs" />
+    <Compile Include="UiServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
@@ -57,19 +54,19 @@
       <HintPath>..\..\..\packages\nanoFramework.System.Text.1.2.37\lib\nanoFramework.System.Text.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.WebServer">
-      <HintPath>..\..\..\packages\nanoFramework.WebServer.1.1.75\lib\nanoFramework.WebServer.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.WebServer.1.1.79\lib\nanoFramework.WebServer.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Streams">
       <HintPath>..\..\..\packages\nanoFramework.System.IO.Streams.1.1.38\lib\System.IO.Streams.dll</HintPath>
     </Reference>
     <Reference Include="System.Net">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.1.10.52\lib\System.Net.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.1.10.62\lib\System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.Server.1.5.99\lib\System.Net.Http.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.Server.1.5.104\lib\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.WebSockets.Server.1.1.62\lib\System.Net.WebSockets.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.WebSockets.Server.1.1.68\lib\System.Net.WebSockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
       <HintPath>..\..\..\packages\nanoFramework.System.Threading.1.1.19\lib\System.Threading.dll</HintPath>
@@ -92,8 +89,10 @@
     <None Include="gulp\Scss.js" />
     <None Include="Resources\js\settings_code.js" />
     <None Include="Resources\js\sockets.js" />
+    <None Include="Resources\js\WsMessage.js" />
     <None Include="src\ts\settings_code.ts" />
-    <None Include="tsconfig.json" />
+    <None Include="src\ts\WsMessage.ts" />
+    <None Include="src\ts\tsconfig.json" />
     <None Include=".eslintignore" />
     <None Include="packages.config" />
     <Content Include="gulp\Config\buildConfig.json" />
@@ -118,8 +117,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Common\src\Hoff.Core.Common.nfproj" />
+    <ProjectReference Include="..\..\Core\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\Core\Logging\src\Hoff.Core.Services.Logging.nfproj" />
-    <ProjectReference Include="..\Hoff.Server.ApHelper\Hoff.Server.ApHelper.nfproj" />
+    <ProjectReference Include="..\..\Core\Services\WirelessConfig\Hoff.Core.Services.WirelessConfig\Hoff.Core.Services.WirelessConfig.nfproj" />
     <ProjectReference Include="..\Hoff.Server.Common\Hoff.Server.Common.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

@@ -4,7 +4,9 @@ using System.Net.WebSockets.Server;
 using System.Net.WebSockets.WebSocketFrame;
 using System.Text;
 
-using Hoff.Server.ApHelper;
+using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Services.WirelessConfig.Models;
 using Hoff.Server.Common.Helpers;
 using Hoff.Server.Common.Models;
 using Hoff.Server.Web.Helpers;
@@ -18,16 +20,18 @@ using static Hoff.Server.Web.Resources;
 
 namespace Hoff.Server.Web
 {
-    public class Server
+    public class UiServer
     {
         private static DebugLogger Logger;
         private static WebSocketServer socketServer;
         private static WebServer webServer;
 
-        public Server(DebugLogger logger)
-        {
-            Logger = logger;
+        private static IApConfig apConfig;
 
+        public UiServer(ILoggerCore logger, IApConfig apconfig)
+        {
+            Logger = logger.GetDebugLogger(this.GetType().Name.ToString());
+            apConfig = apconfig;
             //Initialize WebsocketServer with WebServer integration
             socketServer = new WebSocketServer(new WebSocketServerOptions()
             {
@@ -54,7 +58,6 @@ namespace Hoff.Server.Web
             HttpListenerResponse response = e.Context.Response;
             Logger.LogInformation($"response url: {request.RawUrl}");
 
-
             //check if this is a WebSocket request or a page request 
             if (request.Headers["Upgrade"] == "websocket")
             {
@@ -63,19 +66,19 @@ namespace Hoff.Server.Web
             }
             else
             {
-                bool resultText = url[0] switch
+                _ = url[0] switch
                 {
                     "/" => response.Send(StringResources.template.Inject(GetString(StringResources.main)), "text/html"),
                     "/settings" => response.Send(StringResources.template.Inject(GetString(StringResources.settings)), "text/html"),
                     "/favicon.ico" => response.Send(Resources.GetBytes(BinaryResources.favicon), "image/png"),
                     "/settings_code" => response.Send(Resources.GetString(StringResources.settings_code), "application/javascript"),
                     "/socket.js" => response.Send(Resources.GetString(StringResources.sockets), "application/javascript"),
+                    "/WsMessage" => response.Send(Resources.GetString(StringResources.WsMessage), "application/javascript"),
                     "/core.css" => response.Send(Resources.GetString(StringResources.Core_css), "text/css"),
                     _ => response.Send(404, "Resource Not Found")
                 };
             }
         }
-
 
         //WebSocket Server Receive message
         private static void WsServer_MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -93,7 +96,7 @@ namespace Hoff.Server.Web
 
                 if (!matched)
                 {
-                    GetByEncoded(raw, wsServer);
+                    GetByEncoded(raw, wsServer, e.Frame.EndPoint);
                 }
             }
         }
@@ -104,29 +107,49 @@ namespace Hoff.Server.Web
 
             if (raw == "GetWifiSettings")
             {
-                WifiSettings settings = ApConfig.WifiSettings;
-                Logger.LogInformation(settings.IsConfigured.ToString());
-
-                WsBaseMessage baseMessage = settings.ToWsEncodedBaseMessage();
-                Logger.LogInformation($"{baseMessage.MessageType}");
-                Logger.LogInformation($"{baseMessage.Message}");
-                ws.SendText(endPoint.ToString(), baseMessage.ToEncodedMessage());
+                IWifiSettings wifiSettings = apConfig.GetWifiSettings();
+                WsMessage wsMessage = new(wifiSettings, wifiSettings.GetType());
+                string baseMessage = wsMessage.ToJson(); ;
+                Logger.LogInformation(baseMessage.ToString());
+                ws.SendText(endPoint.ToString(), baseMessage);
                 matched = true;
 
-                Logger.LogInformation(baseMessage.ToString());
             }
 
             return matched;
         }
 
-        private static void GetByEncoded(string raw, WebSocketServer ws)
+        private static void GetByEncoded(string raw, WebSocketServer ws, IPEndPoint endPoint)
         {
-            WsMessage EncodedMessage = new(raw);
-            if (EncodedMessage.GetType() == typeof(WifiSettings))
+            WsMessage message = new(raw);
+
+            if (message.MessageType == typeof(WifiSettings).ToString())
             {
-                WifiSettings settings = (WifiSettings)EncodedMessage.Decode();
-                ApConfig.SetConfiguration(settings.SSID, settings.Password);
+                // TODO localize
+                IWifiSettings settings = (WifiSettings)message.GetWsMessagePayload();
+                SendMessage(Resources.StringResources.SaveWifi, ws, endPoint);
+                bool saved = apConfig.SetConfiguration(settings);
+                if (!saved)
+                {
+                    SendMessage(Resources.StringResources.FailedToSave, ws, endPoint);
+                }
             }
+        }
+
+        private static void SendMessage(Resources.StringResources message, WebSocketServer ws, IPEndPoint endPoint, UiMessage uiMessage = null)
+        {
+            if (uiMessage == null)
+            {
+                uiMessage = new UiMessage(Resources.GetString(message));
+            }
+            else
+            {
+                uiMessage.Message = Resources.GetString(message);
+            }
+
+            WsMessage wsMessage = new(uiMessage, typeof(UiMessage));
+            string toSend = wsMessage.ToJson();
+            ws.SendText(endPoint.ToString(), toSend);
         }
     }
 }

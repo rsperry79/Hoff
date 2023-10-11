@@ -22,7 +22,8 @@ namespace Hoff.Core.Services.Logging.Tests
             LoggerCore loggerCore = new();
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName);
 
             // Act
             Assert.IsNotNull(logger);
@@ -36,7 +37,8 @@ namespace Hoff.Core.Services.Logging.Tests
             LoggerCore loggerCore = new();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName);
             loggerCore.GetMemoryStreamLogger();
             TestComponent testComponent = new();
 
@@ -52,7 +54,8 @@ namespace Hoff.Core.Services.Logging.Tests
             LoggerCore loggerCore = new();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName);
             loggerCore.GetSerialLogger();
             TestComponent testComponent = new();
 
@@ -68,7 +71,8 @@ namespace Hoff.Core.Services.Logging.Tests
             ILoggerCore loggerCore = new LoggerCore();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger _logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger _logger = loggerCore.GetDebugLogger(loggerName);
 
             // Act
             Assert.IsNotNull(_logger);

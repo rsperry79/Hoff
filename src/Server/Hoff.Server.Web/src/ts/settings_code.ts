@@ -1,13 +1,37 @@
-﻿
+﻿import { WsMessage } from "./WsMessage";
 export class Settings {
     public wifiSettings: WifiSettings;
-    constructor() {
+
+    private webSocket: WebSocket;
+    constructor(connection: WebSocket) {
+        this.webSocket = connection;
         this.wifiSettings = new WifiSettings();
+    }
+
+
+    public SaveWifiChanges() {
+
+        const selectedIdex: number = (<HTMLSelectElement>document.getElementById('inputSSID')).options.selectedIndex;
+        const ssid: string = (<HTMLSelectElement>document.getElementById('inputSSID')).options[selectedIdex].value;
+
+        const pass: string = (<HTMLSelectElement>document.getElementById('inputPassword')).value;
+
+        this.wifiSettings.SSID = ssid;
+        this.wifiSettings.Password = pass;
+
+
+        const wsMessage = new WsMessage();
+        wsMessage.MessageType = "Hoff.Server.ApHelper.Models.WifiSettings";
+        wsMessage.Message = JSON.stringify(this.wifiSettings);
+        const toRet = JSON.stringify(wsMessage);
+
+        this.webSocket.send(toRet);
     }
 
     private UpdateSsids(): void {
 
         const options = (<HTMLSelectElement>document.getElementById('inputSSID')).options;
+
 
         for (let i = 0; i < options.length; i++) {
             options.remove(0);
@@ -55,13 +79,13 @@ export class Settings {
     public APsAvailable: APSAvailable[];
     public SSID: string;
     public Password: string;
-    public AdHocEnabled: boolean;
+     public IsAdhoc: boolean;
 
     constructor() {
         this.IsConfigured = false;
         this.SSID = "";
         this.Password = "";
-        this.AdHocEnabled = false;
+        this.IsAdhoc = false;
         this.APsAvailable = [];
     }
 }

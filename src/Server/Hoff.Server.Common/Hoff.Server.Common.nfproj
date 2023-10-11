@@ -18,15 +18,11 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Enums\AlertLevel.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
-    <Compile Include="Interfaces\IApConfig.cs" />
     <Compile Include="Interfaces\IWsMessage.cs" />
-    <Compile Include="Models\WsBaseMessage.cs" />
+    <Compile Include="Models\UiMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\WifiSettings.cs">
-      <Generator>
-      </Generator>
-    </Compile>
     <Compile Include="Models\WsMessage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -34,7 +30,7 @@
       <HintPath>..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Json">
-      <HintPath>..\..\..\packages\nanoFramework.Json.2.2.99\lib\nanoFramework.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.Json.2.2.101\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.System.Collections">
       <HintPath>..\..\..\packages\nanoFramework.System.Collections.1.5.18\lib\nanoFramework.System.Collections.dll</HintPath>
@@ -48,9 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

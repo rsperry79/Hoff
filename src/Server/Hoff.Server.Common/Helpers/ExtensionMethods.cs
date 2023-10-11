@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
+using Hoff.Server.Common.Interfaces;
 using Hoff.Server.Common.Models;
 
 using nanoFramework.Json;
@@ -8,16 +10,31 @@ namespace Hoff.Server.Common.Helpers
 {
     public static class ExtensionMethods
     {
-        public static WsBaseMessage ToWsEncodedBaseMessage(this WifiSettings settings)
+
+        public static IWsMessage GetWsMessage(this string encoded)
         {
-            string json = JsonConvert.SerializeObject(settings);
-            return new WsBaseMessage(settings.GetType().ToString(), json);
+            try
+            {
+                Debug.WriteLine(encoded);
+                WsMessage temp = (WsMessage)JsonConvert.DeserializeObject(encoded, typeof(WsMessage));
+                return temp;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(encoded);
+                Debug.WriteLine(ex.StackTrace);
+                throw;
+            }
         }
 
-        public static string ToEncodedMessage(this WsBaseMessage settings)
+        public static object GetWsMessagePayload(this IWsMessage encoded)
         {
-            Debug.WriteLine(settings.Message);
-            Debug.WriteLine(settings.MessageType);
+            object temp = JsonConvert.DeserializeObject(encoded.Message, Type.GetType(encoded.MessageType));
+            return temp;
+        }
+
+        public static string ToJson(this WsMessage settings)
+        {
             string toRet = JsonConvert.SerializeObject(settings);
             return toRet;
         }

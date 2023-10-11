@@ -45,20 +45,16 @@
     <ProjectReference Include="..\src\Hoff.Core.Hardware.Sensors.Dht.nfproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Iot.Device.Dhtxx, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Dhtxx.1.2.396\lib\Iot.Device.Dhtxx.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="Iot.Device.Dhtxx">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Dhtxx.1.2.403\lib\Iot.Device.Dhtxx.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="nanoFramework.DependencyInjection">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.35\lib\nanoFramework.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging, Version=1.1.63.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.1.1.63\lib\nanoFramework.Logging.dll</HintPath>
@@ -143,10 +139,10 @@
       <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="UnitsNet.RelativeHumidity">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.34.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.35.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.34.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.35.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
@@ -156,5 +152,5 @@
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets')" />
+  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets')" />
 </Project>

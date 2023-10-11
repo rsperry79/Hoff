@@ -44,9 +44,12 @@ namespace Hoff.Server.Web
             settings = -20938,
             sockets = -15416,
             Core_css = -13563,
+            SaveWifi = -3463,
             template = 3646,
             main = 4691,
+            WsMessage = 5674,
             settings_code = 20328,
+            FailedToSave = 22593,
         }
     }
 }

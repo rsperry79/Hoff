@@ -20,7 +20,9 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests.Helpers
         {
             const string loggerName = "DiTestClassLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            this._logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            this._logger = loggerCore.GetDebugLogger(loggerName);
             this._logger.LogInformation("Initializing application...");
         }
 

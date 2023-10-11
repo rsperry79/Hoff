@@ -9,18 +9,16 @@
     "noImplicitAny": false,
     "outDir": "./",
     "removeComments": true,
-    "rootDir": "src/ts/",
+    "rootDir": "./",
     "skipLibCheck": true,
     "target": "ES2022"
   },
-
   "include": [
     "**/*",
     "*"
   ],
-  "exclude": ["node_modules"],
   "inlineSources": true,
   "typeRoots": [
-    "node_modules/@types/**/*"
+    "node_modules"
   ]
 }

@@ -10,7 +10,7 @@ namespace Hoff.Core.Controls.PID
     /// </summary>
     /// <remarks>
     /// The controller should be able to control any process with a
-    /// measureable value, a known ideal value and an input to the
+    /// measurable value, a known ideal value and an input to the
     /// process that will affect the measured value.
     /// </remarks>
     /// <see cref="https://en.wikipedia.org/wiki/PID_controller"/>
@@ -74,7 +74,7 @@ namespace Hoff.Core.Controls.PID
         public double OutputMax { get; private set; } = 0;
 
         /// <summary>
-        /// The minimum ouput value the control device can accept.
+        /// The minimum output value the control device can accept.
         /// </summary>
         public double OutputMin { get; private set; } = 0;
 
@@ -123,7 +123,7 @@ namespace Hoff.Core.Controls.PID
             double dInput = this.processVariable - this.ProcessVariableLast;
             double derivativeTerm = this.GainDerivative * (dInput / timeSinceLastUpdate.TotalSeconds);
 
-            // proportional term calcullation
+            // proportional term calculation
             double proportionalTerm = this.GainProportional * error;
 
             double output = proportionalTerm + this.IntegralTerm - derivativeTerm;

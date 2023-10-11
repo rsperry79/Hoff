@@ -35,7 +35,9 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
             ILoggerCore loggerCore = (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            Logger = loggerCore.GetDebugLogger(loggerName);
 
             IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetI2C1Pins();

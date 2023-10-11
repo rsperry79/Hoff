@@ -37,7 +37,8 @@ namespace Hoff.Hardware.Displays.Ssd13.Tests
                 const string loggerName = "TestLogger";
                 const LogLevel minLogLevel = LogLevel.Trace;
                 ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
-                _ = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+                loggerCore.SetDefaultLoggingLevel(minLogLevel);
+                _ = loggerCore.GetDebugLogger(loggerName);
 
                 IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
                 espConfig.SetI2C1Pins();

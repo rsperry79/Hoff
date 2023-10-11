@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 
+using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Server.ApHelper.Ap;
-using Hoff.Server.Common.Interfaces;
-using Hoff.Server.Common.Models;
+using Hoff.Server.ApHelper.Models;
 
 using Iot.Device.DhcpServer;
 
@@ -23,10 +23,7 @@ namespace Hoff.Server.ApHelper
         public static WifiSettings WifiSettings;
 
         // Connected Station count
-        private static int connectedCount = 0;
         private static string url;
-        private static bool adHocServer;
-        private static bool isConfigured;
 
         private static DhcpServer dhcpserver;
         private static DebugLogger Logger;
@@ -35,9 +32,8 @@ namespace Hoff.Server.ApHelper
         public static IPAddress mask = new(new byte[] { 255, 255, 255, 0 });
 
         private static Wireless80211Configuration Config;
-        private static WifiNetworkReport networkReport;
 
-        public ApConfig(DebugLogger logger, IPAddress serverIp = null, IPAddress serverMask = null, bool adHoc = false)
+        public ApConfig(DebugLogger logger, IPAddress serverIp = null, IPAddress serverMask = null)
         {
             Logger = logger;
 
@@ -50,8 +46,6 @@ namespace Hoff.Server.ApHelper
             {
                 mask = serverMask;
             }
-
-            adHocServer = adHoc;
 
             url = $"http://{address}";
         }
@@ -78,7 +72,7 @@ namespace Hoff.Server.ApHelper
             return result;
         }
 
-        public static void SetConfiguration(string ssid, string password)
+        public static bool SetConfiguration(string ssid, string password)
         {
             Wireless80211Configuration current = Wireless80211.GetConfiguration();
 
@@ -90,23 +84,35 @@ namespace Hoff.Server.ApHelper
                     dhcpserver.Stop();
                     WirelessAP.Disable();
                     Thread.Sleep(200);
+
+
                     Power.RebootDevice();
+                    return true;
                 }
+
+                return false;
+            }
+            else
+            {
+                return false;
             }
         }
 
         public static void GetAvailableAPs()
         {
             WifiAdapter wifi = WifiAdapter.FindAllAdapters()[0];
-            wifi.ScanAsync();
 
             // Set up the AvailableNetworksChanged event to pick up when scan has completed
             wifi.AvailableNetworksChanged += Wifi_AvailableNetworksChanged;
+
+            wifi.ScanAsync();
+
 
             // give it some time to perform the initial "connect"
             // trying to scan while the device is still in the connect procedure will throw an exception
             Thread.Sleep(TimeSpan.FromSeconds(10));
         }
+
 
         ~ApConfig()
         {
@@ -191,14 +197,7 @@ namespace Hoff.Server.ApHelper
         private static Wireless80211Configuration GetConf()
         {
             Wireless80211Configuration conf = Wireless80211.GetConfiguration();
-
-            if (conf.Ssid != string.Empty)
-            {
-                isConfigured = true;
-            }
-
-            WifiSettings = new WifiSettings(adHocServer, isConfigured, conf.Ssid, conf.Password);
-
+            WifiSettings = new WifiSettings();
             return conf;
         }
 
@@ -219,8 +218,6 @@ namespace Hoff.Server.ApHelper
 
                 string macString = BitConverter.ToString(station.MacAddress);
                 Logger.LogInformation($"Station mac {macString} RSSI:{station.Rssi} PhyMode:{station.PhyModes} ");
-
-                connectedCount++;
             }
         }
 
@@ -231,23 +228,17 @@ namespace Hoff.Server.ApHelper
         /// <param name="e"></param>
         private static void Wifi_AvailableNetworksChanged(WifiAdapter sender, object e)
         {
-            Logger.LogInformation("Wifi_AvailableNetworksChanged - get report");
+            WifiAvailableNetwork[] availableNetworks = sender.NetworkReport.AvailableNetworks;
+            int idex = availableNetworks.Length >= 1 ? availableNetworks.Length - 1 : 0;
+            WifiAvailableNetwork current = availableNetworks[idex];
+            Logger.LogInformation(
+                $"Net SSID :{current.Ssid},  " +
+                $"BSSID : {current.Bsid}, " +
+                $"RSSI : {current.NetworkRssiInDecibelMilliwatts}, " +
+                $"Signal : {current.SignalBars}");
 
-            // Get Report of all scanned Wifi networks
-            networkReport = sender.NetworkReport;
 
-            // Enumerate though networks looking for our network
-            foreach (WifiAvailableNetwork net in networkReport.AvailableNetworks)
-            {
-                if (WifiSettings.APsAvailable != null && !WifiSettings.APsAvailable.Contains(net))
-                {
-                    _ = WifiSettings.APsAvailable.Add(net);
-                }
-
-                // Show all networks found
-                Logger.LogInformation($"Net SSID :{net.Ssid},  BSSID : {net.Bsid},  RSSI : {net.NetworkRssiInDecibelMilliwatts},  Signal : {net.SignalBars}");
-
-            }
+            WifiSettings.APsAvailable = availableNetworks;
         }
     }
 }

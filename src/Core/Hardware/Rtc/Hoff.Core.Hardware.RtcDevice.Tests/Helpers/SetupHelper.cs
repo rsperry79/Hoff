@@ -79,7 +79,9 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
             const LogLevel minLogLevel = LogLevel.Trace;
 
             LoggerCore loggerCore = new(); // (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
-            return loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            return loggerCore.GetDebugLogger(loggerName);
         }
 
         public static IDS3231Rtc Setup()

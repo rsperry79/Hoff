@@ -8,20 +8,53 @@ namespace Hoff.Server.Common.Models
 {
     public class WsMessage : IWsMessage
     {
-        public WsBaseMessage Encoded { get; set; }
 
-        public WsMessage(string type, string message) => this.Encoded = new WsBaseMessage(type, message);
+        public string MessageType { get; set; }
 
-        public WsMessage(string encoded) => this.Encoded = (WsBaseMessage)JsonConvert.DeserializeObject(encoded, typeof(WsBaseMessage));
+        //private object payload;
+        //public object Payload {
+        //    get
+        //    {
+        //        return this.payload;
+        //    }
+        //    set
+        //    {
+        //        this.payload = value;
+        //        this.MessageType = this.payload.GetType(); 
+        //    }
+        //}
+        public string Message { get; set; }
 
-        public object Decode()
+        public WsMessage()
         {
-            return JsonConvert.DeserializeObject(this.Encoded.Message, this.GetType(this.Encoded.MessageType)); ;
         }
 
-        private Type GetType(string type)
+        public WsMessage(string messageType, string message)
         {
-            return Type.GetType(type);
+            this.MessageType = messageType;
+            this.Message = message;
+        }
+
+        public WsMessage(object payload, Type type)
+        {
+            this.MessageType = type.ToString();
+            this.Message = JsonConvert.SerializeObject(payload);
+
+        }
+
+        public WsMessage(string raw)
+        {
+
+            Console.WriteLine(raw);
+            WsMessage temp = (WsMessage)JsonConvert.DeserializeObject(raw, typeof(WsMessage));
+            this.MessageType = temp.MessageType;
+            this.Message = raw;
+        }
+
+        ~WsMessage()
+        {
+            this.Message = null;
+            this.MessageType = null;
         }
     }
 }

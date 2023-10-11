@@ -84,7 +84,9 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests
         {
             ServiceProvider services = SetupHelper.ConfigureServices();
             ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
-            nanoFramework.Logging.Debug.DebugLogger logger = loggerCore.GetDebugLogger("TestLogger", LogLevel.Trace);
+            loggerCore.SetDefaultLoggingLevel(LogLevel.Trace);
+
+            nanoFramework.Logging.Debug.DebugLogger logger = loggerCore.GetDebugLogger("TestLogger");
 
             // Arrange
             Dht11 Dht = new(6);

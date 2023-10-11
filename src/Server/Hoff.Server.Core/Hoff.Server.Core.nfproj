@@ -18,6 +18,7 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Helpers\DiSetup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -27,6 +28,9 @@
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.DependencyInjection">
+      <HintPath>..\..\..\packages\nanoFramework.DependencyInjection.1.0.35\lib\nanoFramework.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Hardware.Esp32">
       <HintPath>..\..\..\packages\nanoFramework.Hardware.Esp32.1.6.8\lib\nanoFramework.Hardware.Esp32.dll</HintPath>
@@ -44,7 +48,7 @@
       <HintPath>..\..\..\packages\nanoFramework.System.Text.1.2.37\lib\nanoFramework.System.Text.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.WebServer">
-      <HintPath>..\..\..\packages\nanoFramework.WebServer.1.1.75\lib\nanoFramework.WebServer.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.WebServer.1.1.79\lib\nanoFramework.WebServer.dll</HintPath>
     </Reference>
     <Reference Include="System.Device.Wifi">
       <HintPath>..\..\..\packages\nanoFramework.System.Device.Wifi.1.5.54\lib\System.Device.Wifi.dll</HintPath>
@@ -53,13 +57,13 @@
       <HintPath>..\..\..\packages\nanoFramework.System.IO.Streams.1.1.38\lib\System.IO.Streams.dll</HintPath>
     </Reference>
     <Reference Include="System.Net">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.1.10.52\lib\System.Net.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.1.10.62\lib\System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.Server.1.5.99\lib\System.Net.Http.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.Server.1.5.104\lib\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.WebSockets.Server.1.1.62\lib\System.Net.WebSockets.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.WebSockets.Server.1.1.68\lib\System.Net.WebSockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
       <HintPath>..\..\..\packages\nanoFramework.System.Threading.1.1.19\lib\System.Threading.dll</HintPath>
@@ -78,8 +82,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Common\src\Hoff.Core.Common.nfproj" />
+    <ProjectReference Include="..\..\Core\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\Core\Logging\src\Hoff.Core.Services.Logging.nfproj" />
-    <ProjectReference Include="..\Hoff.Server.ApHelper\Hoff.Server.ApHelper.nfproj" />
+    <ProjectReference Include="..\..\Core\Services\WirelessConfig\Hoff.Core.Services.WirelessConfig\Hoff.Core.Services.WirelessConfig.nfproj" />
     <ProjectReference Include="..\Hoff.Server.Web\Hoff.Server.Web.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
@@ -88,7 +94,7 @@
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="echo {&quot;config&quot; : &quot;$(ConfigurationName)&quot;} &gt; &quot;$(ProjectDir)gulp\Config\buildConfig.json" />
-	</Target>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo {&quot;config&quot; : &quot;$(ConfigurationName)&quot;} &gt; &quot;$(ProjectDir)gulp\Config\buildConfig.json" />
+  </Target>
 </Project>

@@ -15,7 +15,7 @@ namespace Hoff.Hardware.Soc.SoCEsp32.Tests
         private static GpioPin button;
         private static GpioController gpioController;
         private static GpioPin led;
-        private static bool wasPressed = false;
+        private static bool wasPressed;
 
         #endregion Fields
 

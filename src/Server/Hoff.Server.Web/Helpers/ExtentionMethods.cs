@@ -8,14 +8,12 @@ namespace Hoff.Server.Web.Helpers
     internal static class ExtentionMethods
     {
 
-
-
         internal static bool Send(this HttpListenerResponse response, string content, string type)
         {
             try
             {
                 byte[] encoded = Encoding.UTF8.GetBytes(content);
-                Send(response, encoded, type);
+                _ = Send(response, encoded, type);
                 return true;
             }
             catch (System.Exception)
@@ -23,7 +21,6 @@ namespace Hoff.Server.Web.Helpers
                 return false;
             }
         }
-
 
         internal static bool Send(this HttpListenerResponse response, byte[] bytes, string type)
         {
@@ -38,7 +35,6 @@ namespace Hoff.Server.Web.Helpers
             {
                 return false;
             }
-
         }
 
         internal static bool Send(this HttpListenerResponse response, int code, string text)
@@ -53,9 +49,7 @@ namespace Hoff.Server.Web.Helpers
             {
                 return false;
             }
-
         }
-
 
         internal static string Inject(this Resources.StringResources template, string content, string tag = "{content}")
         {
@@ -70,7 +64,7 @@ namespace Hoff.Server.Web.Helpers
             string end = realTemplate.Substring(index + tag.Length); // The template after the tag.
 
             //inject 
-            string injected = start + content + end;
+            string injected = $"{start}{content}{end}";
 
             // Return the new string with the injection added.
             return injected;

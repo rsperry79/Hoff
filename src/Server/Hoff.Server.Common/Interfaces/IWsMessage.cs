@@ -1,11 +1,10 @@
-﻿using Hoff.Server.Common.Models;
-
-namespace Hoff.Server.Common.Interfaces
+﻿namespace Hoff.Server.Common.Interfaces
 {
     public interface IWsMessage
     {
-        WsBaseMessage Encoded { get; set; }
+        //object Payload { get; set; }
 
-        object Decode();
+        string MessageType { get; set; }
+        string Message { get; set; }
     }
 }

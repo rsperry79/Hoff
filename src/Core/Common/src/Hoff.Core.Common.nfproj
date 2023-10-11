@@ -18,6 +18,7 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Helpers\DebugHelpers.cs" />
     <Compile Include="Interfaces\ILoggerCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,9 +53,6 @@
       <HintPath>..\..\..\..\packages\nanoFramework.System.IO.Streams.1.1.38\lib\System.IO.Streams.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.34.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

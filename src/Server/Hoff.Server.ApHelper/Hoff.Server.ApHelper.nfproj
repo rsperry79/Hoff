@@ -18,9 +18,12 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Models\WifiSettings.cs">
+      <Generator>
+      </Generator>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApConfig.cs" />
-    <Compile Include="Server\SoftApWebServer.cs" />
     <Compile Include="Ap\Wireless80211.cs" />
     <Compile Include="Ap\WirelessAP.cs" />
   </ItemGroup>
@@ -42,6 +45,9 @@
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.AtomLite">
+      <HintPath>..\..\..\packages\nanoFramework.AtomLite.1.1.175\lib\nanoFramework.AtomLite.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Graphics.Core, Version=1.1.37.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\packages\nanoFramework.Graphics.Core.1.1.37\lib\nanoFramework.Graphics.Core.dll</HintPath>
@@ -111,7 +117,7 @@
       <HintPath>..\..\..\packages\nanoFramework.System.Net.1.10.52\lib\System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.1.5.99\lib\System.Net.Http.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.1.5.102\lib\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
       <HintPath>..\..\..\packages\nanoFramework.System.Threading.1.1.19\lib\System.Threading.dll</HintPath>
@@ -121,6 +127,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\Core\Logging\src\Hoff.Core.Services.Logging.nfproj" />
     <ProjectReference Include="..\Hoff.Server.Common\Hoff.Server.Common.nfproj" />
   </ItemGroup>

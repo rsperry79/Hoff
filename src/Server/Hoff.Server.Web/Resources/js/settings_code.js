@@ -1,7 +1,22 @@
+import { WsMessage } from "./WsMessage";
 export class Settings {
     wifiSettings;
-    constructor() {
+    webSocket;
+    constructor(connection) {
+        this.webSocket = connection;
         this.wifiSettings = new WifiSettings();
+    }
+    SaveWifiChanges() {
+        const selectedIdex = document.getElementById('inputSSID').options.selectedIndex;
+        const ssid = document.getElementById('inputSSID').options[selectedIdex].value;
+        const pass = document.getElementById('inputPassword').value;
+        this.wifiSettings.SSID = ssid;
+        this.wifiSettings.Password = pass;
+        const wsMessage = new WsMessage();
+        wsMessage.MessageType = "Hoff.Server.ApHelper.Models.WifiSettings";
+        wsMessage.Message = JSON.stringify(this.wifiSettings);
+        const toRet = JSON.stringify(wsMessage);
+        this.webSocket.send(toRet);
     }
     UpdateSsids() {
         const options = document.getElementById('inputSSID').options;
@@ -36,12 +51,12 @@ class WifiSettings {
     APsAvailable;
     SSID;
     Password;
-    AdHocEnabled;
+    IsAdhoc;
     constructor() {
         this.IsConfigured = false;
         this.SSID = "";
         this.Password = "";
-        this.AdHocEnabled = false;
+        this.IsAdhoc = false;
         this.APsAvailable = [];
     }
 }

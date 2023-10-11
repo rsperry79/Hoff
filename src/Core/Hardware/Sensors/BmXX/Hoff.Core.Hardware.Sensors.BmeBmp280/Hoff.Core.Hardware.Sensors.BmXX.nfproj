@@ -31,23 +31,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Iot.Device.Bmxx80, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Bmxx80.1.2.396\lib\Iot.Device.Bmxx80.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="Iot.Device.Bmxx80">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Bmxx80.1.2.403\lib\Iot.Device.Bmxx80.dll</HintPath>
     </Reference>
     <Reference Include="Iot.Device.Common.WeatherHelper">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Common.WeatherHelper.1.2.394\lib\Iot.Device.Common.WeatherHelper.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Common.WeatherHelper.1.2.401\lib\Iot.Device.Common.WeatherHelper.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="nanoFramework.DependencyInjection">
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.35\lib\nanoFramework.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging, Version=1.1.63.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.1.1.63\lib\nanoFramework.Logging.dll</HintPath>
@@ -71,22 +67,22 @@
       <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="UnitsNet.Duration">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Duration.5.34.0\lib\UnitsNet.Duration.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Duration.5.35.0\lib\UnitsNet.Duration.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.ElectricResistance">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.34.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.35.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Length">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Length.5.34.0\lib\UnitsNet.Length.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Length.5.35.0\lib\UnitsNet.Length.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Pressure">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Pressure.5.34.0\lib\UnitsNet.Pressure.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Pressure.5.35.0\lib\UnitsNet.Pressure.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.RelativeHumidity">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.34.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.35.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.34.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.35.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

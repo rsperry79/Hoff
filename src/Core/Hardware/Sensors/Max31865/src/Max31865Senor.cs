@@ -32,7 +32,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor
         private readonly object locker;
         private bool disposedValue;
         private bool init;
-        private Max31865 sensor = null;
+        private Max31865 sensor;
         private SpiDevice spiDevice;
         private Temperature temperature;
 

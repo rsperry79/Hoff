@@ -58,7 +58,9 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
 
                 // Setup
                 const LogLevel minLogLevel = LogLevel.Trace;
-                Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+                loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+                Logger = loggerCore.GetDebugLogger(loggerName);
                 Services = ConfigureServices();
 
                 IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));

@@ -48,7 +48,9 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
                 LoggerCore loggerCore = new();
                 const string loggerName = "TestLogger";
                 const LogLevel minLogLevel = LogLevel.Trace;
-                Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+                loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+                Logger = loggerCore.GetDebugLogger(loggerName);
 
                 Services = ConfigureServices();
 

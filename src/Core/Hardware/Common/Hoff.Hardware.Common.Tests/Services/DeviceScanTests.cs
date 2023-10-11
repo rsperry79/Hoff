@@ -3,8 +3,6 @@ using Hoff.Core.Hardware.Common.Tests.Helpers;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
-using Microsoft.Extensions.Logging;
-
 using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;
 
@@ -20,7 +18,7 @@ namespace Hoff.Core.Hardware.Common.Tests.Services
         {
             ServiceProvider services = DiSetup.ConfigureServices();
             LoggerCore loggerCore = new();
-            _ = loggerCore.GetDebugLogger("TestLogger", LogLevel.Trace);
+            _ = loggerCore.GetDebugLogger("TestLogger");
 
             IEspConfig espConfig = (IEspConfig)services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetI2C1Pins();
