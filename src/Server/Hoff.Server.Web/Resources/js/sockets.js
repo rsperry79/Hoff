@@ -4,7 +4,7 @@ window.userSettings = new Settings(connection);
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 connection.onmessage = function (evt) {
     const message = JSON.parse(evt.data);
-    if (message.MessageType === "Hoff.Core.Services.WirelessConfig.Models.WifiSetting") {
+    if (message.MessageType === "Hoff.Core.Services.WirelessConfig.Models.WifiSettings") {
         window.userSettings.UpdateSettingsDisplay(message.Message);
     }
     else if (message.MessageType === "UiMessage") {

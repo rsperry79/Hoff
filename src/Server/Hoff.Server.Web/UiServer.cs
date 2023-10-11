@@ -70,7 +70,7 @@ namespace Hoff.Server.Web
                 {
                     "/" => response.Send(StringResources.template.Inject(GetString(StringResources.main)), "text/html"),
                     "/settings" => response.Send(StringResources.template.Inject(GetString(StringResources.settings)), "text/html"),
-                    "/favicon.ico" => response.Send(Resources.GetBytes(BinaryResources.favicon), "image/png"),
+                    //"/favicon.ico" => response.Send(Resources.GetBytes(BinaryResources.favicon), "image/png"),
                     "/settings_code" => response.Send(Resources.GetString(StringResources.settings_code), "application/javascript"),
                     "/socket.js" => response.Send(Resources.GetString(StringResources.sockets), "application/javascript"),
                     "/WsMessage" => response.Send(Resources.GetString(StringResources.WsMessage), "application/javascript"),

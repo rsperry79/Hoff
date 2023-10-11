@@ -7,7 +7,7 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 connection.onmessage = function (evt) {
 
     const message: WsMessage = JSON.parse(evt.data);
-    if (message.MessageType === "Hoff.Core.Services.WirelessConfig.Models.WifiSetting") {
+    if (message.MessageType === "Hoff.Core.Services.WirelessConfig.Models.WifiSettings") {
 
         (window as any).userSettings.UpdateSettingsDisplay(message.Message);
     }

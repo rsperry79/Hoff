@@ -47,11 +47,12 @@ namespace Hoff.Core.Services.WirelessConfig.Ap
                 wifiSettings = settings;
                 NetworkInterface ni = NetworkHelpers.GetInterface();
                 WirelessAPConfiguration wapconf = NetworkHelpers.GetConfiguration();
-                GetAvailableAPs();
 
                 // Check if already Enabled and return true
                 if (wapconf.Options == (WirelessAPConfiguration.ConfigurationOptions.Enable | WirelessAPConfiguration.ConfigurationOptions.AutoStart) && ni.IPv4Address == wifiSettings.Address.ToString())
                 {
+                    GetAvailableAPs();
+
                     if (NetworkHelpers.IsAdHoc())
                     {
                         wifiSettings.IsAdhoc = true;
