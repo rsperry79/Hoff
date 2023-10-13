@@ -20,6 +20,7 @@
   <ItemGroup>
     <Compile Include="Helpers\DebugHelpers.cs" />
     <Compile Include="Interfaces\ILoggerCore.cs" />
+    <Compile Include="Interfaces\IWirelessAP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

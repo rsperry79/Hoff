@@ -2,6 +2,7 @@
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.WirelessConfig;
+using Hoff.Core.Services.WirelessConfig.Ap;
 using Hoff.Core.Services.WirelessConfig.Models;
 using Hoff.Server.Web;
 
@@ -20,8 +21,8 @@ namespace Hoff.Server.Core.Helpers
                 .AddSingleton(typeof(ILoggerFactory), typeof(DebugLoggerFactory))
                 .AddSingleton(typeof(IApConfig), typeof(ApConfig))
                 .AddSingleton(typeof(IWifiSettings), typeof(WifiSettings))
+                .AddSingleton(typeof(IWirelessAP), typeof(WirelessAP))
                 .AddTransient(typeof(UiServer))
-
                 .BuildServiceProvider();
         }
     }

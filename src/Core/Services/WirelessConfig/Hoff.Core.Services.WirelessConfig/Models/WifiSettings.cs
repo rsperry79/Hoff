@@ -48,11 +48,7 @@ namespace Hoff.Core.Services.WirelessConfig.Models
         {
             try
             {
-                if (Configuration == null)
-                {
-
-                    Configuration = NetworkHelpers.GetConfiguration();
-                }
+                Configuration ??= NetworkHelpers.GetConfiguration();
             }
             catch (Exception ex)
             {
@@ -61,10 +57,6 @@ namespace Hoff.Core.Services.WirelessConfig.Models
             }
         }
 
-        public WifiSettings(ILoggerCore loggerCore)
-        {
-
-            Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
-        }
+        public WifiSettings(ILoggerCore loggerCore) => Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
     }
 }

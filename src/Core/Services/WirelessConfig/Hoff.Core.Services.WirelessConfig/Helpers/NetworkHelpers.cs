@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System.Net;
+using System.Net.NetworkInformation;
 using System.Threading;
 
 using nanoFramework.Networking;
@@ -7,7 +8,6 @@ namespace Hoff.Core.Services.WirelessConfig.Helpers
 {
     internal static class NetworkHelpers
     {
-
         private static NetworkInterface Network { get; set; }
 
         internal static NetworkInterface GetInterface()
@@ -51,20 +51,25 @@ namespace Hoff.Core.Services.WirelessConfig.Helpers
             return Wireless80211Configuration.GetAllWireless80211Configurations()[ni.SpecificConfigId];
         }
 
+        /// <summary>
+        /// Gets <see langword="true"/> if the Wireless station interface is enabled as AdHoc.
+        /// </summary>
+        /// <returns><cref>bool</cref></returns>
         internal static bool IsAdHoc()
         {
             Wireless80211Configuration conf = GetAllConfiguration();
             return conf.Options.HasFlag(Wireless80211Configuration.ConfigurationOptions.Enable);
         }
+        /// <summary>
+        /// Checks to see if an SSID is configured.
+        /// </summary>
+        /// <returns>True if configured</returns>
         internal static bool HasSSID()
         {
-            var conf = GetAllConfiguration();
-            bool isNull = conf.Ssid != string.Empty ? true : false;
+            Wireless80211Configuration conf = GetAllConfiguration();
+            bool isNull = conf.Ssid != string.Empty;
 
-            conf.Options.HasFlag(Wireless80211Configuration.ConfigurationOptions.SmartConfig);
-
-
-
+            _ = conf.Options.HasFlag(Wireless80211Configuration.ConfigurationOptions.SmartConfig);
             return isNull;
         }
 
@@ -94,22 +99,30 @@ namespace Hoff.Core.Services.WirelessConfig.Helpers
             return true;
         }
 
-
-        internal static string GetAndWaitForIP()
+        /// <summary>
+        /// Gets the interface and waits for the IP address to be assigned.
+        /// </summary>
+        /// <returns>The IP address</returns>
+        internal static IPAddress GetAndWaitForIP()
         {
-            while (true)
+            bool hasIP = false;
+            int count = 0;
+            while (!hasIP | count < 10)
             {
                 NetworkInterface ni = GetInterface();
                 if (!string.IsNullOrEmpty(ni.IPv4Address))
                 {
                     if (ni.IPv4Address[0] != '0')
                     {
-                        return ni.IPv4Address;
+                        return IPAddress.Parse(ni.IPv4Address);
                     }
                 }
 
+                count++;
                 Thread.Sleep(500);
             }
+
+            return null;
         }
 
         /// <summary>
@@ -121,11 +134,5 @@ namespace Hoff.Core.Services.WirelessConfig.Helpers
             NetworkInterface ni = GetInterface();
             return ni.IPv4Address;
         }
-
-
-
-
-
-
     }
 }
