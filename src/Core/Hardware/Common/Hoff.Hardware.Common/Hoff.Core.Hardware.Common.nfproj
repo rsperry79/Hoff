@@ -28,7 +28,10 @@
     <Compile Include="Interfaces\Services\IApConfig.cs" />
     <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
     <Compile Include="Interfaces\Services\IWifiSettings.cs" />
+    <Compile Include="Interfaces\Storage\ISettingsStorage.cs" />
     <Compile Include="Interfaces\Storage\IEeprom.cs" />
+    <Compile Include="Interfaces\Services\ISettings.cs" />
+    <Compile Include="Models\Settings\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\I2cBussControllerService.cs" />
     <Compile Include="Structs\DirectLine.cs" />
@@ -101,7 +104,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\Base\" />
+    <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

@@ -58,7 +58,7 @@ namespace Hoff.Server.Web
             HttpListenerResponse response = e.Context.Response;
             Logger.LogInformation($"response url: {request.RawUrl}");
 
-            //check if this is a WebSocket request or a page request 
+            //check if this is a WebSocket request or a page request
             if (request.Headers["Upgrade"] == "websocket")
             {
                 //Upgrade to a WebSocket

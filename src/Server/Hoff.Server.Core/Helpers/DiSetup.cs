@@ -3,7 +3,6 @@ using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.WirelessConfig;
 using Hoff.Core.Services.WirelessConfig.Ap;
-using Hoff.Core.Services.WirelessConfig.Models;
 using Hoff.Server.Web;
 
 using Microsoft.Extensions.Logging;
