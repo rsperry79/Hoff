@@ -1,12 +1,11 @@
 ﻿using Hoff.Core.Hardware.Common.Services;
-using Hoff.Core.Hardware.Common.Tests.Helpers;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
 using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;
 
-namespace Hoff.Core.Hardware.Common.Tests.Services
+namespace Hoff.Core.Hardware.Common.RealTests
 {
     [TestClass]
     internal class DeviceScanTests

@@ -27,7 +27,13 @@ namespace Hoff.Server.Core
                 services = DiSetup.ConfigureServices();
 
                 ConfigureLogging();
+
+
+
+
                 LoadWireless();
+
+
 
                 _ = services.GetRequiredService(typeof(UiServer));
                 Thread.Sleep(Timeout.Infinite);

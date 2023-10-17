@@ -1,149 +1,99 @@
 ﻿// Ignore Spelling: Nvs
 
 using System;
-
-using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Interfaces.Storage;
-
 using System.IO;
 using System.Text;
-using nanoFramework.Json;
+
+using Hoff.Core.Common.Interfaces;
+using Hoff.Hardware.Common.Interfaces.Storage;
+
+using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging.Debug;
-using Microsoft.Extensions.Logging;
 
 namespace Hoff.Core.Hardware.Storage.Nvs
 {
-    public class NvsStorage<T> : ISettingsStorage, IDisposable
+    public class NvsStorage : ISettingsStorageDriver
     {
-        #region Fields
-        private bool disposedValue;
+        public NvsStorage(ILoggerCore loggerCore) => Logger = loggerCore.GetDebugLogger(this.GetType().ToString());
 
-        private string ConfigFile { get; set; }
-
-        private DebugLogger Logger;
-        private bool HasStored => File.Exists(this.ConfigFile);
-
-        private T settings;
-
-        public T Settings {
-            get
-            {
-               return this.settings;
-            }
-            set
-            {
-                this.settings = value;
-                this.WriteConfig();
-                this.SendEvent();
-            }
-        }
-
-        #endregion Fields
-
-        #region Public Constructors
-
-        public NvsStorage(ILoggerCore loggerCore, T defaults, string configFile = "I:\\configuration.json")
+        public string Read(string storageName)
         {
-            this.ConfigFile = configFile;
-            this.Logger = loggerCore.GetDebugLogger(this.GetType().ToString());
+            bool hasStored = HasStored(storageName);
+            string temp = !hasStored ? string.Empty : GetString(ToUri(storageName));
 
-            if (!this.HasStored)
+            if (!hasStored)
             {
-                this.Settings = defaults;
+                WriteData(ToUri(storageName), string.Empty);
             }
-            else
+
+            return temp;
+        }
+
+        public void Write(string storageName, string data)
+        {
+
+            WriteData(ToUri(storageName), data);
+        }
+
+        public void Clear(string storageName)
+        {
+            string uri = ToUri(storageName);
+            if (File.Exists(uri))
             {
-                this.Settings = this.GetSettings();
+                File.Delete(uri);
             }
+
+            WriteData(uri, string.Empty);
         }
 
-        #endregion Public Constructors
-
-        #region Delegates
-
-        public delegate void SettingsStorageChangedEventHandler(object sender, bool dataChanged);
-
-        #endregion Delegates
-
-        #region Events
-
-        // Event Handlers
-        public event EventHandler<bool> DataChanged;
-
-        #endregion Events
-
-        #region Public Methods
-
-        public void HardResetSettings(bool confirm)
+        private static DebugLogger Logger;
+        private static bool HasStored(string storageName)
         {
-            if (File.Exists(this.ConfigFile))
-            {
-                File.Delete(this.ConfigFile);
-            }
+            bool temp = File.Exists(ToUri(storageName));
+            return temp;
         }
 
-
-        public void Dispose()
+        private static string ToUri(string storageName)
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            return $"I:\\{storageName}";
         }
 
-        #endregion Public Methods
-
-        #region Protected Methods
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-                }
-
-                this.disposedValue = true;
-            }
-        }
-
-        #endregion Protected Methods
-
-        #region Private Methods
-        private void SendEvent()
-        {
-            EventHandler<bool> tempEvent = DataChanged;
-            tempEvent(this, true);
-        }
-
-        private bool WriteConfig()
+        private static bool WriteData(string uri, string data)
         {
             try
             {
-                string configJson = JsonConvert.SerializeObject(this.settings);
-                FileStream json = new FileStream(this.ConfigFile, FileMode.Create);
+                FileStream file = new FileStream(uri, FileMode.Create);
 
-                byte[] buffer = Encoding.UTF8.GetBytes(configJson);
-                json.Write(buffer, 0, buffer.Length);
-                json.Dispose();
+                byte[] buffer = Encoding.UTF8.GetBytes(data);
+                file.Write(buffer, 0, buffer.Length);
+                file.Dispose();
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                this.Logger.LogCritical(ex.Message, ex);
-                return false;
+                Logger.LogCritical(ex.Message, ex);
+                throw;
             }
         }
 
-        private T GetSettings()
+        private static string GetString(string uri)
         {
-            FileStream json = new FileStream(this.ConfigFile, FileMode.Open);
-            T config = (T)JsonConvert.DeserializeObject(json, typeof(T));
-            return config;
-        }
+            try
+            {
+                FileStream stream = new FileStream(uri, FileMode.Open);
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, (int)stream.Length);
 
-        #endregion Private Methods
+                string raw = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                return raw;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogCritical(ex.Message, ex);
+                throw;
+            }
+        }
     }
 }

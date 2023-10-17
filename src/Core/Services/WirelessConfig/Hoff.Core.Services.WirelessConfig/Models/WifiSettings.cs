@@ -23,6 +23,7 @@ namespace Hoff.Core.Services.WirelessConfig.Models
 
         public IPAddress NetMask { get; set; } = IPAddress.Parse("255.255.255.0");
 
+        public bool IsStaticIP { get; set; } = false;
         public string SSID
         {
             get

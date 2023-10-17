@@ -1,53 +1,48 @@
 ﻿using System;
 
+using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Hardware.Common.Interfaces.Storage;
-
-using nanoFramework.Json;
 
 namespace Hoff.Core.Services.Settings
 {
-    public class Settings<T> : IDisposable
+    public class Settings : IChangeNotifcation, IDisposable
     {
         #region Fields
-
-        protected static T settings;
-        protected IEeprom Eeprom;
-
+        private ISettingsStorageDriver storage;
         private bool disposedValue;
-        private byte startLocation = 0x00;
+        private IWifiSettings WifiSettings;
+
 
         #endregion Fields
 
+
         #region Public Constructors
 
-        public Settings(IEeprom eeprom)
+        public Settings(ISettingsStorageDriver settingsStorage, IWifiSettings wifiSettings)
         {
-            this.Eeprom = eeprom;
+            this.storage = settingsStorage;
+            this.WifiSettings = wifiSettings;
 
-            if (settings is null)
-            {
-                this.GetSettings();
-            }
+            this.GetSettings();
+
+
         }
 
         #endregion Public Constructors
 
-        #region Properties
+        #region Delegates
 
-        public byte StartLocation
-        {
-            get => this.startLocation;
-            set
-            {
-                if (this.startLocation != value)
-                {
-                    this.startLocation = value;
-                    this.GetSettings();
-                }
-            }
-        }
+        public delegate void SettingsChangedEventHandler(object sender, bool dataChanged);
 
-        #endregion Properties
+        #endregion Delegates
+
+        #region Events
+
+        // Event Handlers
+        public event EventHandler<bool> DataChanged;
+
+        #endregion Events
 
         #region Public Methods
 
@@ -56,13 +51,6 @@ namespace Hoff.Core.Services.Settings
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
-        }
-
-        public bool WriteSettings()
-        {
-            string result = JsonConvert.SerializeObject(this);
-            bool write = this.Eeprom.WriteString(this.startLocation, result);
-            return write;
         }
 
         #endregion Public Methods
@@ -82,19 +70,29 @@ namespace Hoff.Core.Services.Settings
             }
         }
 
-        protected void GetSettings()
-        {
-            try
-            {
-                string data = this.Eeprom.ReadString(this.startLocation);
-                T temp = (T)JsonConvert.DeserializeObject(data, typeof(T));
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+
 
         #endregion Protected Methods
+
+        #region Private Methods
+        private void SendEvent()
+        {
+            EventHandler<bool> tempEvent = DataChanged;
+            tempEvent(this, true);
+        }
+        private void GetSettings()
+        {
+            this.storage.GetSettings();
+        }
+
+        private object WriteSettings()
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
+        #endregion Private Methods
     }
 }

@@ -3,7 +3,7 @@ using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using nanoFramework.TestFramework;
 
-namespace Hoff.Core.Hardware.Common.Tests.Models
+namespace Hoff.Core.Hardware.Common.Tests
 {
     [TestClass]
     public class PinConfigTests
@@ -11,7 +11,7 @@ namespace Hoff.Core.Hardware.Common.Tests.Models
         #region Public Methods
 
         [TestMethod]
-        public void TestMethod1()
+        public void PinConfigTest()
         {
             // Arrange
             int mosi = 11;

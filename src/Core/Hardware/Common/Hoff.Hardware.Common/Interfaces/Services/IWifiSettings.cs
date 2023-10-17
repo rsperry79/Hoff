@@ -12,5 +12,6 @@ namespace Hoff.Core.Hardware.Common.Interfaces.Services
         string SSID { get; }
 
         bool IsAdhoc { get; set; }
+        bool IsStaticIP { get; set; }
     }
 }
