@@ -28,6 +28,7 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Helpers\DiSetup.cs" />
+    <Compile Include="Models\SettingsStorageTests.cs" />
     <Compile Include="PinConfigTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

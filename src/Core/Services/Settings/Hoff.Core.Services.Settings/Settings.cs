@@ -19,10 +19,9 @@ namespace Hoff.Core.Services.Settings
 
         #region Public Constructors
 
-        public Settings(ISettingsStorageDriver settingsStorage, IWifiSettings wifiSettings)
+        public Settings(ISettingsStorageDriver settingsStorage)
         {
             this.storage = settingsStorage;
-            this.WifiSettings = wifiSettings;
 
             this.GetSettings();
 
@@ -82,7 +81,7 @@ namespace Hoff.Core.Services.Settings
         }
         private void GetSettings()
         {
-            this.storage.GetSettings();
+            this.storage.Read();
         }
 
         private object WriteSettings()

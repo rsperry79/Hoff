@@ -1,29 +1,51 @@
 ﻿
-using System.Text;
+using System;
+using System.Collections;
+
+using Hoff.Core.Hardware.Common.Interfaces.Storage;
 
 namespace Hoff.Core.Hardware.Common.Models
 {
-    public class SettingsStorage
+    public class SettingsStorage : ISettingsStorage
     {
         #region Properties
 
-        public string StorageLocation { get; set; }
-        public string StorageDriver { get; set; }
-        public string ConfigType { get; set; }
+        private ArrayList items;
+
+
+        public int Count => this.items.Count;
 
         #endregion Properties
 
-        #region Methods
-
-        public override string ToString()
+        #region Public Methods
+        public ArrayList FindByType(Type type)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"StorageLocation: {this.StorageLocation}");
-            sb.AppendLine($"StorageDriver: {this.StorageDriver}");
-            sb.AppendLine($"ConfigType: {this.ConfigType}");
-            return sb.ToString();
+            ArrayList matches = new ArrayList();
+            for (int i = 0; i < this.items.Count; i++)
+            {
+                if ((this.items[i] as SettingsStorageItem).ConfigType == type)
+                {
+                    matches.Add(this.items[i]);
+                }
+            }
+
+            return matches;
         }
 
+        public int Add(SettingsStorageItem value)
+        {
+            ArrayList existing = this.FindByType(value.ConfigType);
+
+            foreach (SettingsStorageItem item in existing)
+            {
+                if (item == value)
+                {
+
+                }
+            }
+        }
+
+        public bool Contains(Type toFind) => this.FindByType(toFind).Count > 0 ? true : false;
         #endregion Methods
     }
 }

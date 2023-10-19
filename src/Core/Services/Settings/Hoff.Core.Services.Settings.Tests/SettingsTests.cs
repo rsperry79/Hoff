@@ -14,7 +14,7 @@ namespace Hoff.Core.Services.Settings.Tests
         public void GetSettingsTest()
         {
             // Arrange
-            Settings<SettingsTestModel> settings = TestHelpers.Setup();
+            Settings settings = TestHelpers.Setup();
 
             // Act
 
@@ -26,7 +26,7 @@ namespace Hoff.Core.Services.Settings.Tests
         public void WriteSettingsTest()
         {
             // Arrange
-            Settings<SettingsTestModel> settings = TestHelpers.Setup();
+            Settings  settings = TestHelpers.Setup();
             // Act
             bool result = settings.WriteSettings();
 
