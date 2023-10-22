@@ -27,7 +27,7 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="Helpers\TestHelpers.cs" />
+    <Compile Include="Helpers\DiSetup.cs" />
     <Compile Include="Models\SettingsTestModel.cs" />
     <Compile Include="SettingsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -38,6 +38,7 @@
     <ProjectReference Include="..\..\..\Hardware\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
     <ProjectReference Include="..\..\..\Hardware\Storage\At24\src\Hoff.Core.Hardware.Storage.At24.nfproj" />
     <ProjectReference Include="..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\..\WirelessConfig\Hoff.Core.Services.WirelessConfig\Hoff.Core.Services.WirelessConfig.nfproj" />
     <ProjectReference Include="..\Hoff.Core.Services.Settings\Hoff.Core.Services.Settings.nfproj" />
   </ItemGroup>
   <ItemGroup>
@@ -46,9 +47,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Iot.Device.At24cxx">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.At24cxx.1.0.161\lib\Iot.Device.At24cxx.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
     </Reference>

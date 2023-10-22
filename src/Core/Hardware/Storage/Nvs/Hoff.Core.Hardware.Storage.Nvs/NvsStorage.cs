@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 
 using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Storage.Nvs.Helpers;
+using Hoff.Core.Hardware.Common.Interfaces.Storage;
 using Hoff.Hardware.Common.Interfaces.Storage;
 
 using Microsoft.Extensions.Logging;
@@ -14,11 +14,11 @@ using nanoFramework.Logging.Debug;
 
 namespace Hoff.Core.Hardware.Storage.Nvs
 {
-    public class NvsStorage : ISettingsStorageDriver
+    public class NvsStorage : INvsSettingsStorageDriver, ISettingsStorageDriver
     {
         private static DebugLogger Logger;
 
-        public string FiePath{ get; set; } = "I:\\";
+        public string FiePath { get; set; } = "I:\\";
 
         public NvsStorage(ILoggerCore loggerCore)
         {
@@ -58,7 +58,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
         }
 
 
-        internal  bool HasStored(string storageName)
+        internal bool HasStored(string storageName)
         {
             bool temp = File.Exists(this.ToUri(storageName));
             return temp;
@@ -99,7 +99,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
             }
         }
 
-        internal  string ToUri(string storageName)
+        internal string ToUri(string storageName)
         {
             return $"{this.FiePath}{storageName}";
         }

@@ -26,12 +26,14 @@
     <Compile Include="Interfaces\Rtc\IRtc.cs" />
     <Compile Include="Interfaces\Services\IApConfig.cs" />
     <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
+    <Compile Include="Interfaces\Services\ISettingsService.cs" />
     <Compile Include="Interfaces\Services\IWifiSettings.cs" />
+    <Compile Include="Interfaces\Storage\INvsSettingsStorageDriver.cs" />
     <Compile Include="Interfaces\Storage\ISettingsStorageDriver.cs" />
     <Compile Include="Interfaces\Storage\IEeprom.cs" />
-    <Compile Include="Interfaces\Services\ISettings.cs" />
     <Compile Include="Interfaces\Storage\ISettingsStorageItem.cs" />
     <Compile Include="Interfaces\Storage\ISettingsStorage.cs" />
+    <Compile Include="Models\SettingsBase.cs" />
     <Compile Include="Models\SettingsStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\I2cBussControllerService.cs" />
@@ -55,11 +57,17 @@
     <Reference Include="nanoFramework.DependencyInjection">
       <HintPath>..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.35\lib\nanoFramework.DependencyInjection.dll</HintPath>
     </Reference>
+    <Reference Include="nanoFramework.Json">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Json.2.2.101\lib\nanoFramework.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nanoFramework.Logging">
       <HintPath>..\..\..\..\..\packages\nanoFramework.Logging.1.1.63\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
       <HintPath>..\..\..\..\..\packages\nanoFramework.Runtime.Events.1.11.6\lib\nanoFramework.Runtime.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.System.Collections">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Collections.1.5.18\lib\nanoFramework.System.Collections.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.System.Text">
       <HintPath>..\..\..\..\..\packages\nanoFramework.System.Text.1.2.37\lib\nanoFramework.System.Text.dll</HintPath>

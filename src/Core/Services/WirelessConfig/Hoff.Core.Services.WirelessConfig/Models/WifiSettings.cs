@@ -5,17 +5,16 @@ using System.Net.NetworkInformation;
 
 using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Hardware.Common.Models;
 using Hoff.Core.Services.WirelessConfig.Helpers;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.Logging.Debug;
-
 namespace Hoff.Core.Services.WirelessConfig.Models
 {
-    public class WifiSettings : IWifiSettings
+    public class WifiSettings : SettingsStorageItem, IWifiSettings, IChangeNotifcation
     {
-        private static DebugLogger Logger;
+
         private static WirelessAPConfiguration Configuration { get; set; }
         public WifiAvailableNetwork[] APsAvailable { get; set; }
 
@@ -28,7 +27,7 @@ namespace Hoff.Core.Services.WirelessConfig.Models
         {
             get
             {
-                GetConfig();
+                this.Initialize();
 
                 return Configuration.Ssid;
             }
@@ -38,14 +37,14 @@ namespace Hoff.Core.Services.WirelessConfig.Models
         {
             get
             {
-                GetConfig();
+                this.Initialize();
                 return Configuration.Password;
             }
         }
 
         public bool IsAdhoc { get; set; } = false;
 
-        private static void GetConfig()
+        protected override void Initialize()
         {
             try
             {
@@ -53,11 +52,11 @@ namespace Hoff.Core.Services.WirelessConfig.Models
             }
             catch (Exception ex)
             {
-                Logger.LogCritical(ex.Message, ex);
+                this.Logger.LogCritical(ex.Message, ex);
                 throw;
             }
         }
 
-        public WifiSettings(ILoggerCore loggerCore) => Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
+        public WifiSettings(ILoggerCore loggerCore) => this.Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
     }
 }

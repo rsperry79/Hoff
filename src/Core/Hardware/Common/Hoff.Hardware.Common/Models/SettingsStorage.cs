@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
@@ -9,9 +8,7 @@ namespace Hoff.Core.Hardware.Common.Models
     public class SettingsStorage : ISettingsStorage
     {
         #region Properties
-
         private ArrayList items;
-
 
         public int Count => this.items.Count;
 
@@ -40,9 +37,11 @@ namespace Hoff.Core.Hardware.Common.Models
             {
                 if (item == value)
                 {
-
+                    return this.items.IndexOf(item);
                 }
             }
+
+            return this.items.Add(value);
         }
 
         public bool Contains(Type toFind) => this.FindByType(toFind).Count > 0 ? true : false;
