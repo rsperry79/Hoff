@@ -83,7 +83,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
 
             if (received != EOL)
             {
-                receivedData.Add(received);
+                _ = receivedData.Add(received);
                 do
                 {
                     byte[] receivedCharacter = new byte[1];
@@ -91,7 +91,7 @@ namespace Hoff.Core.Hardware.Storage.EepromMocks
 
                     if (receivedCharacter[0] != EOL)
                     {
-                        receivedData.Add(received);
+                        _ = receivedData.Add(received);
                     }
                     else
                     {

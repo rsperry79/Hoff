@@ -1,24 +1,25 @@
-﻿//using Hoff.Core.DependencyInjection.Tests.Helpers;
+﻿using Hoff.Core.DependencyInjection.Tests.Helpers;
 
-//using nanoFramework.DependencyInjection;
-//using nanoFramework.TestFramework;
+using Microsoft.Extensions.DependencyInjection;
 
-//namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests
-//{
-//    [TestClass]
-//    public class DependencyInjectionCoreTests
-//    {
-//        [TestMethod]
-//        public void LoggingDependencyInjectionTest()
-//        {
-//            // Setup
-//            ServiceProvider services = TempDisplaySetup.ConfigureServices(); // by ext static class as this is a common set up
+using nanoFramework.TestFramework;
 
-//            // Arrange
-//            DiLoggingTestClass loggingTest = (DiLoggingTestClass)services.GetRequiredService(typeof(DiLoggingTestClass));
+namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests
+{
+    [TestClass]
+    public class DependencyInjectionTests
+    {
+        [TestMethod]
+        public void LoggingDependencyInjectionTest()
+        {
+            // Setup
+            ServiceProvider services = DiSetup.ConfigureLoggingServices(); // by ext static class as this is a common set up
 
-//            // Act
-//            loggingTest.RunLogTests();
-//        }
-//    }
-//}
+            // Arrange
+            DiLoggingTestClass loggingTest = (DiLoggingTestClass)services.GetRequiredService(typeof(DiLoggingTestClass));
+
+            // Act
+            loggingTest.RunLogTests();
+        }
+    }
+}

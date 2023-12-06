@@ -9,7 +9,7 @@ using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Logging.Debug;
 
 namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
@@ -22,7 +22,7 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
         public static IEeprom prom;
         public static ServiceProvider Services;
 
-        private static int size = 32;
+        private static readonly int size = 32;
 
         #endregion Fields
 
@@ -48,7 +48,9 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
                 LoggerCore loggerCore = new();
                 const string loggerName = "TestLogger";
                 const LogLevel minLogLevel = LogLevel.Trace;
-                Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+                loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+                Logger = loggerCore.GetDebugLogger(loggerName);
 
                 Services = ConfigureServices();
 
@@ -58,6 +60,7 @@ namespace Hoff.Core.Hardware.Storage.At24.Tests.Helpers
 
                 prom = (IEeprom)ActivatorUtilities.CreateInstance(Services, typeof(IEeprom), new object[] { true, 32 });
             }
+
             return prom;
         }
 

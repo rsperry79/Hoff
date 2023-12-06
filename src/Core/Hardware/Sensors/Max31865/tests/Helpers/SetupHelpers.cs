@@ -8,7 +8,7 @@ using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Logging.Debug;
 
 namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers
@@ -33,7 +33,9 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers
             LoggerCore loggerCore = new();
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            Logger = loggerCore.GetDebugLogger(loggerName);
 
             IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetSpi1Pins();
@@ -46,7 +48,7 @@ namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests.Helpers
                 BaseSetup();
 
                 sensor = (IMax31865Senor)Services.GetRequiredService(typeof(IMax31865Senor));
-                sensor.DefaultInit();
+                _ = sensor.DefaultInit();
             }
 
             return sensor;

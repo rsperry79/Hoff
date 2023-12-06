@@ -1,0 +1,58 @@
+{
+  "name": "hoff",
+  "version": "1.0.0",
+  "description": "hoff",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@movahhedi/gulp-stylelint": "^14.14.3",
+    "@popperjs/core": "^2.11.8",
+    "@ronilaukkarinen/gulp-stylelint": "^14.1.2",
+    "@types/bootstrap": "5.2.10",
+    "@types/jquery": "^3.5.29",
+    "@types/node": "20.10.3",
+    "@typescript-eslint/eslint-plugin": "6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "autoprefixer": "10.4.16",
+    "eslint": "^8.55.0",
+    "gulp": "^4.0.2",
+    "gulp-cached": "1.1.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-minify-css": "1.2.4",
+    "gulp-postcss": "9.0.1",
+    "gulp-sass": "5.1.0",
+    "gulp-scss-lint": "^1.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "gulp-uglify": "^3.0.2",
+    "gulp-util": "3.0.8",
+    "gulp-yarn": "4.0.1",
+    "gulplog": "^2.0.1",
+    "install": "^0.13.0",
+    "merge2": "^1.4.1",
+    "postcss": "8.4.32",
+    "postcss-strip-inline-comments": "0.1.5",
+    "rimraf": "^5.0.5",
+    "sass": "1.69.5",
+    "stylelint": "^15.11.0",
+    "stylelint-scss": "^5.3.1",
+    "through2": "^4.0.2",
+    "typescript": "5.3.3",
+    "typescript-eslint": "^0.0.1-alpha.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "gulp-cli": "2.3.0"
+  }
+}

@@ -18,17 +18,25 @@ namespace Hoff.Core.Services.Logging
     public class LoggerCore : ILoggerCore
     {
         private static DebugLogger Logger { get; set; }
+        private static LogLevel DefaultLoggingLevel { get; set; }
 
-        public DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel = LogLevel.Trace)
+        public LoggerCore() => DefaultLoggingLevel = LogLevel.Trace;
+        public DebugLogger GetDebugLogger(string loggerName)
         {
+
             Logger = new DebugLogger(loggerName)
             {
-                MinLogLevel = logLevel
+                MinLogLevel = DefaultLoggingLevel
             };
 
             LogDispatcher.LoggerFactory = new DebugLoggerFactory();
 
             return Logger;
+        }
+
+        public void SetDefaultLoggingLevel(LogLevel level)
+        {
+            DefaultLoggingLevel = level;
         }
 
         public void GetSerialLogger(string port = null)

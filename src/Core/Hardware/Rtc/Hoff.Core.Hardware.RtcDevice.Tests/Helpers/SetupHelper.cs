@@ -4,14 +4,13 @@ using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Hardware.Rtc.RtcDevice.Interfaces;
 using Hoff.Core.Services.Logging;
-
 using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Logging.Debug;
 
 namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
@@ -78,8 +77,10 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
 
-            LoggerCore loggerCore = new LoggerCore(); // (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
-            return loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            LoggerCore loggerCore = new(); // (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            return loggerCore.GetDebugLogger(loggerName);
         }
 
         public static IDS3231Rtc Setup()

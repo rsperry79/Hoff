@@ -6,9 +6,10 @@ namespace Hoff.Core.Common.Interfaces
 {
     public interface ILoggerCore
     {
+        void SetDefaultLoggingLevel(LogLevel level);
         #region Public Methods
 
-        DebugLogger GetDebugLogger(string loggerName, LogLevel logLevel);
+        DebugLogger GetDebugLogger(string loggerName);
 
         void GetMemoryStreamLogger();
 

@@ -8,7 +8,7 @@ using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Logging.Debug;
 
 namespace Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers
@@ -37,7 +37,9 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers
 
             // Setup
             const LogLevel minLogLevel = LogLevel.Trace;
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            Logger = loggerCore.GetDebugLogger(loggerName);
         }
 
         public static IDht11Sensor Setup()

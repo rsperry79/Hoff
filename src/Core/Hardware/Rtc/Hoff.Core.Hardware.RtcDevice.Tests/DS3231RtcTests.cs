@@ -7,7 +7,7 @@ using Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 using UnitsNet;
@@ -36,7 +36,7 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests
             SetupHelper.BaseSetup();
             try
             {
-                DS3231Rtc dS3231Rtc = new DS3231Rtc(new I2cBussControllerService());
+                DS3231Rtc dS3231Rtc = new(new I2cBussControllerService());
 
                 // Act
                 bool result = dS3231Rtc.DefaultInit();
@@ -114,7 +114,7 @@ namespace Hoff.Core.Hardware.Rtc.RtcDevice.Tests
             ILogger logger = SetupHelper.Logger;
 
             // Act
-            DateTime date = new DateTime(2023, 3, 3, 10, 11, 12);
+            DateTime date = new(2023, 3, 3, 10, 11, 12);
 
             logger.LogDebug($"Set: {date}");
             dS3231Rtc.SetDateTime(date);

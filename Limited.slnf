@@ -1,0 +1,26 @@
+{
+  "solution": {
+    "path": "Hoff.sln",
+    "projects": [
+      "src\\Core\\Common\\src\\Hoff.Core.Common.nfproj",
+      "src\\Core\\Common\\tests\\Hoff.Core.Common.Tests.nfproj",
+      "src\\Core\\Hardware\\Common\\Hoff.Core.Hardware.Common.RealTests\\Hoff.Core.Hardware.Common.RealTests.nfproj",
+      "src\\Core\\Hardware\\Common\\Hoff.Hardware.Common.Tests\\Hoff.Core.Hardware.Common.Tests.nfproj",
+      "src\\Core\\Hardware\\Common\\Hoff.Hardware.Common\\Hoff.Core.Hardware.Common.nfproj",
+      "src\\Core\\Hardware\\SoC\\Esp32\\Hoff.Hardware.Soc.Esp32\\Hoff.Hardware.Soc.SoCEsp32.nfproj",
+      "src\\Core\\Hardware\\SoC\\Esp32\\Hoff.Hardware.Soc.SoCEsp32.Tests\\SoCEsp32.RealTests.nfproj",
+      "src\\Core\\Hardware\\Storage\\At24\\src\\Hoff.Core.Hardware.Storage.At24.nfproj",
+      "src\\Core\\Hardware\\Storage\\Nvs\\Hoff.Core.Hardware.Storage.Nvs.Tests\\Hoff.Core.Hardware.Storage.Nvs.Tests.nfproj",
+      "src\\Core\\Hardware\\Storage\\Nvs\\Hoff.Core.Hardware.Storage.Nvs\\Hoff.Core.Hardware.Storage.Nvs.nfproj",
+      "src\\Core\\IntegrationTests\\Hoff.Core.IntegrationTests.Integration.Tests.nfproj",
+      "src\\Core\\Logging\\src\\Hoff.Core.Services.Logging.nfproj",
+      "src\\Core\\Logging\\tests\\Hoff.Core.Services.Logging.Tests.nfproj",
+      "src\\Core\\Services\\Settings\\Hoff.Core.Services.Settings\\Hoff.Core.Services.Settings.nfproj",
+      "src\\Core\\Services\\WirelessConfig\\Hoff.Core.Services.WirelessConfig.Tests\\Hoff.Core.Services.WirelessConfig.Tests.nfproj",
+      "src\\Core\\Services\\WirelessConfig\\Hoff.Core.Services.WirelessConfig\\Hoff.Core.Services.WirelessConfig.nfproj",
+      "src\\Server\\Hoff.Server.Common\\Hoff.Server.Common.nfproj",
+      "src\\Server\\Hoff.Server.Core\\Hoff.Server.Core.nfproj",
+      "src\\Server\\Hoff.Server.Web\\Hoff.Server.Web.nfproj"
+    ]
+  }
+}

@@ -20,45 +20,38 @@
   <ItemGroup>
     <Compile Include="DS3231Rtc.cs" />
     <Compile Include="Interfaces\IDS3231Rtc.cs" />
+    <Compile Include="Interfaces\IRtcExtended.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Iot.Device.Common.NumberHelper">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.Common.NumberHelper.1.2.325\lib\Iot.Device.Common.NumberHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="Iot.Device.Rtc">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.Rtc.1.2.378\lib\Iot.Device.Rtc.dll</HintPath>
-    </Reference>
-    <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="nanoFramework.Logging, Version=1.1.63.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.Logging.1.1.63\lib\nanoFramework.Logging.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="System.Device.I2c, Version=1.1.11.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.11\lib\System.Device.I2c.dll</HintPath>
-      <Private>True</Private>
-      <SpecificVersion>True</SpecificVersion>
-    </Reference>
-    <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.31.0\lib\UnitsNet.Temperature.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Iot.Device.Common.NumberHelper">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.Common.NumberHelper.1.2.418\lib\Iot.Device.Common.NumberHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Iot.Device.Rtc">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.Rtc.1.2.436\lib\Iot.Device.Rtc.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.DependencyInjection">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.1.3\lib\nanoFramework.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.Logging">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.Logging.1.1.76\lib\nanoFramework.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Device.I2c">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.16\lib\System.Device.I2c.dll</HintPath>
+    </Reference>
+    <Reference Include="UnitsNet.Temperature">
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.37.0\lib\UnitsNet.Temperature.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

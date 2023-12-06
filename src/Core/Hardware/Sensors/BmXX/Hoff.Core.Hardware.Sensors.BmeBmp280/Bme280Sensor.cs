@@ -243,10 +243,10 @@ namespace Hoff.Core.Hardware.Sensors.BmXX
                     this._scale = scale;
                     this.init = true;
 
-                    this.sensor.TryReadAltitude(out this.altitude);
-                    this.sensor.TryReadPressure(out this.pressure);
-                    this.sensor.TryReadHumidity(out this.relativeHumidity);
-                    this.sensor.TryReadTemperature(out this.temperature);
+                    _ = this.sensor.TryReadAltitude(out this.altitude);
+                    _ = this.sensor.TryReadPressure(out this.pressure);
+                    _ = this.sensor.TryReadHumidity(out this.relativeHumidity);
+                    _ = this.sensor.TryReadTemperature(out this.temperature);
 
                     this._logger.LogDebug("Bme280 Sensor Init Complete");
                 }

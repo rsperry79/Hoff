@@ -1,0 +1,21 @@
+﻿{
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "block-no-empty": true,
+    "color-named": "always-where-possible",
+    "max-nesting-depth": 3,
+    "selector-max-id": 1,
+    "number-leading-zero": null,
+    "declaration-colon-space-before": "never",
+    "color-hex-case": [
+      "lower",
+      {
+        "message": "Lowercase letters are easier to distinguish from numbers"
+      }
+    ]
+  }
+}

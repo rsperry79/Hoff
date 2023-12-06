@@ -92,7 +92,7 @@ namespace Hoff.Core.Hardware.Common.Services
 
                     for (byte i = 0; i < 127; i++)
                     {
-                        using (I2cDevice i2cDevice = new I2cDevice(new I2cConnectionSettings(b, i, speed)))
+                        using (I2cDevice i2cDevice = new(new I2cConnectionSettings(b, i, speed)))
                         {
                             try
                             {
@@ -101,14 +101,7 @@ namespace Hoff.Core.Hardware.Common.Services
 
                                 if (write.Status == I2cTransferStatus.FullTransfer)
                                 {
-                                    if (b == 1)
-                                    {
-                                        i2C1.Add(i);
-                                    }
-                                    else
-                                    {
-                                        i2C2.Add(i);
-                                    }
+                                    _ = b == 1 ? i2C1.Add(i) : i2C2.Add(i);
 
                                     logger.LogDebug($"Found I2C device at bus {b}: {i:X}");
                                     numberOfDevices++;

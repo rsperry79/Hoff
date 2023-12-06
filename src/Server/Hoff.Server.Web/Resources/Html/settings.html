@@ -1,0 +1,19 @@
+<container>
+    <h1>Wireless configuration</h1>
+    <row>
+        <label for="inputSSID" class="col-lg-2 col-form-label">SSID</label>
+        <row class="col-lg-10">
+            <select name="ssid" class="form-select" id="inputSSID">
+            </select>
+        </row>
+    </row>
+    <row>
+        <label for="inputPassword" class="col-lg-2 col-form-label">Password</label>
+        <row class="col-lg-10">
+            <input type="password" name="password" value="" class="form-control" id="inputPassword">
+        </row>
+    </row>
+    <row>
+        <button class="col-lg-2" onclick="window.userSettings.SaveWifiChanges()">Save</button>
+    </row>
+</container>

@@ -5,7 +5,7 @@ using Hoff.Hardware.Common.Senors.Interfaces.Base;
 
 namespace Hoff.Core.Hardware.Sensors.Dht.Interfaces
 {
-    public interface IDht11Sensor :ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
+    public interface IDht11Sensor : ITemperatureSensor, IHumiditySensor, ISensorBase, IDisposable
     {
         #region Public Methods
 

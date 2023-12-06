@@ -8,7 +8,7 @@ using Iot.Device.DHTxx;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 using UnitsNet;
@@ -84,10 +84,12 @@ namespace Hoff.Core.Hardware.Sensors.Dht.Tests
         {
             ServiceProvider services = SetupHelper.ConfigureServices();
             ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
-            nanoFramework.Logging.Debug.DebugLogger logger = loggerCore.GetDebugLogger("TestLogger", LogLevel.Trace);
+            loggerCore.SetDefaultLoggingLevel(LogLevel.Trace);
+
+            nanoFramework.Logging.Debug.DebugLogger logger = loggerCore.GetDebugLogger("TestLogger");
 
             // Arrange
-            Dht11 Dht = new Dht11(6);
+            Dht11 Dht = new(6);
 
             int index = 0;
             // Act

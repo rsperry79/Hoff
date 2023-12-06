@@ -22,7 +22,8 @@ namespace Hoff.Core.Services.Logging.Tests
             LoggerCore loggerCore = new();
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName);
 
             // Act
             Assert.IsNotNull(logger);
@@ -36,7 +37,8 @@ namespace Hoff.Core.Services.Logging.Tests
             LoggerCore loggerCore = new();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName);
             loggerCore.GetMemoryStreamLogger();
             TestComponent testComponent = new();
 
@@ -52,7 +54,8 @@ namespace Hoff.Core.Services.Logging.Tests
             LoggerCore loggerCore = new();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger logger = loggerCore.GetDebugLogger(loggerName);
             loggerCore.GetSerialLogger();
             TestComponent testComponent = new();
 
@@ -68,7 +71,8 @@ namespace Hoff.Core.Services.Logging.Tests
             ILoggerCore loggerCore = new LoggerCore();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
-            DebugLogger _logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+            DebugLogger _logger = loggerCore.GetDebugLogger(loggerName);
 
             // Act
             Assert.IsNotNull(_logger);
@@ -76,7 +80,7 @@ namespace Hoff.Core.Services.Logging.Tests
             _logger.LogTrace("Trace: the Debug Logger is initialized");
             _logger.LogInformation($"Logger name is: {_logger.LoggerName}, you can use that to trace which component is used");
             _logger.LogInformation("The next call to the class will log as well");
-            _logger.LogInformation("For this component, we're using the Logger Factory pattern. It will use the debugger as well");
+            _logger.LogInformation("For this component, we're using the Logger Factory pattern. It will use the logger as well");
 
             _logger.LogInformation("Your responsibility is to make sure you set the right level as well as formatting the strings");
             _logger.LogInformation("More examples below. All will display as the log level is Trace.");

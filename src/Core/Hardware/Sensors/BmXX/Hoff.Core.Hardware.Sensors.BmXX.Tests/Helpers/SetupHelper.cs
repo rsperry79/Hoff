@@ -10,7 +10,7 @@ using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Logging.Debug;
 
 namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
@@ -35,7 +35,9 @@ namespace Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers
             const string loggerName = "TestLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
             ILoggerCore loggerCore = (ILoggerCore)Services.GetRequiredService(typeof(ILoggerCore));
-            Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+            loggerCore.SetDefaultLoggingLevel(minLogLevel);
+
+            Logger = loggerCore.GetDebugLogger(loggerName);
 
             IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));
             espConfig.SetI2C1Pins();

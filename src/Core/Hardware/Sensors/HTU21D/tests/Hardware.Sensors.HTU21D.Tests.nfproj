@@ -15,7 +15,11 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
+<<<<<<<< HEAD:src/Core/Logging/tests/Hoff.Core.Services.Logging.Tests.nfproj
+    <RootNamespace>Hoff.Core.Services.Logging.Tests</RootNamespace>
+========
     <RootNamespace>Hoff.Core.Hardware.Sensors.HTU21D.Tests</RootNamespace>
+>>>>>>>> wip:src/Core/Hardware/Sensors/HTU21D/tests/Hardware.Sensors.HTU21D.Tests.nfproj
     <AssemblyName>NFUnitTest</AssemblyName>
     <IsCodedUITest>False</IsCodedUITest>
     <IsTestProject>true</IsTestProject>
@@ -48,6 +52,23 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+<<<<<<<< HEAD:src/Core/Logging/tests/Hoff.Core.Services.Logging.Tests.nfproj
+    <Reference Include="nanoFramework.Logging, Version=1.1.63.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\..\..\packages\nanoFramework.Logging.1.1.63\lib\nanoFramework.Logging.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="nanoFramework.TestFramework">
+      <HintPath>..\..\..\..\packages\nanoFramework.TestFramework.2.1.85\lib\nanoFramework.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.UnitTestLauncher">
+      <HintPath>..\..\..\..\packages\nanoFramework.TestFramework.2.1.85\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\src\Hoff.Core.Common.nfproj" />
+    <ProjectReference Include="..\src\Hoff.Core.Services.Logging.nfproj" />
+========
     <Reference Include="nanoFramework.DependencyInjection, Version=1.0.22.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
       <Private>True</Private>
@@ -59,12 +80,12 @@
       <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="nanoFramework.TestFramework, Version=2.1.71.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.TestFramework.2.1.71\lib\nanoFramework.TestFramework.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.TestFramework.2.1.85\lib\nanoFramework.TestFramework.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="nanoFramework.UnitTestLauncher, Version=0.0.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.TestFramework.2.1.71\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.TestFramework.2.1.85\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -73,19 +94,24 @@
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+>>>>>>>> wip:src/Core/Hardware/Sensors/HTU21D/tests/Hardware.Sensors.HTU21D.Tests.nfproj
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->
-  <Import Project="..\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets" Condition="Exists('..\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets')" />
+  <Import Project="..\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets" Condition="Exists('..\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets')" />
   <ProjectExtensions>
     <ProjectCapabilities>
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
+<<<<<<<< HEAD:src/Core/Logging/tests/Hoff.Core.Services.Logging.Tests.nfproj
+  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets')" />
+========
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <WarningText>Update the Import path in nfproj to the correct nanoFramework.TestFramework NuGet package folder.</WarningText>
     </PropertyGroup>
-    <Warning Condition="!Exists('..\packages\nanoFramework.TestFramework.2.1.71\build\nanoFramework.TestFramework.targets')" Text="'$(WarningText)'" />
+    <Warning Condition="!Exists('..\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets')" Text="'$(WarningText)'" />
   </Target>
+>>>>>>>> wip:src/Core/Hardware/Sensors/HTU21D/tests/Hardware.Sensors.HTU21D.Tests.nfproj
 </Project>
