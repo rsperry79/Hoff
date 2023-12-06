@@ -3,7 +3,8 @@
 using Hoff.Core.Hardware.Sensors.BmXX.Interfaces;
 using Hoff.Core.Hardware.Sensors.BmXX.Tests.Helpers;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+
 using nanoFramework.TestFramework;
 
 namespace Hoff.Core.Hardware.Sensors.BmXX.Tests

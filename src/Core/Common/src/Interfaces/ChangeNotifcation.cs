@@ -17,8 +17,6 @@ namespace Hoff.Core.Common.Interfaces
 
         #endregion Events
 
-
-
         #region Private Methods
         protected void SendEvent()
         {

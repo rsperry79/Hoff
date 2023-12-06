@@ -11,7 +11,7 @@ using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 namespace Hoff.Hardware.Displays.Ssd13.Tests

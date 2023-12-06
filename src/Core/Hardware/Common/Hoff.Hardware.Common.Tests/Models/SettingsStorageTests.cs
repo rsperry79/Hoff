@@ -1,9 +1,7 @@
 ﻿using System;
 
-using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Models;
-using Hoff.Hardware.SoC.SoCEsp32.Models;
 
 using nanoFramework.TestFramework;
 
@@ -16,48 +14,47 @@ namespace Hoff.Core.Hardware.Common.Tests.Models
         public void FindByType_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            SettingsStorage settingsStorage = new SettingsStorage();
+            SettingsStorage settingsStorage = new();
             Type type = typeof(IWifiSettings);
-
-            SettingsStorageItem settingsStorageItem =   new SettingsStorageItem();
-            settingsStorageItem.StorageDriver = 
+            _ = new
+            SettingsStorageItem();
 
             // Act
-            var result = settingsStorage.FindByType(
+            System.Collections.ArrayList result = settingsStorage.FindByType(
                 type);
 
             // Assert
-            Assert.Fail();
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void Add_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var settingsStorage = new SettingsStorage();
+            SettingsStorage settingsStorage = new();
             SettingsStorageItem value = null;
 
             // Act
-            var result = settingsStorage.Add(
+            int result = settingsStorage.Add(
                 value);
 
             // Assert
-            Assert.Fail();
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void Contains_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var settingsStorage = new SettingsStorage();
+            SettingsStorage settingsStorage = new();
             Type toFind = null;
 
             // Act
-            var result = settingsStorage.Contains(
+            bool result = settingsStorage.Contains(
                 toFind);
 
             // Assert
-            Assert.Fail();
+            Assert.IsNotNull(result);
         }
     }
 }

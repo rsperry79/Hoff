@@ -2,7 +2,7 @@
 
 using Hoff.Core.Services.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hoff.Core.DependencyInjection.Tests.Helpers
 {

@@ -5,7 +5,7 @@
 
 //using Iot.Device.Max31865;
 
-//using nanoFramework.DependencyInjection;
+//using Microsoft.Extensions.DependencyInjection;
 //using nanoFramework.TestFramework;
 
 //namespace Hoff.Core.Hardware.Sensors.Max31865Sensor.Tests

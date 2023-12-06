@@ -1,4 +1,4 @@
-﻿using nanoFramework.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Hoff.Core.Common.Tests.Helpers
 {

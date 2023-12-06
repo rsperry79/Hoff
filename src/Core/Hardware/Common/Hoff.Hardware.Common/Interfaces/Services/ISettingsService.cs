@@ -7,7 +7,7 @@ namespace Hoff.Core.Hardware.Common.Interfaces.Services
 {
     public interface ISettingsService
     {
-        void Add(Type type, ISettingsStorageDriver driver, string storageLocation, object payload);
+        void Add(ISettingsStorageDriver driver, string storageLocation, object payload);
         void Dispose();
         ISettingsStorageItem GetFirst(Type type);
         ISettingsStorageItem GetFirstOrDefault(Type type);

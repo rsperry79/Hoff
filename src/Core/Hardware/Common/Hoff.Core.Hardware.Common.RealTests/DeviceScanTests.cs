@@ -2,7 +2,8 @@
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+
 using nanoFramework.TestFramework;
 
 namespace Hoff.Core.Hardware.Common.RealTests

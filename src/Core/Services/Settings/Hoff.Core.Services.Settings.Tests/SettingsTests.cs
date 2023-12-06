@@ -4,10 +4,11 @@ using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.Settings.Tests.Helpers;
+using Hoff.Hardware.Common.Interfaces.Storage;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
 using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
 
@@ -17,7 +18,7 @@ namespace Hoff.Core.Services.Settings.Tests
     public class SettingsTests
     {
         private static DebugLogger Logger;
-        private static IServiceProvider Services;
+        private static readonly IServiceProvider Services;
         private static ISettingsService SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
         #region Tests 
 
@@ -31,8 +32,13 @@ namespace Hoff.Core.Services.Settings.Tests
         [TestMethod]
         public void WriteSettingsTest()
         {
-            ISettingsService settings = (ISettingsService)Services.GetService(typeof(ISettingsService));
             // Arrange
+            ISettingsService settings = (ISettingsService)Services.GetService(typeof(ISettingsService));
+            ISettingsStorageDriver Driver = (ISettingsStorageDriver)Services.GetService(typeof(ISettingsStorageDriver));
+            IWifiSettings wifiSettings = (IWifiSettings)Services.GetService(typeof(IWifiSettings));
+
+            settings.Add(Driver, "Wifi", wifiSettings);
+
             // Act
             ISettingsStorageItem result = settings.GetFirstOrDefault(typeof(IWifiSettings));
 
@@ -62,7 +68,6 @@ namespace Hoff.Core.Services.Settings.Tests
                 SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
             }
         }
-
         #endregion Helpers
     }
 }

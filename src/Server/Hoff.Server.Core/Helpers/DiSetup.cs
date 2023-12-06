@@ -1,31 +1,51 @@
 ﻿using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Hardware.Common.Interfaces.Storage;
+using Hoff.Core.Hardware.Common.Models;
 using Hoff.Core.Hardware.Storage.Nvs;
 using Hoff.Core.Services.Logging;
+using Hoff.Core.Services.Settings;
 using Hoff.Core.Services.WirelessConfig;
 using Hoff.Core.Services.WirelessConfig.Ap;
 using Hoff.Core.Services.WirelessConfig.Models;
 using Hoff.Server.Web;
 
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
-using nanoFramework.DependencyInjection;
-using nanoFramework.Logging.Debug;
 namespace Hoff.Server.Core.Helpers
 {
     internal class DiSetup
     {
+        public static ServiceProvider Services;
+
+        private static readonly ServiceCollection serviceCollection = new();
+
         internal static ServiceProvider ConfigureServices()
         {
-            return new ServiceCollection()
+            LoadSingleTons();
+            LoadTransients();
+            Services = serviceCollection.BuildServiceProvider();
+            return Services;
+        }
+
+        internal static void LoadTransients()
+        {
+            _ = serviceCollection
+                .AddTransient(typeof(UiServer))
+                .AddTransient(typeof(ISettingsStorageItem), typeof(SettingsStorageItem));
+        }
+
+        internal static void LoadSingleTons()
+        {
+            _ = serviceCollection
+                .AddSingleton(typeof(NvsStorage))
                 .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-                .AddSingleton(typeof(ILoggerFactory), typeof(DebugLoggerFactory))
                 .AddSingleton(typeof(IApConfig), typeof(ApConfig))
                 .AddSingleton(typeof(IWifiSettings), typeof(WifiSettings))
                 .AddSingleton(typeof(IWirelessAP), typeof(WirelessAP))
-                       .AddSingleton(typeof(NvsStorage))
-                .AddTransient(typeof(UiServer))
-                .BuildServiceProvider();
+                .AddSingleton(typeof(ISettingsStorage), typeof(SettingsStorage))
+                .AddSingleton(typeof(ISettingsService), typeof(SettingsService));
+
         }
     }
 }

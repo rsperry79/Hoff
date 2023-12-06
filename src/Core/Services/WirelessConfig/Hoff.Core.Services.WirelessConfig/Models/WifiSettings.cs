@@ -14,7 +14,6 @@ namespace Hoff.Core.Services.WirelessConfig.Models
 {
     public class WifiSettings : SettingsStorageItem, IWifiSettings, IChangeNotifcation
     {
-
         private static WirelessAPConfiguration Configuration { get; set; }
         public WifiAvailableNetwork[] APsAvailable { get; set; }
 
@@ -44,7 +43,7 @@ namespace Hoff.Core.Services.WirelessConfig.Models
 
         public bool IsAdhoc { get; set; } = false;
 
-        protected override void Initialize()
+        protected void Initialize()
         {
             try
             {
@@ -52,11 +51,12 @@ namespace Hoff.Core.Services.WirelessConfig.Models
             }
             catch (Exception ex)
             {
-                this.Logger.LogCritical(ex.Message, ex);
+                Logger.LogCritical(ex.Message, ex);
                 throw;
             }
         }
 
-        public WifiSettings(ILoggerCore loggerCore) => this.Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
+        public WifiSettings(ILoggerCore loggerCore) => Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
+
     }
 }

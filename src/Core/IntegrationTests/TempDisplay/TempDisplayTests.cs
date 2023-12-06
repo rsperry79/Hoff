@@ -16,7 +16,7 @@
 
 //using Microsoft.Extensions.Logging;
 
-//using nanoFramework.DependencyInjection;
+//using Microsoft.Extensions.DependencyInjection;
 //using nanoFramework.Logging.Debug;
 //using nanoFramework.TestFramework;
 

@@ -1,6 +1,7 @@
 ﻿using Hoff.Core.DependencyInjection.Tests.Helpers;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+
 using nanoFramework.TestFramework;
 
 namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests

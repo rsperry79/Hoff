@@ -1,5 +1,4 @@
 ﻿
-
 using System;
 
 using Hoff.Core.Common.Interfaces;
@@ -7,7 +6,7 @@ using Hoff.Core.Services.Logging;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hoff.Core.Hardware.Storage.Nvs.Tests.Helpers
 {
@@ -25,7 +24,6 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests.Helpers
 
             return services;
         }
-
 
         internal static ILogger ConfigureLogging(Type type)
         {

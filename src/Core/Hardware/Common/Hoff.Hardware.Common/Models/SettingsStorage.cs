@@ -8,7 +8,7 @@ namespace Hoff.Core.Hardware.Common.Models
     public class SettingsStorage : ISettingsStorage
     {
         #region Properties
-        private ArrayList items;
+        private readonly ArrayList items;
 
         public int Count => this.items.Count;
 
@@ -17,12 +17,12 @@ namespace Hoff.Core.Hardware.Common.Models
         #region Public Methods
         public ArrayList FindByType(Type type)
         {
-            ArrayList matches = new ArrayList();
+            ArrayList matches = new();
             for (int i = 0; i < this.items.Count; i++)
             {
                 if ((this.items[i] as SettingsStorageItem).ConfigType == type)
                 {
-                    matches.Add(this.items[i]);
+                    _ = matches.Add(this.items[i]);
                 }
             }
 
@@ -44,7 +44,10 @@ namespace Hoff.Core.Hardware.Common.Models
             return this.items.Add(value);
         }
 
-        public bool Contains(Type toFind) => this.FindByType(toFind).Count > 0 ? true : false;
+        public bool Contains(Type toFind)
+        {
+            return this.FindByType(toFind).Count > 0;
+        }
         #endregion Methods
     }
 }

@@ -1,5 +1,4 @@
 ﻿
-
 using System;
 using System.Collections;
 
@@ -7,36 +6,28 @@ using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
 using Hoff.Hardware.Common.Interfaces.Storage;
 
+using Microsoft.Extensions.Logging;
+
 using nanoFramework.Json;
-using nanoFramework.Logging.Debug;
+using nanoFramework.Logging;
 
 namespace Hoff.Core.Hardware.Common.Models
 {
-    public class SettingsStorageItem : ChangeNotifcation, ISettingsStorageItem, IChangeNotifcation, IEqualityComparer
+    public class SettingsStorageItem : SettingsBase, ISettingsStorageItem, IChangeNotifcation, IEqualityComparer
     {
 
-        private DebugLogger Logger;
+        protected static new ILogger Logger;
 
-        public SettingsStorageItem(ISettingsStorageDriver storageDriver, string storageLocation, object payload, ILoggerCore loggerCore)
-            : this(storageDriver, storageLocation, loggerCore)
-        {
-            this.Payload = payload;
+        public SettingsStorageItem(ISettingsStorageDriver storageDriver, string storageLocation, object payload)
+            : this(storageDriver, storageLocation) => this.Payload = payload;
 
-        }
-
-        public SettingsStorageItem(ISettingsStorageDriver storageDriver, string storageLocation, ILoggerCore loggerCore) : this(loggerCore)
+        public SettingsStorageItem(ISettingsStorageDriver storageDriver, string storageLocation) : this()
         {
             this.StorageDriver = storageDriver;
             this.StorageLocation = storageLocation;
-
-
-
         }
 
-        public SettingsStorageItem(ILoggerCore loggerCore)
-        {
-            this.Logger = loggerCore.GetDebugLogger(this.GetType().ToString());
-        }
+        public SettingsStorageItem() => Logger = this.GetCurrentClassLogger();
 
         #region Properties
         public Type ConfigType { get; set; }
@@ -44,7 +35,6 @@ namespace Hoff.Core.Hardware.Common.Models
         public ISettingsStorageDriver StorageDriver { get; set; }
 
         public string StorageLocation { get; set; }
-
 
         public object Payload
         {
@@ -76,5 +66,6 @@ namespace Hoff.Core.Hardware.Common.Models
             return ((SettingsStorageItem)obj).StorageLocation.GetHashCode() + ((SettingsStorageItem)obj).ConfigType.GetHashCode();
         }
         #endregion Equality
+        protected override void Initialize() { }
     }
 }

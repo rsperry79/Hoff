@@ -5,7 +5,7 @@ using Hoff.Core.Hardware.Common.Models;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.WirelessConfig.Models;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hoff.Core.Services.Settings.Tests.Helpers
 {
@@ -15,7 +15,7 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
 
         public static ServiceProvider Services;
 
-        private static ServiceCollection serviceCollection = new ServiceCollection();
+        private static readonly ServiceCollection serviceCollection = new();
 
         public static ServiceProvider ConfigureServices()
         {
@@ -27,19 +27,17 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
 
         private static void LoadTransients()
         {
-            serviceCollection
+            _ = serviceCollection
                 .AddTransient(typeof(ISettingsStorageItem), typeof(SettingsStorageItem));
         }
 
         private static void LoadSingleTons()
         {
-            serviceCollection
+            _ = serviceCollection
                 .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
                 .AddSingleton(typeof(ISettingsStorage), typeof(SettingsStorage))
                 .AddSingleton(typeof(IWifiSettings), typeof(WifiSettings))
                 .AddSingleton(typeof(ISettingsService), typeof(SettingsService));
         }
-
-
     }
 }

@@ -20,12 +20,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
 
         public string FiePath { get; set; } = "I:\\";
 
-        public NvsStorage(ILoggerCore loggerCore)
-        {
-            Logger = loggerCore.GetDebugLogger(this.GetType().ToString());
-        }
-
-
+        public NvsStorage(ILoggerCore loggerCore) => Logger = loggerCore.GetDebugLogger(this.GetType().ToString());
 
         public string Read(string storageName)
         {
@@ -34,7 +29,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
 
             if (!hasStored)
             {
-                WriteData(this.ToUri(storageName), string.Empty);
+                _ = WriteData(this.ToUri(storageName), string.Empty);
             }
 
             return temp;
@@ -43,7 +38,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
         public void Write(string storageName, string data)
         {
 
-            WriteData(this.ToUri(storageName), data);
+            _ = WriteData(this.ToUri(storageName), data);
         }
 
         public void Clear(string storageName)
@@ -54,9 +49,8 @@ namespace Hoff.Core.Hardware.Storage.Nvs
                 File.Delete(uri);
             }
 
-            WriteData(uri, string.Empty);
+            _ = WriteData(uri, string.Empty);
         }
-
 
         internal bool HasStored(string storageName)
         {
@@ -67,7 +61,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
         private static bool WriteData(string uri, string data)
         {
             bool temp = false;
-            using (FileStream file = new FileStream(uri, FileMode.Create))
+            using (FileStream file = new(uri, FileMode.Create))
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
                 file.Write(buffer, 0, buffer.Length);
@@ -82,15 +76,14 @@ namespace Hoff.Core.Hardware.Storage.Nvs
         {
             try
             {
-                using (FileStream stream = new FileStream(uri, FileMode.Open))
+                using (FileStream stream = new(uri, FileMode.Open))
                 {
                     byte[] buffer = new byte[stream.Length];
-                    stream.Read(buffer, 0, (int)stream.Length);
+                    _ = stream.Read(buffer, 0, (int)stream.Length);
 
                     string raw = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
                     return raw;
                 }
-
             }
             catch (Exception ex)
             {

@@ -8,7 +8,7 @@ using Iot.Device.DHTxx;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 using UnitsNet;

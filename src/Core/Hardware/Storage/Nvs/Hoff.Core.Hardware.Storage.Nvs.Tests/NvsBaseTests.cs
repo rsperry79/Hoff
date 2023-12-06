@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 namespace Hoff.Core.Hardware.Storage.Nvs.Tests
@@ -49,6 +49,5 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests
             services = DiService.ConfigureServices();
             Logger = DiService.ConfigureLogging(typeof(NvsBaseTests));
         }
-
     }
 }

@@ -2,7 +2,8 @@
 using Hoff.Hardware.Soc.SoCEsp32.Tests.Helpers;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
-using nanoFramework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+
 using nanoFramework.Hardware.Esp32;
 using nanoFramework.TestFramework;
 
