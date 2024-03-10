@@ -32,10 +32,6 @@
   <ItemGroup>
     <None Include="nano.runsettings" />
     <None Include="packages.config" />
-    <Resource Include="app.config" />
-    <None Include="app.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">

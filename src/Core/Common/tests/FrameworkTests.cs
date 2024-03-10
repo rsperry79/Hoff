@@ -13,6 +13,8 @@ namespace Hoff.Core.Common.Tests
         [TestMethod]
         public void TestCheckAllEqual()
         {
+
+
             Debug.WriteLine("Test will check that all the Equal are actually equal");
             // Arrange
             const byte bytea = 42; const byte byteb = 42;
@@ -20,6 +22,7 @@ namespace Hoff.Core.Common.Tests
             const sbyte sbytea = 42; const sbyte sbyteb = 42;
             const int inta = 42; const int intb = 42;
             const uint uinta = 42; const uint uintb = 42;
+
             const long longa = 42; const long longb = 42;
             const ulong ulonga = 42; const ulong ulongb = 42;
             const bool boola = true; const bool boolb = true;

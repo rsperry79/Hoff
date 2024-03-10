@@ -40,10 +40,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj">
-      <Private>true</Private>
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj">
       <Private>true</Private>
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
@@ -63,13 +60,13 @@
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.DependencyInjection.1.1.3\lib\nanoFramework.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.1.1.76\lib\nanoFramework.Logging.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.1.1.81\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging.Serial">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.Serial.1.1.76\lib\nanoFramework.Logging.Serial.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.Serial.1.1.81\lib\nanoFramework.Logging.Serial.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging.Stream">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.Stream.1.1.76\lib\nanoFramework.Logging.Stream.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Logging.Stream.1.1.81\lib\nanoFramework.Logging.Stream.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.Runtime.Events.1.11.15\lib\nanoFramework.Runtime.Events.dll</HintPath>

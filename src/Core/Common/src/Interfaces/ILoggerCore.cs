@@ -11,9 +11,9 @@ namespace Hoff.Core.Common.Interfaces
 
         DebugLogger GetDebugLogger(string loggerName);
 
-        void GetMemoryStreamLogger();
-
-        void GetSerialLogger(string port);
+        //void GetMemoryStreamLogger();
+        //void GetSerialLogger();
+        //void GetSerialLogger(string port);
 
         #endregion Public Methods
     }

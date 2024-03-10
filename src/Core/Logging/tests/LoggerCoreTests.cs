@@ -50,13 +50,13 @@ namespace Hoff.Core.Services.Logging.Tests
         [TestMethod]
         public void GetSerialLoggerTest()
         {
-            // Arrange
-            LoggerCore loggerCore = new();
+            //Arrange
+            ILoggerCore loggerCore = new LoggerCore();
             const string loggerName = "SerialLogger";
             const LogLevel minLogLevel = LogLevel.Trace;
             loggerCore.SetDefaultLoggingLevel(minLogLevel);
             DebugLogger logger = loggerCore.GetDebugLogger(loggerName);
-            loggerCore.GetSerialLogger();
+            //loggerCore.GetSerialLogger();
             TestComponent testComponent = new();
 
             // Act

@@ -37,9 +37,15 @@ namespace Hoff.Core.Services.Logging
         public void SetDefaultLoggingLevel(LogLevel level)
         {
             DefaultLoggingLevel = level;
+
+        }
+        public void GetSerialLogger()
+        {
+            this.GetSerialLogger(null);
         }
 
-        public void GetSerialLogger(string port = null)
+
+        public void GetSerialLogger(string port)
         {
             try
             {

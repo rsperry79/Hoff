@@ -3,7 +3,7 @@ using System.Device.Wifi;
 using System.Net;
 using System.Net.NetworkInformation;
 
-using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Hardware.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Models;
 using Hoff.Core.Services.WirelessConfig.Helpers;
@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hoff.Core.Services.WirelessConfig.Models
 {
-    public class WifiSettings : SettingsStorageItem, IWifiSettings, IChangeNotifcation
+    public class WifiSettings : SettingsStorageItem, IWifiSettings, IChangeNotification
     {
         private static WirelessAPConfiguration Configuration { get; set; }
         public WifiAvailableNetwork[] APsAvailable { get; set; }

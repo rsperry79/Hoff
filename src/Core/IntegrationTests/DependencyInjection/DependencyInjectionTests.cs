@@ -20,6 +20,8 @@ namespace Hoff.Core.IntegrationTests.DependencyInjection.Tests
 
             // Act
             loggingTest.RunLogTests();
+
+            Assert.IsNotNull(loggingTest);
         }
     }
 }

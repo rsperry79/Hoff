@@ -25,9 +25,6 @@
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Iot.Device.DhcpServer">
-      <HintPath>..\..\..\packages\nanoFramework.Iot.Device.DhcpServer.1.2.407\lib\Iot.Device.DhcpServer.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.Iot.Device.DhcpServer.1.2.454\lib\Iot.Device.DhcpServer.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
@@ -59,7 +56,7 @@
       <HintPath>..\..\..\packages\nanoFramework.Json.2.2.103\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging">
-      <HintPath>..\..\..\packages\nanoFramework.Logging.1.1.76\lib\nanoFramework.Logging.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.Logging.1.1.81\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
       <HintPath>..\..\..\packages\nanoFramework.Runtime.Events.1.11.15\lib\nanoFramework.Runtime.Events.dll</HintPath>
@@ -74,10 +71,10 @@
       <HintPath>..\..\..\packages\nanoFramework.System.Text.1.2.54\lib\nanoFramework.System.Text.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.WebServer">
-      <HintPath>..\..\..\packages\nanoFramework.WebServer.1.2.14\lib\nanoFramework.WebServer.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.WebServer.1.2.27\lib\nanoFramework.WebServer.dll</HintPath>
     </Reference>
     <Reference Include="System.Device.Wifi">
-      <HintPath>..\..\..\packages\nanoFramework.System.Device.Wifi.1.5.71\lib\System.Device.Wifi.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Device.Wifi.1.5.76\lib\System.Device.Wifi.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem">
       <HintPath>..\..\..\packages\nanoFramework.System.IO.FileSystem.1.1.32\lib\System.IO.FileSystem.dll</HintPath>
@@ -86,19 +83,19 @@
       <HintPath>..\..\..\packages\nanoFramework.System.IO.Streams.1.1.52\lib\System.IO.Streams.dll</HintPath>
     </Reference>
     <Reference Include="System.Net">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.1.10.64\lib\System.Net.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.1.10.72\lib\System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.Server.1.5.113\lib\System.Net.Http.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.Http.Server.1.5.125\lib\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets">
-      <HintPath>..\..\..\packages\nanoFramework.System.Net.WebSockets.Server.1.1.75\lib\System.Net.WebSockets.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.System.Net.WebSockets.Server.1.1.84\lib\System.Net.WebSockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
       <HintPath>..\..\..\packages\nanoFramework.System.Threading.1.1.32\lib\System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="Windows.Storage">
-      <HintPath>..\..\..\packages\nanoFramework.Windows.Storage.1.5.45\lib\Windows.Storage.dll</HintPath>
+      <HintPath>..\..\..\packages\nanoFramework.Windows.Storage.1.5.49\lib\Windows.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Windows.Storage.Streams">
       <HintPath>..\..\..\packages\nanoFramework.Windows.Storage.Streams.1.14.32\lib\Windows.Storage.Streams.dll</HintPath>
