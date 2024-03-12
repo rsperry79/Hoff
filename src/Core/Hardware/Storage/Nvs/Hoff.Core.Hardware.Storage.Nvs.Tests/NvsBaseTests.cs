@@ -1,8 +1,10 @@
 ﻿using Hoff.Core.Hardware.Storage.Nvs.Tests.Helpers;
-
-using Microsoft.Extensions.Logging;
+using Hoff.Core.Services.Common.Interfaces;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using nanoFramework.Json;
 using nanoFramework.TestFramework;
 
 namespace Hoff.Core.Hardware.Storage.Nvs.Tests
@@ -12,18 +14,22 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests
     {
         private static ServiceProvider services;
 
-        private static ILogger Logger;
+        private static string storageName = typeof(Secrets).Name;
+
+        private static Secrets Secrets = new Secrets();
+        private static ILoggerCore LoggerCore;
 
         [TestMethod]
         public void NvsClearTest()
         {
             // Arrange
-            string storageName = "Test";
+
 
             // Act
             NvsStorage nvsStorage = (NvsStorage)services.GetRequiredService(typeof(NvsStorage));
 
             nvsStorage.Clear(storageName);
+
             // Assert
             Assert.AreEqual(string.Empty, nvsStorage.Read(storageName));
         }
@@ -32,22 +38,33 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests
         public void NvsWriteTest()
         {
             // Arrange
-            string storageName = "WriteTest";
-            string expected = "Hello World";
+            string json = JsonConvert.SerializeObject(Secrets);
 
             // Act
             NvsStorage nvsStorage = (NvsStorage)services.GetRequiredService(typeof(NvsStorage));
-            nvsStorage.Write(storageName, expected);
+            nvsStorage.Write(storageName, json);
+
+            string returnedJson = nvsStorage.Read(storageName);
+            Secrets result = (Secrets)JsonConvert.DeserializeObject(returnedJson, typeof(Secrets));
 
             // Act
-            Assert.AreEqual(expected, nvsStorage.Read(storageName));
+            Assert.AreEqual(Secrets.TestString, result.TestString);
+            Assert.AreEqual(Secrets.TestInt, result.TestInt);
+            Assert.AreEqual(Secrets.TestDouble, result.TestDouble);
+            Assert.AreEqual(Secrets.TestBool, result.TestBool);
         }
+
+
+
 
         [Setup]
         public void Setup()
         {
             services = DiService.ConfigureServices();
-            Logger = DiService.ConfigureLogging(typeof(NvsBaseTests));
+            LoggerCore = DiService.ConfigureLogging(typeof(NvsBaseTests));
+            ILogger logger = LoggerCore.GetDebugLogger(nameof(NvsBaseTests));
+            logger.LogTrace($"Storage Name :{storageName}");
+
         }
     }
 }

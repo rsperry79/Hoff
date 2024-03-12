@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading;
 
-using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Displays;
 using Hoff.Core.Hardware.Common.Structs;
+using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Hardware.Displays.Ssd13.Fonts;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
 using Hoff.Hardware.Displays.Ssd13.Tests.Helpers;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 namespace Hoff.Hardware.Displays.Ssd13.Tests

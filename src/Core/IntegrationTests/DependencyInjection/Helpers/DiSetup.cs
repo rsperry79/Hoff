@@ -1,5 +1,4 @@
-﻿using Hoff.Core.Common.Interfaces;
-
+﻿using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Core.Services.Logging;
 
 using Microsoft.Extensions.DependencyInjection;

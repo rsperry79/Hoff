@@ -2,6 +2,7 @@
 
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
+using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.Settings.Tests.Helpers;
 using Hoff.Hardware.Common.Interfaces.Storage;

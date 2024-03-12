@@ -19,11 +19,12 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="SettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.Test.nfproj" />
     <ProjectReference Include="..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\..\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

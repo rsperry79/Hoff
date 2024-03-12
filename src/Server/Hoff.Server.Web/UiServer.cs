@@ -4,8 +4,9 @@ using System.Net.WebSockets.Server;
 using System.Net.WebSockets.WebSocketFrame;
 using System.Text;
 
-using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.WirelessConfig.Models;
 using Hoff.Server.Common.Helpers;
 using Hoff.Server.Common.Models;

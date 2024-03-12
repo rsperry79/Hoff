@@ -1,9 +1,8 @@
-﻿using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Common.Models;
+﻿using Hoff.Core.Hardware.Common.Models;
 
 namespace Hoff.Core.Services.Settings.Tests.Models
 {
-    public class SettingsTestModel : SettingsBase, IChangeNotifcation
+    public class SettingsTestModel : SettingsBase
     {
         #region Properties
 

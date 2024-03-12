@@ -59,22 +59,22 @@
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Math.1.5.43\lib\System.Math.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Duration">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Duration.5.48.0\lib\UnitsNet.Duration.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Duration.5.49.0\lib\UnitsNet.Duration.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.ElectricResistance">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.48.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.49.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Length">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Length.5.48.0\lib\UnitsNet.Length.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Length.5.49.0\lib\UnitsNet.Length.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Pressure">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Pressure.5.48.0\lib\UnitsNet.Pressure.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Pressure.5.49.0\lib\UnitsNet.Pressure.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.RelativeHumidity">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.48.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.49.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.48.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.49.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

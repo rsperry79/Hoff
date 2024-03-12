@@ -1,49 +1,53 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <NanoFrameworkProjectSystemPath>$(MSBuildExtensionsPath)\nanoFramework\v1.0\</NanoFrameworkProjectSystemPath>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.Default.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.Default.props')" />
-  <ItemGroup>
-    <ProjectCapability Include="TestContainer" />
-  </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{11A8DD76-328B-46DF-9F39-F559912D0360};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>88c73869-27fa-4a38-8e25-1f48788e4d01</ProjectGuid>
+    <ProjectGuid>3a019fac-0e56-4427-8c2e-80d00b1fe13a</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>Hoff.Core.Services.WirelessConfig.Tests</RootNamespace>
-    <AssemblyName>NFUnitTest</AssemblyName>
-    <IsCodedUITest>False</IsCodedUITest>
-    <IsTestProject>true</IsTestProject>
-    <TestProjectType>UnitTest</TestProjectType>
+    <RootNamespace>Hoff.Core.Hardware.Storage.Nvs.Mocks</RootNamespace>
+    <AssemblyName>Hoff.Core.Hardware.Storage.Nvs.Mocks</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
-  <PropertyGroup>
-    <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
-  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\src\Core\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.TestFramework">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.TestFramework.2.1.87\lib\nanoFramework.TestFramework.dll</HintPath>
+    <Reference Include="nanoFramework.Json">
+      <HintPath>..\packages\nanoFramework.Json.2.2.103\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.UnitTestLauncher">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.TestFramework.2.1.87\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
+    <Reference Include="nanoFramework.System.Collections">
+      <HintPath>..\packages\nanoFramework.System.Collections.1.5.31\lib\nanoFramework.System.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.System.Text">
+      <HintPath>..\packages\nanoFramework.System.Text.1.2.54\lib\nanoFramework.System.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Streams">
+      <HintPath>..\packages\nanoFramework.System.IO.Streams.1.1.52\lib\System.IO.Streams.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="nano.runsettings" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
+  <ProjectExtensions>
+    <ProjectCapabilities>
+      <ProjectConfigurationsDeclaredAsItems />
+    </ProjectCapabilities>
+  </ProjectExtensions>
 </Project>

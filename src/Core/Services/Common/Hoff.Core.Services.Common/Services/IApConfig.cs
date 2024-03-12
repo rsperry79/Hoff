@@ -1,4 +1,6 @@
-﻿namespace Hoff.Core.Hardware.Common.Interfaces.Services
+﻿using Hoff.Core.Services.Common.Interfaces.Services;
+
+namespace Hoff.Core.Hardware.Common.Interfaces.Services
 {
     public interface IApConfig
     {

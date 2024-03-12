@@ -21,14 +21,10 @@
     <Compile Include="Helpers\Calibration.cs" />
     <Compile Include="Helpers\EepromExtentionHelpers.cs" />
     <Compile Include="Helpers\NumberExtentionMethods.cs" />
-    <Compile Include="Interfaces\IChangeNotifcation.cs" />
     <Compile Include="Interfaces\Config\IPinConfig.cs" />
     <Compile Include="Interfaces\Displays\IDisplay.cs" />
+    <Compile Include="Interfaces\II2cBussControllerService.cs" />
     <Compile Include="Interfaces\Rtc\IRtc.cs" />
-    <Compile Include="Interfaces\Services\IApConfig.cs" />
-    <Compile Include="Interfaces\Services\II2cBussControllerService.cs" />
-    <Compile Include="Interfaces\Services\ISettingsService.cs" />
-    <Compile Include="Interfaces\Services\IWifiSettings.cs" />
     <Compile Include="Interfaces\Storage\INvsSettingsStorageDriver.cs" />
     <Compile Include="Interfaces\Storage\ISettingsStorageDriver.cs" />
     <Compile Include="Interfaces\Storage\IEeprom.cs" />
@@ -97,7 +93,7 @@
       <HintPath>..\..\..\..\..\packages\nanoFramework.System.Threading.1.1.32\lib\System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.48.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.49.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

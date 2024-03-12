@@ -74,6 +74,7 @@
     <ProjectReference Include="..\..\Core\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\..\Core\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\Core\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\..\Core\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
     <ProjectReference Include="..\..\Core\Services\WirelessConfig\Hoff.Core.Services.WirelessConfig\Hoff.Core.Services.WirelessConfig.nfproj" />
     <ProjectReference Include="..\Hoff.Server.Common\Hoff.Server.Common.nfproj" />
   </ItemGroup>

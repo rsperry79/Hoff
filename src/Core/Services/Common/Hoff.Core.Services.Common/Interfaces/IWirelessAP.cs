@@ -1,4 +1,4 @@
-﻿namespace Hoff.Core.Common.Interfaces
+﻿namespace Hoff.Core.Services.Common.Interfaces
 {
     public interface IWirelessAP
     {

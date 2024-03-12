@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Core.Services.Logging.Tests.Helpers;
 
 using Microsoft.Extensions.Logging;

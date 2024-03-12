@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.Test.nfproj" />
+    <ProjectReference Include="..\..\..\..\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
     <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
   </ItemGroup>
   <ItemGroup>

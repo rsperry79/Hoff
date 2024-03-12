@@ -20,7 +20,7 @@
     <IsCodedUITest>False</IsCodedUITest>
     <IsTestProject>true</IsTestProject>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 
-using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
 using Hoff.Core.Hardware.Common.Models;
+using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Storage;
 
 using Microsoft.Extensions.Logging;

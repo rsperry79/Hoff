@@ -1,12 +1,11 @@
 ﻿
 using System;
 
-using Hoff.Core.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Core.Services.Logging;
 
-using Microsoft.Extensions.Logging;
-
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Hoff.Core.Hardware.Storage.Nvs.Tests.Helpers
 {
@@ -25,15 +24,15 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests.Helpers
             return services;
         }
 
-        internal static ILogger ConfigureLogging(Type type)
+        internal static ILoggerCore ConfigureLogging(Type type)
         {
             string loggerName = type.ToString();
             const LogLevel minLogLevel = LogLevel.Trace;
 
             ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));
             loggerCore.SetDefaultLoggingLevel(minLogLevel);
-            ILogger Logger = loggerCore.GetDebugLogger(loggerName);
-            return Logger;
+
+            return loggerCore;
         }
     }
 }

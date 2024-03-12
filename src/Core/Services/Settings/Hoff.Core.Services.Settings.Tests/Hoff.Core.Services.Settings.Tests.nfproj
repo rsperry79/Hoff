@@ -11,7 +11,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{11A8DD76-328B-46DF-9F39-F559912D0360};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>e4a753a2-c92b-4026-be0c-26180ce3cbf3</ProjectGuid>
+    <ProjectGuid>85f02854-cd28-45c7-a00b-aa92946808f3</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
@@ -22,33 +22,19 @@
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
   </PropertyGroup>
+  <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <PropertyGroup>
     <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
   </PropertyGroup>
-  <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Helpers\DiSetup.cs" />
+    <Compile Include="Helpers\TestHelpers.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\SettingsTestModel.cs" />
     <Compile Include="SettingsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.nfproj" />
-    <ProjectReference Include="..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
-    <ProjectReference Include="..\..\..\Hardware\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
-    <ProjectReference Include="..\..\..\Hardware\Storage\At24\src\Hoff.Core.Hardware.Storage.At24.nfproj" />
-    <ProjectReference Include="..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
-    <ProjectReference Include="..\..\WirelessConfig\Hoff.Core.Services.WirelessConfig\Hoff.Core.Services.WirelessConfig.nfproj" />
-    <ProjectReference Include="..\Hoff.Core.Services.Settings\Hoff.Core.Services.Settings.nfproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="nano.runsettings" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Iot.Device.At24cxx">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.At24cxx.1.0.213\lib\Iot.Device.At24cxx.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
     </Reference>
@@ -64,16 +50,18 @@
     <Reference Include="nanoFramework.UnitTestLauncher">
       <HintPath>..\..\..\..\..\packages\nanoFramework.TestFramework.2.1.87\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
     </Reference>
-    <Reference Include="System.Device.I2c">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Device.I2c.1.1.16\lib\System.Device.I2c.dll</HintPath>
-    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nano.runsettings" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\..\..\Hardware\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
+    <ProjectReference Include="..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\..\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
+    <ProjectReference Include="..\..\WirelessConfig\Hoff.Core.Services.WirelessConfig\Hoff.Core.Services.WirelessConfig.nfproj" />
+    <ProjectReference Include="..\Hoff.Core.Services.Settings\Hoff.Core.Services.Settings.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
-  <!-- MANUAL UPDATE HERE -->
-  <ProjectExtensions>
-    <ProjectCapabilities>
-      <ProjectConfigurationsDeclaredAsItems />
-    </ProjectCapabilities>
-  </ProjectExtensions>
-  <Import Project="$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets" Condition="Exists('$(SolutionDir)\packages\nanoFramework.TestFramework.2.1.85\build\nanoFramework.TestFramework.targets')" />
 </Project>

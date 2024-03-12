@@ -1,8 +1,7 @@
-﻿using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Common.Interfaces.Config;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Services;
-using Hoff.Core.Hardware.Storage.At24;
+using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.Settings.Tests.Models;
 
@@ -11,9 +10,9 @@ using Hoff.Hardware.SoC.SoCEsp32;
 using Hoff.Hardware.SoC.SoCEsp32.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32.Models;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.DependencyInjection;
 
 namespace Hoff.Core.Services.Settings.Tests.Helpers
 {
@@ -38,10 +37,8 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
             ServiceProvider services = new ServiceCollection()
             .AddSingleton(typeof(Settings<SettingsTestModel>))
              .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
-             .AddSingleton(typeof(IEeprom), typeof(At24cEeprom))
              .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
             .AddSingleton(typeof(II2cBussControllerService), typeof(I2cBussControllerService))
-            .AddSingleton(typeof(Settings<SettingsTestModel>))
             .AddSingleton(typeof(IPinConfig), typeof(PinConfig))
              .AddSingleton(typeof(IEspConfig), typeof(EspConfig))
              .BuildServiceProvider();
@@ -58,7 +55,7 @@ namespace Hoff.Core.Services.Settings.Tests.Helpers
 
                 // Setup
                 const LogLevel minLogLevel = LogLevel.Trace;
-                Logger = loggerCore.GetDebugLogger(loggerName, minLogLevel);
+                Logger = loggerCore.GetDebugLogger(loggerName);
                 Services = ConfigureServices();
 
                 IEspConfig espConfig = (IEspConfig)Services.GetRequiredService(typeof(IEspConfig));

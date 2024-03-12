@@ -4,8 +4,8 @@ using System;
 using System.IO;
 using System.Text;
 
-using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
+using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Hardware.Common.Interfaces.Storage;
 
 using Microsoft.Extensions.Logging;
@@ -18,7 +18,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
     {
         private static DebugLogger Logger;
 
-        public string FiePath { get; set; } = "I:\\";
+        private string FilePath { get; set; } = "I:\\";
 
         public NvsStorage(ILoggerCore loggerCore) => Logger = loggerCore.GetDebugLogger(this.GetType().ToString());
 
@@ -94,7 +94,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
 
         internal string ToUri(string storageName)
         {
-            return $"{this.FiePath}{storageName}";
+            return $"{this.FilePath}{storageName}";
         }
     }
 }

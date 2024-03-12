@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\src\Hoff.Core.Common.nfproj" />
+    <ProjectReference Include="..\..\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

@@ -1,7 +1,8 @@
-﻿using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Common.Interfaces.Services;
+﻿using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
 using Hoff.Core.Hardware.Common.Models;
+using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.Logging;
 using Hoff.Core.Services.WirelessConfig.Models;
 

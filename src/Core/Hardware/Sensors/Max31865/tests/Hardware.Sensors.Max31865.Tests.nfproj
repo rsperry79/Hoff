@@ -41,6 +41,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\..\..\..\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
     <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\..\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
     <ProjectReference Include="..\..\Common\Hoff.Core.Hardware.Sensors.Common\Hoff.Core.Hardware.Sensors.Common.nfproj" />
@@ -81,13 +82,13 @@
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Math.1.5.43\lib\System.Math.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.ElectricResistance">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.48.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.ElectricResistance.5.49.0\lib\UnitsNet.ElectricResistance.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Frequency">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Frequency.5.48.0\lib\UnitsNet.Frequency.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Frequency.5.49.0\lib\UnitsNet.Frequency.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.48.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.49.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

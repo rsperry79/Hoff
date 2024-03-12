@@ -4,8 +4,8 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 
-using Hoff.Core.Common.Interfaces;
-using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.WirelessConfig.Helpers;
 
 using Iot.Device.DhcpServer;
@@ -45,7 +45,7 @@ namespace Hoff.Core.Services.WirelessConfig.Ap
                 {
                     if (NetworkHelpers.IsAdHoc())
                     {
-                        wifiSettings.IsAdhoc = true;
+                        wifiSettings.IsAdHoc = true;
                         return this.EnableDhcp();
                     }
 
@@ -262,16 +262,34 @@ namespace Hoff.Core.Services.WirelessConfig.Ap
         /// <param name="e"></param>
         private void Wifi_AvailableNetworksChanged(WifiAdapter sender, object e)
         {
-            WifiAvailableNetwork[] availableNetworks = sender.NetworkReport.AvailableNetworks;
-            int idex = availableNetworks.Length >= 1 ? availableNetworks.Length - 1 : 0;
-            WifiAvailableNetwork current = availableNetworks[idex];
-            Logger.LogTrace(
-                $"Net SSID :{current.Ssid},  " +
-                $"BSSID : {current.Bsid}, " +
-                $"RSSI : {current.NetworkRssiInDecibelMilliwatts}, " +
-            $"Signal : {current.SignalBars}");
+            try
+            {
+                WifiAvailableNetwork[] availableNetworks = sender.NetworkReport.AvailableNetworks;
+                if (availableNetworks.Length > 0)
+                {
 
-            wifiSettings.APsAvailable = availableNetworks;
+                    Logger.LogTrace($"Available Networks: {availableNetworks.Length}");
+
+                    int index = availableNetworks.Length >= 1 ? availableNetworks.Length - 1 : 0;
+                    WifiAvailableNetwork current = availableNetworks[index];
+
+                    Logger.LogTrace(
+                        $"Net SSID :{current.Ssid},  "
+                        +
+                        $"BSSID : {current.Bsid}, " +
+                        $"RSSI : {current.NetworkRssiInDecibelMilliwatts}, " +
+                        $"Signal : {current.SignalBars}");
+
+                    wifiSettings.APsAvailable = availableNetworks;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         ~WirelessAP()

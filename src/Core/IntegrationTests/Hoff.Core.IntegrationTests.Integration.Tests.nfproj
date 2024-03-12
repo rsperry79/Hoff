@@ -40,6 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
@@ -94,10 +95,10 @@
       <HintPath>..\..\..\packages\nanoFramework.System.Math.1.5.43\lib\System.Math.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Duration">
-      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Duration.5.48.0\lib\UnitsNet.Duration.dll</HintPath>
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Duration.5.49.0\lib\UnitsNet.Duration.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.48.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.49.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

@@ -25,12 +25,12 @@
       <Generator>
       </Generator>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.Test.nfproj" />
     <ProjectReference Include="..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
+    <ProjectReference Include="..\..\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Iot.Device.DhcpServer">

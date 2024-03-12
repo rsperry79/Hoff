@@ -39,6 +39,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\src\Hoff.Core.Common.nfproj" />
     <ProjectReference Include="..\..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />
+    <ProjectReference Include="..\..\..\..\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
     <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\..\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
     <ProjectReference Include="..\..\Common\Hoff.Core.Hardware.Sensors.Common\Hoff.Core.Hardware.Sensors.Common.nfproj" />
@@ -112,10 +113,10 @@
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.System.Threading.1.1.32\lib\System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.RelativeHumidity">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.48.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.RelativeHumidity.5.49.0\lib\UnitsNet.RelativeHumidity.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet.Temperature">
-      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.48.0\lib\UnitsNet.Temperature.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\UnitsNet.nanoFramework.Temperature.5.49.0\lib\UnitsNet.Temperature.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

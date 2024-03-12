@@ -45,6 +45,7 @@
       <Private>true</Private>
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
     <ProjectReference Include="..\..\..\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\..\SoC\Esp32\Hoff.Hardware.Soc.Esp32\Hoff.Hardware.Soc.SoCEsp32.nfproj" />
     <ProjectReference Include="..\src\Hoff.Hardware.Displays.Ssd13.nfproj" />

@@ -2,14 +2,14 @@
 using System.Net.NetworkInformation;
 using System.Threading;
 
-using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
+using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.WirelessConfig.Helpers;
 
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging.Debug;
-using nanoFramework.Runtime.Native;
 
 namespace Hoff.Core.Services.WirelessConfig
 {
@@ -67,7 +67,7 @@ namespace Hoff.Core.Services.WirelessConfig
                     WirelessAP.Disable();
                     Thread.Sleep(200);
 
-                    Power.RebootDevice();
+                    return true;
                 }
 
                 result = false;

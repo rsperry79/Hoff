@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading;
 
-using Hoff.Core.Common.Interfaces;
 using Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers;
+using Hoff.Core.Services.Common.Interfaces;
 
 using Iot.Device.DHTxx;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 using UnitsNet;
