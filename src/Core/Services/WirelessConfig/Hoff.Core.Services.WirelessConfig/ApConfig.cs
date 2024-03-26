@@ -1,51 +1,120 @@
 ﻿using System;
+using System.Device.Wifi;
 using System.Net.NetworkInformation;
-using System.Threading;
 
-using Hoff.Core.Hardware.Common.Interfaces.Services;
-using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Core.Services.Common.Interfaces.Services;
+using Hoff.Core.Services.Common.Interfaces.Wireless;
+using Hoff.Core.Services.WirelessConfig.Ap;
 using Hoff.Core.Services.WirelessConfig.Helpers;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.Logging.Debug;
+using nanoFramework.Logging;
+using nanoFramework.Runtime.Native;
 
 namespace Hoff.Core.Services.WirelessConfig
 {
-    public class ApConfig : IApConfig
+    public class ApConfig : IApConfig, IDisposable
     {
+        private bool _dispose = false;
+
+        private static ILogger Logger;
         private static IWifiSettings wifiSettings;
-        private static DebugLogger Logger;
-        private static IWirelessAP WirelessAP;
+        private static IAdhoc Adhoc;
+        private static IApClient Client;
+        private static ISettingsService Settings;
 
-        public ApConfig(ILoggerCore loggerCore, IWifiSettings settings, IWirelessAP wirelessAP)
-        {
-            Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
-            wifiSettings = settings;
-            WirelessAP = wirelessAP;
-        }
+        private static IServiceProvider ServiceProvider;
 
-        /// <summary>
-        /// Returns the current WifiSettings
-        /// </summary>
-        /// <returns>WifiSettings</returns>
-        public IWifiSettings GetWifiSettings()
+        public ApConfig(ISettingsService settings, IServiceProvider serviceProvider)
         {
-            return wifiSettings;
+            try
+            {
+                Logger = this.GetCurrentClassLogger();
+
+                Settings = settings;
+
+                ServiceProvider = serviceProvider;
+                wifiSettings = (IWifiSettings)Settings.Get(typeof(IWifiSettings));
+                NetworkHelpers.Setup();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogCritical(ex, ex.Message);
+                throw;
+            }
         }
 
         public bool StartAndWaitForConfig()
         {
+            bool adhoc = wifiSettings.IsAdHoc;
+
+            if (adhoc)
+            {
+                bool adHocresult = LoadAdhoc();
+                return adHocresult;
+            }
+            else
+            {
+                WifiAvailableNetwork network = GetScannedNetwork();
+                bool clientResult = LoadApClient(network);
+                return clientResult;
+            }
+        }
+
+        private static WifiAvailableNetwork GetScannedNetwork()
+        {
+            WifiAvailableNetwork network = null;
+
+            IWifiEnvironment wifiEnvironment = (IWifiEnvironment)ServiceProvider.GetService(typeof(IWifiEnvironment));
+            Array aps = wifiEnvironment.GetAvailableAPs();
+            foreach (WifiAvailableNetwork net in aps)
+            {
+                if (net.Ssid == wifiSettings.SSID)
+                {
+                    network = net;
+                }
+            }
+
+            return network;
+        }
+
+        /// <summary>
+        /// Configure and enable the Wireless station interface
+        /// </summary>
+        /// <param name="settings"><![CDATA[IWifiSettings]]>></param>
+        /// <returns></returns>
+        public bool SetConfiguration(IWifiSettings settings)
+        {
+            bool result = false;
+            if (settings.IsAdHoc)
+            {
+                WirelessAPConfiguration wconf = Adhoc.LoadConfig(settings);
+                if (wconf != null) { result = true; }
+            }
+            else
+            {
+                Wireless80211Configuration wconf = Client.LoadConfig(settings);
+                if (wconf != null) { result = true; }
+            }
+
+            return result;
+        }
+
+        private static bool LoadAdhoc()
+        {
             try
             {
-                bool wifiIsEnabled = NetworkHelpers.HasSSID();
-                Logger.LogTrace($"NetworkHelpers.IsEnabled: {wifiIsEnabled}");
+                Adhoc = new AdHoc(wifiSettings);
 
-                bool result = !wifiIsEnabled ? WirelessAP.Setup() : WirelessAP.CheckForConnection(wifiIsEnabled);
-                WirelessAP.GetAvailableAPs();
+                if (Adhoc.Setup() == false)
+                {
+                    // Reboot device to Activate Access Point on restart
+                    Logger.LogInformation($"Setup Soft AP, Rebooting device");
+                    Power.RebootDevice();
+                }
 
-                return result;
+                return true;
             }
             catch (Exception ex)
             {
@@ -54,30 +123,40 @@ namespace Hoff.Core.Services.WirelessConfig
             }
         }
 
-        public bool SetConfiguration(IWifiSettings settings)
+        private static bool LoadApClient(WifiAvailableNetwork network)
         {
-            WirelessAPConfiguration current = NetworkHelpers.GetConfiguration();
-            bool result;
-            if (current.Ssid != settings.SSID)
+            if (Adhoc != null)
             {
-                if (current.Password != settings.Password && settings.Password != null)
-                {
-                    _ = NetworkHelpers.Configure(settings.SSID, settings.Password);
-
-                    WirelessAP.Disable();
-                    Thread.Sleep(200);
-
-                    return true;
-                }
-
-                result = false;
+                Logger.LogInformation("Disposing Adhoc");
+                Adhoc.Dispose();
             }
-            else
-            {
-                result = false;
-            }
+
+            Client = new ApClient(wifiSettings, network);
+            bool result = Client.Setup();
 
             return result;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            System.GC.SuppressFinalize(this);
+
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this._dispose)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                Adhoc?.Dispose();
+            }
+
+            this._dispose = true;
         }
     }
 }

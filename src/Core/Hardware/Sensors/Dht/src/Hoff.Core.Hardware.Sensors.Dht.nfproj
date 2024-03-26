@@ -32,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Iot.Device.Dhtxx">
-      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Dhtxx.1.2.494\lib\Iot.Device.Dhtxx.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\packages\nanoFramework.Iot.Device.Dhtxx.1.2.514\lib\Iot.Device.Dhtxx.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>

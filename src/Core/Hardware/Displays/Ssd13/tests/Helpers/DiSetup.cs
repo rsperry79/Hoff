@@ -1,7 +1,7 @@
 ﻿using Hoff.Core.Hardware.Common.Interfaces.Config;
 using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Hardware.Common.Services;
-using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.Logging;
 using Hoff.Hardware.Displays.Ssd13.Interfaces;
 using Hoff.Hardware.SoC.SoCEsp32;

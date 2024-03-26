@@ -19,7 +19,16 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="ApConfig.cs" />
-    <Compile Include="Ap\WirelessAP.cs" />
+    <Compile Include="Ap\AdHoc.cs" />
+    <Compile Include="Ap\ApClient.cs" />
+    <Compile Include="Dhcp\DhcpMessage.cs" />
+    <Compile Include="Dhcp\DhcpServer.cs" />
+    <Compile Include="Dhcp\Enums\DhcpMessageType.cs" />
+    <Compile Include="Dhcp\Enums\DhcpOperation.cs" />
+    <Compile Include="Dhcp\Enums\DhcpOptionCode.cs" />
+    <Compile Include="Dhcp\Enums\HardwareType.cs" />
+    <Compile Include="WifiEnvironment.cs" />
+    <Compile Include="Helpers\DhcpServerHelper.cs" />
     <Compile Include="Helpers\NetworkHelpers.cs" />
     <Compile Include="Models\WifiSettings.cs">
       <Generator>
@@ -28,14 +37,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.nfproj" />
-    <ProjectReference Include="..\..\..\Common\src\Hoff.Core.Common.Test.nfproj" />
     <ProjectReference Include="..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Iot.Device.DhcpServer">
-      <HintPath>..\..\..\..\..\packages\nanoFramework.Iot.Device.DhcpServer.1.2.454\lib\Iot.Device.DhcpServer.dll</HintPath>
-    </Reference>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="mscorlib">
       <HintPath>..\..\..\..\..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
     </Reference>
@@ -50,6 +58,9 @@
     </Reference>
     <Reference Include="nanoFramework.Runtime.Native">
       <HintPath>..\..\..\..\..\packages\nanoFramework.Runtime.Native.1.6.12\lib\nanoFramework.Runtime.Native.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.System.Collections">
+      <HintPath>..\..\..\..\..\packages\nanoFramework.System.Collections.1.5.31\lib\nanoFramework.System.Collections.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.System.Text">
       <HintPath>..\..\..\..\..\packages\nanoFramework.System.Text.1.2.54\lib\nanoFramework.System.Text.dll</HintPath>
@@ -66,9 +77,6 @@
     <Reference Include="System.Threading">
       <HintPath>..\..\..\..\..\packages\nanoFramework.System.Threading.1.1.32\lib\System.Threading.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

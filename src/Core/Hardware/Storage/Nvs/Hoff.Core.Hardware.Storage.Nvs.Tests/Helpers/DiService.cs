@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +26,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests.Helpers
 
         internal static ILoggerCore ConfigureLogging(Type type)
         {
-            string loggerName = type.ToString();
+            _ = type.ToString();
             const LogLevel minLogLevel = LogLevel.Trace;
 
             ILoggerCore loggerCore = (ILoggerCore)services.GetRequiredService(typeof(ILoggerCore));

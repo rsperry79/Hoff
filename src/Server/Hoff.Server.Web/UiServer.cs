@@ -4,9 +4,8 @@ using System.Net.WebSockets.Server;
 using System.Net.WebSockets.WebSocketFrame;
 using System.Text;
 
-using Hoff.Core.Hardware.Common.Interfaces.Services;
-using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Core.Services.Common.Interfaces.Services;
+using Hoff.Core.Services.Common.Interfaces.Wireless;
 using Hoff.Core.Services.WirelessConfig.Models;
 using Hoff.Server.Common.Helpers;
 using Hoff.Server.Common.Models;
@@ -27,12 +26,14 @@ namespace Hoff.Server.Web
         private static WebSocketServer socketServer;
         private static WebServer webServer;
 
-        private static IApConfig apConfig;
+        private static IApConfig ApConfig;
+        private static ISettingsService Settings;
 
-        public UiServer(ILoggerCore logger, IApConfig apconfig)
+        public UiServer(ILoggerCore logger, IApConfig apConfig, ISettingsService settings)
         {
             Logger = logger.GetDebugLogger(this.GetType().Name.ToString());
-            apConfig = apconfig;
+            Settings = settings;
+            ApConfig = apConfig;
             //Initialize WebsocketServer with WebServer integration
             socketServer = new WebSocketServer(new WebSocketServerOptions()
             {
@@ -108,7 +109,7 @@ namespace Hoff.Server.Web
 
             if (raw == "GetWifiSettings")
             {
-                IWifiSettings wifiSettings = apConfig.GetWifiSettings();
+                IWifiSettings wifiSettings = (IWifiSettings)Settings.Get(typeof(IWifiSettings));
                 WsMessage wsMessage = new(wifiSettings, wifiSettings.GetType());
                 string baseMessage = wsMessage.ToJson(); ;
                 Logger.LogInformation(baseMessage.ToString());
@@ -129,8 +130,8 @@ namespace Hoff.Server.Web
                 // TODO localize
                 IWifiSettings settings = (WifiSettings)message.GetWsMessagePayload();
                 SendMessage(Resources.StringResources.SaveWifi, ws, endPoint);
-                bool saved = apConfig.SetConfiguration(settings);
-                if (!saved)
+                bool saved = ApConfig.SetConfiguration(settings);
+                if (saved is false)
                 {
                     SendMessage(Resources.StringResources.FailedToSave, ws, endPoint);
                 }

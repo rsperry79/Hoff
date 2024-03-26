@@ -1,5 +1,5 @@
 ﻿using Hoff.Core.Hardware.Storage.Nvs.Tests.Helpers;
-using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,16 +14,15 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests
     {
         private static ServiceProvider services;
 
-        private static string storageName = typeof(Secrets).Name;
+        private static readonly string storageName = typeof(Secrets).Name;
 
-        private static Secrets Secrets = new Secrets();
+        private static readonly Secrets Secrets = new();
         private static ILoggerCore LoggerCore;
 
         [TestMethod]
         public void NvsClearTest()
         {
             // Arrange
-
 
             // Act
             NvsStorage nvsStorage = (NvsStorage)services.GetRequiredService(typeof(NvsStorage));
@@ -53,9 +52,6 @@ namespace Hoff.Core.Hardware.Storage.Nvs.Tests
             Assert.AreEqual(Secrets.TestDouble, result.TestDouble);
             Assert.AreEqual(Secrets.TestBool, result.TestBool);
         }
-
-
-
 
         [Setup]
         public void Setup()

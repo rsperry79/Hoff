@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 
 using Microsoft.Extensions.Logging;
 
@@ -43,7 +43,6 @@ namespace Hoff.Core.Services.Logging
         {
             this.GetSerialLogger(null);
         }
-
 
         public void GetSerialLogger(string port)
         {

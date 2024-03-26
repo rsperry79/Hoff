@@ -1,14 +1,11 @@
 ﻿using System;
 
-using Hoff.Core.Hardware.Common.Interfaces.Services;
 using Hoff.Core.Services.Common.Interfaces.Services;
-using Hoff.Core.Services.Logging;
+using Hoff.Core.Services.Common.Interfaces.Wireless;
 using Hoff.Core.Services.Settings.Tests.Helpers;
-using Hoff.Core.Services.WirelessConfig.Models;
 
 using Microsoft.Extensions.Logging;
 
-using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
 
 namespace Hoff.Core.Services.WirelessConfig.Tests
@@ -17,41 +14,23 @@ namespace Hoff.Core.Services.WirelessConfig.Tests
     [TestClass]
     public class ApConfigTests
     {
-        private static Secrets secrets = new();
-        private static DebugLogger Logger;
-        private static LoggerCore LoggerCore;
+        private static WifiDefaults secrets = new();
+        private static ILogger Logger;
         private static IServiceProvider Services;
 
-        private static IApConfig ApConfig;
-
+        private static ISettingsService SettingsService;
 
         #region Tests
         [TestMethod]
-        public void GetWifiSettingsTest()
-        {
-
-            // Act
-            IWifiSettings result = ApConfig.GetWifiSettings();
-
-            // Assert
-            Assert.IsNotNull(result);
-        }
-
-
-        [TestMethod]
         public void SetConfigurationTest()
         {
-            // Arrange
+            //Arrange
+            IWifiSettings Settings = SetConfig();
 
-            IWifiSettings settings = new WifiSettings(LoggerCore);
-            settings.SSID = secrets.SSID;
-            settings.Password = secrets.Password;
-
-            ApConfig.StartAndWaitForConfig();
+            IApConfig ApConfig = (IApConfig)Services.GetService(typeof(IApConfig));
 
             // Act
-            bool result = ApConfig.SetConfiguration(
-                settings);
+            bool result = ApConfig.SetConfiguration(Settings);
 
             // Assert
             Assert.IsTrue(result);
@@ -60,22 +39,27 @@ namespace Hoff.Core.Services.WirelessConfig.Tests
         #endregion Tests
 
         #region Helpers
-
         [Setup]
         public static void Setup()
         {
             if (Services is null)
             {
-                LoggerCore = new();
-                LoggerCore.SetDefaultLoggingLevel(LogLevel.Trace);
-
-                Logger = LoggerCore.GetDebugLogger("TestLogger");
                 Services = DiSetup.ConfigureServices();
-
-                ApConfig = (IApConfig)Services.GetService(typeof(IApConfig));
-                ApConfig.StartAndWaitForConfig();
-
+                Logger = DiSetup.ConfigureLogger("TestLogger");
+                SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
             }
+        }
+
+        private static IWifiSettings SetConfig()
+        {
+            IWifiSettings Settings = (IWifiSettings)SettingsService.Get(typeof(IWifiSettings));
+            Settings.SSID = secrets.SSID;
+            Settings.Password = secrets.Password;
+            Settings.AuthenticationType = secrets.AuthenticationType;
+            Settings.EncryptionType = secrets.EncryptionType;
+            Settings.IsStaticIP = false;
+            Settings.IsAdHoc = false;
+            return Settings;
         }
         #endregion Helpers
     }

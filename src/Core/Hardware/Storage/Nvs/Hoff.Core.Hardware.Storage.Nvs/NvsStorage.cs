@@ -2,11 +2,11 @@
 
 using System;
 using System.IO;
-using System.Text;
 
 using Hoff.Core.Hardware.Common.Interfaces.Storage;
-using Hoff.Core.Services.Common.Interfaces;
-using Hoff.Hardware.Common.Interfaces.Storage;
+using Hoff.Core.Services.Common.Interfaces.Services;
+
+using Hoff.Services.Common.Interfaces.Storage;
 
 using Microsoft.Extensions.Logging;
 
@@ -29,16 +29,16 @@ namespace Hoff.Core.Hardware.Storage.Nvs
 
             if (!hasStored)
             {
-                _ = WriteData(this.ToUri(storageName), string.Empty);
+                _ = this.Write(this.ToUri(storageName), "");
             }
 
             return temp;
         }
 
-        public void Write(string storageName, string data)
+        public bool Write(string storageName, string data)
         {
-
-            _ = WriteData(this.ToUri(storageName), data);
+            File.WriteAllText(this.ToUri(storageName), data);
+            return true;
         }
 
         public void Clear(string storageName)
@@ -49,7 +49,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
                 File.Delete(uri);
             }
 
-            _ = WriteData(uri, string.Empty);
+            _ = _ = this.Write(uri, string.Empty);
         }
 
         internal bool HasStored(string storageName)
@@ -58,32 +58,30 @@ namespace Hoff.Core.Hardware.Storage.Nvs
             return temp;
         }
 
-        private static bool WriteData(string uri, string data)
-        {
-            bool temp = false;
-            using (FileStream file = new(uri, FileMode.Create))
-            {
-                byte[] buffer = Encoding.UTF8.GetBytes(data);
-                file.Write(buffer, 0, buffer.Length);
-                file.Dispose();
-                temp = true;
-            }
-
-            return temp;
-        }
+        //private static bool WriteData(string uri, string data)
+        //{
+        //    //using (FileStream file = new(uri, FileMode.Create))
+        //    //{
+        //    //    byte[] buffer = Encoding.UTF8.GetBytes(data);
+        //    //    file.Write(buffer, 0, buffer.Length);
+        //    //    file.Dispose();
+        //    //    temp = true;
+        //    //}
+        //}
 
         private static string GetString(string uri)
         {
             try
             {
-                using (FileStream stream = new(uri, FileMode.Open))
-                {
-                    byte[] buffer = new byte[stream.Length];
-                    _ = stream.Read(buffer, 0, (int)stream.Length);
+                return File.ReadAllText(uri);
+                //using (FileStream stream = new(uri, FileMode.Open))
+                //{
+                //    byte[] buffer = new byte[stream.Length];
+                //    _ = stream.Read(buffer, 0, (int)stream.Length);
 
-                    string raw = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
-                    return raw;
-                }
+                //    string raw = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                //    return raw;
+                //}
             }
             catch (Exception ex)
             {

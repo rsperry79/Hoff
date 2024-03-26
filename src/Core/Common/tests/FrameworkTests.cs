@@ -14,7 +14,6 @@ namespace Hoff.Core.Common.Tests
         public void TestCheckAllEqual()
         {
 
-
             Debug.WriteLine("Test will check that all the Equal are actually equal");
             // Arrange
             const byte bytea = 42; const byte byteb = 42;

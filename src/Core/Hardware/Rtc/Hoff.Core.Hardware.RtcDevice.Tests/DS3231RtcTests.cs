@@ -5,9 +5,9 @@ using Hoff.Core.Hardware.Common.Services;
 using Hoff.Core.Hardware.Rtc.RtcDevice.Interfaces;
 using Hoff.Core.Hardware.Rtc.RtcDevice.Tests.Helpers;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.TestFramework;
 
 using UnitsNet;

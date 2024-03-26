@@ -1,6 +1,9 @@
-﻿using System.Net;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Threading;
+
+using Hoff.Core.Services.Common.Interfaces.Wireless;
+
+using Microsoft.Extensions.Logging;
 
 using nanoFramework.Networking;
 
@@ -8,15 +11,43 @@ namespace Hoff.Core.Services.WirelessConfig.Helpers
 {
     internal static class NetworkHelpers
     {
-        private static NetworkInterface Network { get; set; }
+        private static bool _isSetup = false;
+        internal static void Setup()
+        {
+            if (!_isSetup)
+            {
+                WifiNetworkHelper.SetupNetworkHelper();
+                _isSetup = true;
+            }
+        }
+
+        internal static NetworkHelperStatus WaitForWifi(ILogger logger, int timeoutSeconds = 30)
+        {
+            NetworkHelperStatus status;
+            NetworkHelperStatus isReady = WifiNetworkHelper.Status;
+            int count = 0;
+            do
+            {
+                status = WifiNetworkHelper.Status;
+
+                if (status != isReady)
+                {
+                    Thread.Sleep(100);
+                    count += 100;
+                    if (count % 1000 == 0)
+                    {
+                        NetworkHelperStatus displayStatus = status;
+                        logger.LogInformation($"Waiting for Network to be ready. Status is: {displayStatus}");
+                    }
+                }
+            } while (status != isReady && count < timeoutSeconds * 1000);
+            NetworkInterface conf = GetInterface();
+            logger.LogInformation($"WaitForWifi Status: {status} IP: {conf.IPv4Address} Mask: {conf.IPv4SubnetMask}");
+            return status;
+        }
 
         internal static NetworkInterface GetInterface()
         {
-            if (Network != null)
-            {
-                return Network;
-            }
-
             NetworkInterface[] Interfaces = NetworkInterface.GetAllNetworkInterfaces();
 
             // Find WirelessAP interface
@@ -24,115 +55,19 @@ namespace Hoff.Core.Services.WirelessConfig.Helpers
             {
                 if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                 {
-                    Network = ni;
+                    return ni;
                 }
-            }
-
-            return Network;
-        }
-
-        /// <summary>
-        /// Find the Wireless AP configuration
-        /// </summary>
-        /// <returns>Wireless AP configuration or NUll if not available</returns>
-        internal static WirelessAPConfiguration GetConfiguration()
-        {
-            NetworkInterface ni = GetInterface();
-            return WirelessAPConfiguration.GetAllWirelessAPConfigurations()[ni.SpecificConfigId];
-        }
-
-        /// <summary>
-        /// Get the Wireless station configuration.
-        /// </summary>
-        /// <returns>Wireless80211Configuration object</returns>
-        internal static Wireless80211Configuration GetAllConfiguration()
-        {
-            NetworkInterface ni = GetInterface();
-            return Wireless80211Configuration.GetAllWireless80211Configurations()[ni.SpecificConfigId];
-        }
-
-        /// <summary>
-        /// Gets <see langword="true"/> if the Wireless station interface is enabled as AdHoc.
-        /// </summary>
-        /// <returns><cref>bool</cref></returns>
-        internal static bool IsAdHoc()
-        {
-            Wireless80211Configuration conf = GetAllConfiguration();
-            return conf.Options.HasFlag(Wireless80211Configuration.ConfigurationOptions.Enable);
-        }
-        /// <summary>
-        /// Checks to see if an SSID is configured.
-        /// </summary>
-        /// <returns>True if configured</returns>
-        internal static bool HasSSID()
-        {
-            Wireless80211Configuration conf = GetAllConfiguration();
-            bool isNull = conf.Ssid != string.Empty;
-
-            _ = conf.Options.HasFlag(Wireless80211Configuration.ConfigurationOptions.SmartConfig);
-            return isNull;
-        }
-
-        /// <summary>
-        /// Disable the Wireless station interface.
-        /// </summary>
-        internal static void Disable()
-        {
-            Wireless80211Configuration wconf = GetAllConfiguration();
-            wconf.Options = Wireless80211Configuration.ConfigurationOptions.None;
-            wconf.SaveConfiguration();
-        }
-
-        /// <summary>
-        /// Configure and enable the Wireless station interface
-        /// </summary>
-        /// <param name="ssid"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        internal static bool Configure(string ssid, string password)
-        {
-            // And we have to force connect once here even for a short time
-            _ = WifiNetworkHelper.ConnectDhcp(ssid, password, token: new CancellationTokenSource(10000).Token);
-            Wireless80211Configuration wconf = GetAllConfiguration();
-            wconf.Options = Wireless80211Configuration.ConfigurationOptions.AutoConnect | Wireless80211Configuration.ConfigurationOptions.Enable;
-            wconf.SaveConfiguration();
-            return true;
-        }
-
-        /// <summary>
-        /// Gets the interface and waits for the IP address to be assigned.
-        /// </summary>
-        /// <returns>The IP address</returns>
-        internal static IPAddress GetAndWaitForIP()
-        {
-            bool hasIP = false;
-            int count = 0;
-            while (!hasIP | count < 10)
-            {
-                NetworkInterface ni = GetInterface();
-                if (!string.IsNullOrEmpty(ni.IPv4Address))
-                {
-                    if (ni.IPv4Address[0] != '0')
-                    {
-                        return IPAddress.Parse(ni.IPv4Address);
-                    }
-                }
-
-                count++;
-                Thread.Sleep(500);
             }
 
             return null;
         }
 
-        /// <summary>
-        /// Returns the IP address of the Soft AP
-        /// </summary>
-        /// <returns>IP address</returns>
-        internal static string GetIP()
+        internal static void SetStaticIP(IWifiSettings settings)
         {
-            NetworkInterface ni = GetInterface();
-            return ni.IPv4Address;
+            string ip = settings.Address.ToString();
+            string netmask = settings.NetMask.ToString();
+            string gateway = settings.Gateway == null ? settings.Address.ToString() : settings.Gateway.ToString();
+            GetInterface().EnableStaticIPv4(ip, netmask, gateway);
         }
     }
 }

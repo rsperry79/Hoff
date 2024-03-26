@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-using Hoff.Core.Hardware.Common.Interfaces.Services;
-using Hoff.Core.Hardware.Common.Interfaces.Storage;
-using Hoff.Core.Services.Common.Interfaces;
 using Hoff.Core.Services.Common.Interfaces.Services;
-using Hoff.Hardware.Common.Interfaces.Storage;
 using Hoff.Server.Core.Helpers;
 using Hoff.Server.Web;
 
@@ -20,25 +16,17 @@ namespace Hoff.Server.Core
 
         private static ILogger Logger;
         private static IApConfig ApHelper;
-        private static IWifiSettings wifiSettings;
 
         public static void Main()
         {
             try
             {
                 services = DiSetup.ConfigureServices();
-
                 ConfigureLogging();
-                ISettingsService settings = (ISettingsService)services.GetService(typeof(ISettingsService));
-                ISettingsStorageDriver Driver = (ISettingsStorageDriver)services.GetService(typeof(ISettingsStorageDriver));
-                IWifiSettings wifiSettings = (IWifiSettings)services.GetService(typeof(IWifiSettings));
-
-                settings.Add(Driver, "Wifi", wifiSettings);
-                ISettingsStorageItem result = settings.GetFirstOrDefault(typeof(IWifiSettings));
-
                 LoadWireless();
 
                 _ = services.GetRequiredService(typeof(UiServer));
+
                 Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception ex)
@@ -50,7 +38,6 @@ namespace Hoff.Server.Core
 
         private static void LoadWireless()
         {
-            wifiSettings = (IWifiSettings)services.GetRequiredService(typeof(IWifiSettings));
             ApHelper = (IApConfig)services.GetRequiredService(typeof(IApConfig));
             _ = ApHelper.StartAndWaitForConfig();
         }

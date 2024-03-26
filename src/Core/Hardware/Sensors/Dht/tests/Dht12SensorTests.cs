@@ -2,7 +2,7 @@
 using System.Threading;
 
 using Hoff.Core.Hardware.Sensors.Dht.Tests.Helpers;
-using Hoff.Core.Services.Common.Interfaces;
+using Hoff.Core.Services.Common.Interfaces.Services;
 
 using Iot.Device.DHTxx;
 

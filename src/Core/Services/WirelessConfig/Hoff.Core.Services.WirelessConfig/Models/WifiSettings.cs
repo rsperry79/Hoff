@@ -1,53 +1,24 @@
-﻿using System;
-using System.Device.Wifi;
-using System.Net;
-using System.Net.NetworkInformation;
-
-using Hoff.Core.Hardware.Common.Models;
-using Hoff.Core.Services.Common.Interfaces;
-using Hoff.Core.Services.Common.Interfaces.Services;
-using Hoff.Core.Services.WirelessConfig.Helpers;
-
-using Microsoft.Extensions.Logging;
+﻿using Hoff.Core.Services.Common.Interfaces.Wireless;
 
 namespace Hoff.Core.Services.WirelessConfig.Models
 {
-    public class WifiSettings : SettingsStorageItem, IWifiSettings
+    public class WifiSettings : IWifiSettings
     {
-        protected static WirelessAPConfiguration Configuration { get; set; }
-        public WifiAvailableNetwork[] APsAvailable { get; set; }
+        public string Address { get; set; } = "192.168.4.1";
 
-        public IPAddress Address { get; set; } = IPAddress.Parse("192.168.4.1");
+        public string NetMask { get; set; } = "255.255.255.0";
 
-        public IPAddress NetMask { get; set; } = IPAddress.Parse("255.255.255.0");
+        public string Gateway { get; set; } = "192.168.4.1";
 
         public bool IsStaticIP { get; set; } = false;
         public string SSID { get; set; }
 
         public string Password { get; set; }
 
-        public bool IsAdHoc { get; set; } = false;
+        public bool IsAdHoc { get; set; } = true;
+        public int AuthenticationType { get; set; } = (int)System.Net.NetworkInformation.AuthenticationType.WPA2;
+        public int EncryptionType { get; set; } = (int)System.Net.NetworkInformation.EncryptionType.WPA2_PSK;
+        public int RadioType { get; set; } = (int)System.Net.NetworkInformation.RadioType._802_11n;
 
-        protected override void Initialize()
-        {
-            try
-            {
-                Configuration ??= NetworkHelpers.GetConfiguration();
-
-                this.SSID = Configuration.Ssid;
-                this.Password = Configuration.Password;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogCritical(ex.Message, ex);
-                throw;
-            }
-        }
-
-        public WifiSettings(ILoggerCore loggerCore)
-        {
-            this.Initialize();
-            Logger = loggerCore.GetDebugLogger(this.GetType().Name.ToString());
-        }
     }
 }
