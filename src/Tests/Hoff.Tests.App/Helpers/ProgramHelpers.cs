@@ -1,13 +1,9 @@
 ﻿using System.Threading;
 
-using Hoff.Core.Hardware.Storage.Nvs;
-using Hoff.Core.Services.Common.Interfaces.Services;
-using Hoff.Core.Services.Common.Interfaces.Wireless;
-using Hoff.Core.Services.Settings;
-using Hoff.Core.Services.WirelessConfig;
 using Hoff.Server.Web;
-using Hoff.Services.Common.Interfaces.Storage;
 using Hoff.Tests.Common;
+using Hoff.Tests.Common.Interfaces;
+using Hoff.Tests.Common.Models;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,18 +26,15 @@ namespace Hoff.Tests.App.Helpers
         private static void LoadTransients()
         {
             _ = serviceCollection
-                .AddTransient(typeof(UiServer));
+                .AddTransient(typeof(UiServer))
+                 .AddTransient(typeof(ISettingsTestModel), typeof(SettingsTestModel));
+
+
         }
 
         private static void LoadSingleTons()
         {
-            _ = serviceCollection
-                .AddSingleton(typeof(ISettingsStorageDriver), typeof(NvsStorage))
-                .AddSingleton(typeof(ISettingsService), typeof(SettingsService))
 
-                .AddSingleton(typeof(IWifiSettings), typeof(WifiDefault))
-                .AddSingleton(typeof(IApConfig), typeof(ApConfig))
-                .AddSingleton(typeof(IWifiEnvironment), typeof(WifiEnvironment));
         }
 
         public static void InfiniteLoop()

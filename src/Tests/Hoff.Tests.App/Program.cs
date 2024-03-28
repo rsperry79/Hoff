@@ -1,12 +1,15 @@
 ﻿using System;
 
-using Hoff.Core.IntegrationTests.Integration.Tests;
 using Hoff.Core.Services.Common.Interfaces.Services;
+using Hoff.Core.Services.WirelessConfig.Tests;
 using Hoff.Tests.App.Helpers;
 using Hoff.Tests.Common;
+using Hoff.Tests.Common.Interfaces;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+using nanoFramework.TestFramework;
 
 namespace Hoff.Tests.App
 {
@@ -17,7 +20,7 @@ namespace Hoff.Tests.App
         private static ILogger Logger;
         private static IApConfig ApHelper;
         private static ISettingsService SettingsService;
-        private static DependencyInjectionTests tests = new();
+        private static ApConfigTests tests = new();
         public static void Main()
         {
             try
@@ -31,14 +34,13 @@ namespace Hoff.Tests.App
             catch (Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw;
             }
         }
 
         private static void Setup()
         {
             ProgramHelpers.ConfigureServices();
-            tests.ConfigureServices();
+            tests.Setup();
 
             Services = TestHelpers.GetServices();
             Logger = TestHelpers.GetLogger("Tests App");
@@ -58,7 +60,20 @@ namespace Hoff.Tests.App
         {
 
 
-            tests.SettingsDependencyInjectionTest();
+            // Arrange
+            SettingsService.FactoryReset(true);
+            SettingsService.Add(typeof(ISettingsTestModel));
+
+            // Act
+            ISettingsTestModel result = (ISettingsTestModel)SettingsService.Get(typeof(ISettingsTestModel));
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(SettingsService.SettingsCount(), 1);
+
+
+            //SettingsService.FactoryReset(true);
+            //tests.SetConfigurationTest();
             Logger.LogInformation("Test Complete");
         }
 

@@ -15,6 +15,12 @@
     <RootNamespace>Hoff.Tests.App</RootNamespace>
     <AssemblyName>Hoff.Tests.App</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <RunAnalyzersDuringBuild>$(IsCSharpOrVbProject)</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>$(IsCSharpOrVbProject)</RunAnalyzersDuringLiveAnalysis>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
@@ -29,10 +35,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Hardware\Storage\Nvs\Hoff.Core.Hardware.Storage.Nvs\Hoff.Core.Hardware.Storage.Nvs.nfproj" />
-    <ProjectReference Include="..\..\Core\IntegrationTests\Hoff.Core.IntegrationTests.Integration.Tests.nfproj" />
     <ProjectReference Include="..\..\Core\Logging\src\Hoff.Core.Services.Logging.nfproj" />
     <ProjectReference Include="..\..\Core\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
     <ProjectReference Include="..\..\Core\Services\Settings\Hoff.Core.Services.Settings\Hoff.Core.Services.Settings.nfproj" />
+    <ProjectReference Include="..\..\Core\Services\WirelessConfig\Hoff.Core.Services.WirelessConfig.Tests\Hoff.Core.Services.WirelessConfig.Tests\Hoff.Core.Services.WirelessConfig.Tests.nfproj" />
     <ProjectReference Include="..\..\Core\Services\WirelessConfig\Hoff.Core.Services.WirelessConfig\Hoff.Core.Services.WirelessConfig.nfproj" />
     <ProjectReference Include="..\..\Server\Hoff.Server.Web\Hoff.Server.Web.nfproj" />
     <ProjectReference Include="..\Hoff.Tests.Common\Hoff.Tests.Common.nfproj" />
@@ -61,6 +67,9 @@
     </Reference>
     <Reference Include="nanoFramework.System.Collections">
       <HintPath>..\..\..\packages\nanoFramework.System.Collections.1.5.31\lib\nanoFramework.System.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.System.Runtime">
+      <HintPath>..\..\..\packages\nanoFramework.System.Runtime.1.0.6\lib\nanoFramework.System.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.System.Text">
       <HintPath>..\..\..\packages\nanoFramework.System.Text.1.2.54\lib\nanoFramework.System.Text.dll</HintPath>

@@ -35,7 +35,7 @@ namespace Hoff.Core.Services.WirelessConfig
                 Settings = settings;
 
                 ServiceProvider = serviceProvider;
-                wifiSettings = (IWifiSettings)Settings.Get(typeof(IWifiSettings));
+                wifiSettings = (IWifiSettings)Settings.GetOrDefault(typeof(IWifiSettings));
                 NetworkHelpers.Setup();
             }
             catch (Exception ex)
@@ -89,16 +89,55 @@ namespace Hoff.Core.Services.WirelessConfig
             bool result = false;
             if (settings.IsAdHoc)
             {
-                WirelessAPConfiguration wconf = Adhoc.LoadConfig(settings);
-                if (wconf != null) { result = true; }
+
+                if (Adhoc == null)
+                {
+                    if (Client != null)
+                    {
+                        Client.Dispose();
+                        NetworkInterface ni = NetworkHelpers.GetInterface();
+                        Wireless80211Configuration wconf = Wireless80211Configuration.GetAllWireless80211Configurations()[ni.SpecificConfigId];
+                        wconf.Options = Wireless80211Configuration.ConfigurationOptions.None;
+                        wconf.SaveConfiguration();
+                    }
+
+                    Adhoc = new AdHoc(wifiSettings);
+                    return true;
+                }
+                else
+                {
+                    Adhoc = new AdHoc(wifiSettings);
+                    WirelessAPConfiguration wconf = Adhoc.LoadConfig(settings);
+                    if (wconf != null) { result = true; }
+                }
             }
             else
             {
-                Wireless80211Configuration wconf = Client.LoadConfig(settings);
-                if (wconf != null) { result = true; }
+                if (Client == null)
+                {
+                    if (Adhoc != null)
+                    {
+                        Adhoc.Dispose();
+                    }
+
+                    Client = new ApClient(wifiSettings);
+                    return true;
+                }
+                else
+                {
+                    Wireless80211Configuration wconf = Client.LoadConfig(settings);
+                    if (wconf != null) { result = true; }
+                }
             }
 
             return result;
+        }
+
+        private static void DirectUpdate(IWifiSettings settings)
+        {
+            _ = Settings.AddOrUpdate(settings);
+            Logger.LogInformation("Rebooting device");
+            Power.RebootDevice();
         }
 
         private static bool LoadAdhoc()

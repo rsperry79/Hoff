@@ -2,6 +2,6 @@
 {
     public interface INvsSettingsStorageDriver
     {
-
+        string[] ReadLines(string storageName);
     }
 }

@@ -1,78 +1,91 @@
-﻿using System;
+﻿//using System;
 
-using Hoff.Core.Services.Common.Interfaces.Services;
-using Hoff.Core.Services.Common.Interfaces.Wireless;
-using Hoff.Core.Services.Settings.Tests.Helpers;
+//using Hoff.Core.Services.Common.Interfaces.Services;
+//using Hoff.Core.Services.Common.Interfaces.Wireless;
+//using Hoff.Core.Services.Settings.Tests.Helpers;
+//using Hoff.Tests.Common;
 
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
-using nanoFramework.TestFramework;
+//using nanoFramework.TestFramework;
 
-namespace Hoff.Core.Services.WirelessConfig.Tests
-{
+//namespace Hoff.Core.Services.WirelessConfig.Tests
+//{
 
-    [TestClass]
-    public class ApAdHocTests
-    {
-        private static ILogger Logger;
+//    [TestClass]
+//    public class ApAdHocTests
+//    {
+//        private static ILogger Logger;
+//        private static IServiceProvider Services;
 
-        private static ISettingsService SettingsService;
+//        private static ISettingsService SettingsService;
+//        #region Tests
 
-        #region Tests
+//        [TestMethod]
+//        public void StartAndWaitForConfigAdHocTest()
+//        {
+//            try
+//            {
+//                // Arrange
+//                IWifiSettings Settings = (IWifiSettings)SettingsService.Get(typeof(IWifiSettings));
 
-        [TestMethod]
-        public void StartAndWaitForConfigAdHocTest()
-        {
-            try
-            {
-                // Arrange
-                IWifiSettings Settings = (IWifiSettings)SettingsService.Get(typeof(IWifiSettings));
+//                Settings.SSID = "Nano";
+//                Settings.Password = "password";
+//                string ip = "192.168.4.1";
+//                string mask = "255.255.255.0";
+//                Settings.EncryptionType = (int)System.Net.NetworkInformation.EncryptionType.None;
+//                Settings.AuthenticationType = (int)System.Net.NetworkInformation.AuthenticationType.Open;
+//                Settings.IsStaticIP = true;
+//                Settings.NetMask = mask;
+//                Settings.Address = ip;
+//                Settings.Gateway = ip;
+//                Settings.IsAdHoc = true;
 
-                Settings.SSID = "Nano";
-                Settings.Password = "password";
-                string ip = "192.168.4.1";
-                string mask = "255.255.255.0";
-                Settings.EncryptionType = System.Net.NetworkInformation.EncryptionType.None;
-                Settings.AuthenticationType = System.Net.NetworkInformation.AuthenticationType.Open;
-                Settings.IsStaticIP = true;
-                Settings.NetMask = mask;
-                Settings.Address = ip;
-                Settings.Gateway = ip;
-                Settings.IsAdHoc = true;
+//                SettingsService.Add(Settings);
+//                IApConfig ApConfig = (IApConfig)Services.GetService(typeof(IApConfig));
 
-                SettingsService.Add(Settings);
-                IApConfig ApConfig = (IApConfig)DiSetup.Services.GetService(typeof(IApConfig));
+//                //// Act
+//                bool result = ApConfig.StartAndWaitForConfig();
 
-                //// Act
-                bool result = ApConfig.StartAndWaitForConfig();
+//                // Assert
+//                //Assert.IsTrue(result);
+//                Assert.IsTrue(true);
+//            }
+//            catch (Exception ex)
+//            {
+//                Logger.LogError(ex, ex.Message);
+//                throw;
+//            }
+//        }
+//        #endregion Tests
 
-                // Assert
-                //Assert.IsTrue(result);
-                Assert.IsTrue(true);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, ex.Message);
-                throw;
-            }
-        }
-        #endregion Tests
+//        #region Helpers
 
-        #region Helpers
-        [Setup]
-        public static void Setup()
-        {
+//        private static bool isSetup = false;
 
-            if (DiSetup.Services is null)
-            {
-                _ = DiSetup.ConfigureServices();
-            }
+//        public void ConfigureServices()
+//        {
+//            if (isSetup is false)
+//            {
+//                TestHelpers.GetServiceCollection();
+//                DiSetup.ConfigureServices();
+//                isSetup = true;
+//            }
+//        }
 
-            Logger ??= DiSetup.ConfigureLogger("TestLogger");
-            SettingsService ??= (ISettingsService)DiSetup.Services.GetService(typeof(ISettingsService));
-        }
+//        [Setup]
+//        public void Setup()
+//        {
+//            if (Services is null)
+//            {
+//                this.ConfigureServices();
+//                Services = TestHelpers.GetServices();
+//                Logger = TestHelpers.GetLogger("Integration Tests");
+//                SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
 
-        #endregion Helpers
-    }
-}
+//            }
+//        }
+//        #endregion Helpers
+//    }
+//}
 

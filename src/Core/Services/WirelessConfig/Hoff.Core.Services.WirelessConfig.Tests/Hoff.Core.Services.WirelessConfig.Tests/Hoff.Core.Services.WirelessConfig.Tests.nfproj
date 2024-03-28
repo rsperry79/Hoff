@@ -42,6 +42,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Tests\Hoff.Tests.Common\Hoff.Tests.Common.nfproj" />
     <ProjectReference Include="..\..\..\..\Hardware\Common\Hoff.Hardware.Common\Hoff.Core.Hardware.Common.nfproj" />
     <ProjectReference Include="..\..\..\..\Hardware\Storage\Nvs\Hoff.Core.Hardware.Storage.Nvs\Hoff.Core.Hardware.Storage.Nvs.nfproj" />
     <ProjectReference Include="..\..\..\..\Logging\src\Hoff.Core.Services.Logging.nfproj" />

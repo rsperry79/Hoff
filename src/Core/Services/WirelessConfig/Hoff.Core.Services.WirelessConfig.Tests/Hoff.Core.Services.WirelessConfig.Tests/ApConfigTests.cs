@@ -3,6 +3,7 @@
 using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.Common.Interfaces.Wireless;
 using Hoff.Core.Services.Settings.Tests.Helpers;
+using Hoff.Tests.Common;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,19 +19,20 @@ namespace Hoff.Core.Services.WirelessConfig.Tests
         private static ILogger Logger;
         private static IServiceProvider Services;
 
-        private static ISettingsService SettingsService;
+
 
         #region Tests
         [TestMethod]
         public void SetConfigurationTest()
         {
             //Arrange
-            IWifiSettings Settings = SetConfig();
+            //IWifiSettings Settings = SetConfig();
+
 
             IApConfig ApConfig = (IApConfig)Services.GetService(typeof(IApConfig));
 
             // Act
-            bool result = ApConfig.SetConfiguration(Settings);
+            bool result = ApConfig.SetConfiguration(secrets);
 
             // Assert
             Assert.IsTrue(result);
@@ -39,20 +41,33 @@ namespace Hoff.Core.Services.WirelessConfig.Tests
         #endregion Tests
 
         #region Helpers
+        private static bool isSetup = false;
+
+        public void ConfigureServices()
+        {
+            if (isSetup is false)
+            {
+                TestHelpers.GetServiceCollection();
+                DiSetup.ConfigureServices();
+                isSetup = true;
+            }
+        }
+
         [Setup]
-        public static void Setup()
+        public void Setup()
         {
             if (Services is null)
             {
-                Services = DiSetup.ConfigureServices();
-                Logger = DiSetup.ConfigureLogger("TestLogger");
-                SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
+                this.ConfigureServices();
+                Services = TestHelpers.GetServices();
+                Logger = TestHelpers.GetLogger("Integration Tests");
+
             }
         }
 
         private static IWifiSettings SetConfig()
         {
-            IWifiSettings Settings = (IWifiSettings)SettingsService.Get(typeof(IWifiSettings));
+            IWifiSettings Settings = (IWifiSettings)Services.GetService(typeof(IWifiSettings));
             Settings.SSID = secrets.SSID;
             Settings.Password = secrets.Password;
             Settings.AuthenticationType = secrets.AuthenticationType;

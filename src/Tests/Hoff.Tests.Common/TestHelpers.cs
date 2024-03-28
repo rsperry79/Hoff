@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Threading;
 
+using Hoff.Core.Hardware.Storage.Nvs;
 using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.Logging;
+using Hoff.Core.Services.Settings;
+using Hoff.Services.Common.Interfaces.Storage;
 using Hoff.Tests.Common.Interfaces;
 using Hoff.Tests.Common.Models;
 
@@ -45,7 +48,6 @@ namespace Hoff.Tests.Common
         public static ILogger GetLogger(string name, LogLevel logLevel = LogLevel.Trace)
         {
 
-
             if (core == null)
             {
                 Console.WriteLine("Configuring Logger");
@@ -56,32 +58,21 @@ namespace Hoff.Tests.Common
             return core.GetDebugLogger(name);
         }
 
-        //public static void AddTransient(Type iface, Type concrete)
-        //{
-        //    if (!sCollection.Contains(new ServiceDescriptor(iface, concrete)))
-        //    {
-        //        sCollection.AddTransient(iface, concrete);
-        //    }
-        //}
-
-        //public static void AddSingleton(Type iface, Type concrete)
-        //{
-        //    if (!sCollection.Contains(new ServiceDescriptor(iface, concrete)))
-        //    {
-        //        sCollection.AddSingleton(iface, concrete);
-        //    }
-        //}
 
         private static void LoadTransients()
         {
             _ = sCollection
                 .AddTransient(typeof(ISettingsTestModel), typeof(SettingsTestModel));
+
+            Console.WriteLine("Load transients");
         }
 
         private static void LoadSingleTons()
         {
             _ = sCollection
-                .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore));
+                .AddSingleton(typeof(ILoggerCore), typeof(LoggerCore))
+                .AddSingleton(typeof(ISettingsStorageDriver), typeof(NvsStorage))
+                .AddSingleton(typeof(ISettingsService), typeof(SettingsService));
 
         }
 

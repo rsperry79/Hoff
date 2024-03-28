@@ -2,12 +2,12 @@
 
 using Hoff.Core.Services.Common.Interfaces.Services;
 using Hoff.Core.Services.Settings.Tests.Helpers;
+using Hoff.Tests.Common;
 using Hoff.Tests.Common.Interfaces;
 using Hoff.Tests.Common.Models;
 
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-using nanoFramework.Logging.Debug;
 using nanoFramework.TestFramework;
 
 namespace Hoff.Core.Services.Settings.Tests
@@ -16,7 +16,7 @@ namespace Hoff.Core.Services.Settings.Tests
     public class SettingsTests
     {
         #region Fields
-        private static DebugLogger Logger;
+        private static ILogger Logger;
         private static IServiceProvider Services;
         private static ISettingsService SettingsService;
         #endregion Fields
@@ -261,22 +261,31 @@ namespace Hoff.Core.Services.Settings.Tests
 
         #region Helpers
 
-        [Setup]
-        public void Setup()
+        private static bool isSetup = false;
+
+        public void ConfigureServices()
         {
-            if (SettingsService is null)
+            if (isSetup is false)
             {
-                Services = DiSetup.ConfigureServices();
-                SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
-                Logger = DiSetup.GetLogger();
+                TestHelpers.GetServiceCollection();
+                DiSetup.ConfigureServices();
+                isSetup = true;
             }
         }
 
-        public void ExternalSetup(ServiceProvider services)
+        [Setup]
+        public void Setup()
         {
-            SettingsService = (ISettingsService)services.GetService(typeof(ISettingsService));
-            Logger = DiSetup.GetLogger();
+            if (Services is null)
+            {
+                this.ConfigureServices();
+                Services = TestHelpers.GetServices();
+                Logger = TestHelpers.GetLogger("Integration Tests");
+                SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
+
+            }
         }
-        #endregion Helpers
     }
+    #endregion Helpers
 }
+

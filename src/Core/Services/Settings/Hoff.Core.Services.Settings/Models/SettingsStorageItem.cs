@@ -12,18 +12,19 @@ namespace Hoff.Core.Services.Settings.Models
         public static ILogger Logger { get; set; }
 
         #region Properties
-        public string ConfigType { get; set; }
+        public Type ConfigType { get; set; }
         public object Payload { get; set; }
 
         #endregion Properties
 
         #region Public Methods
 
-
         public SettingsStorageItem(object payload)
         {
             this.Payload = payload;
-            this.ConfigType = payload.GetType().FullName;
+
+            this.ConfigType = this.GetTypeName(payload.GetType());
+
         }
 
         public void SetPayload(object payload)
@@ -33,47 +34,69 @@ namespace Hoff.Core.Services.Settings.Models
             this.Payload = payload;
         }
 
-        public object GetPayload()
-        {
-            return this.Payload;
-        }
-
         public bool IsTypeOf(Type type)
         {
-            //Type.GetType(this.ConfigType
-            if (this.ConfigType == type.FullName)
+            // Check if the type is the same as the stored type
+            if (this.ConfigType.FullName == type.FullName)
             {
-                Logger.LogInformation($"Matched {this.ConfigType}");
                 return true;
             }
 
-            foreach (string iface in this.GetInterfacesOf())
+            // Check if the type is an interface of the argument type
+            foreach (Type t in type.GetInterfaces())
             {
-                if (iface == type.FullName.ToString())
+                if (this.ConfigType.FullName == t.FullName)
                 {
-                    Logger.LogInformation($"Matched {iface} to {type.FullName}");
                     return true;
                 }
             }
 
+            // Check if the type is a subclass of the stored type
+            foreach (Type iface in this.GetInterfacesOf())
+            {
+                if (iface.FullName == type.FullName)
+                {
+                    return true;
+                }
+            }
+
+            // if no match return false
             return false;
         }
 
         #endregion Public Methods
 
         #region Private Methods
-        private string[] GetInterfacesOf()
+        private Type[] GetInterfacesOf()
         {
             ArrayList interfaces = new();
-            Type[] types = Type.GetType(this.ConfigType).GetInterfaces();
 
+            Type[] types = this.ConfigType.GetInterfaces();
+            int idx = 0;
             foreach (Type type in types)
             {
-                interfaces.Add(type.FullName);
+                _ = interfaces.Add(type.FullName);
+                idx++;
             }
 
-            Logger.LogInformation($"GetInterfacesOf Added {interfaces.Count}");
-            return (string[])interfaces.ToArray(typeof(string));
+            return (Type[])interfaces.ToArray(typeof(Type));
+        }
+
+        private Type GetTypeName(Type type)
+        {
+            Type temp = type;
+
+            bool startsWithI = type.Name.StartsWith("I");
+            if (!startsWithI)
+            {
+                Type[] ifaces = type.GetInterfaces();
+                if (ifaces.Length > 0)
+                {
+                    temp = ifaces[0];
+                }
+            }
+
+            return temp;
         }
         #endregion Private Methods
     }

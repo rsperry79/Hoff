@@ -26,7 +26,7 @@ namespace Hoff.Core.Services.Settings
             ServiceProvider = serviceProvider;
 
             ISettingsStorageDriver settingsStorageDriver = (ISettingsStorageDriver)serviceProvider.GetService(typeof(ISettingsStorageDriver));
-            SettingsStorage = new SettingsStorage(settingsStorageDriver, loggerCore);
+            SettingsStorage = new SettingsStorage(settingsStorageDriver, ServiceProvider, loggerCore);
         }
 
         public int SettingsCount()
@@ -39,29 +39,16 @@ namespace Hoff.Core.Services.Settings
         public object Add(object payload)
         {
             Type type = payload.GetType();
-            Logger.LogInformation($"Adding {type.Name}");
             bool added = SettingsStorage.Add(payload);
-            if (added)
-            {
-                return payload;
-            }
-            else
-            {
-                throw new Exception($"Failed to add {type.Name}");
-            }
+            return added ? payload : throw new Exception($"Failed to add {type.Name}");
         }
 
         public object Add(Type type)
         {
-
-            Logger.LogInformation($"Adding {type.FullName}");
             object temp = ServiceProvider.GetService(type);
 
-            if (temp == null)
-            {
-                temp = Activator.CreateInstance(type);
-            }
-            SettingsStorage.Add(temp);
+            temp ??= Activator.CreateInstance(type);
+            _ = SettingsStorage.Add(temp);
             return temp;
         }
 
@@ -82,18 +69,14 @@ namespace Hoff.Core.Services.Settings
 
         {
             object result = SettingsStorage.FindByType(type);
-            return result != null ? result : null;
+            return result ?? null;
 
         }
-
 
         public object GetOrDefault(Type type)
         {
             object temp = SettingsStorage.FindByType(type);
-            if (temp == null)
-            {
-                temp = this.Add(type);
-            }
+            temp ??= this.Add(type);
 
             return temp;
         }
@@ -113,7 +96,6 @@ namespace Hoff.Core.Services.Settings
             return removed;
         }
 
-
         public void FactoryReset(bool reset)
         {
             if (reset)
@@ -131,7 +113,7 @@ namespace Hoff.Core.Services.Settings
             {
                 if (disposing)
                 {
-                    SettingsStorage.Save();
+
                     SettingsStorage = null;
                     ServiceProvider = null;
                     Logger = null;
@@ -147,7 +129,6 @@ namespace Hoff.Core.Services.Settings
             this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-
 
         #endregion Dispose
     }

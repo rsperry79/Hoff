@@ -7,7 +7,6 @@ using Hoff.Core.Services.WirelessConfig.Helpers;
 using Microsoft.Extensions.Logging;
 
 using nanoFramework.Logging;
-using nanoFramework.Networking;
 using nanoFramework.Runtime.Native;
 
 namespace Hoff.Core.Services.WirelessConfig.Ap
@@ -28,7 +27,6 @@ namespace Hoff.Core.Services.WirelessConfig.Ap
             WapConfig = GetAdhocConfiguration();
             WifiSettings = wifiSettings;
 
-
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace Hoff.Core.Services.WirelessConfig.Ap
             }
             else
             {
-                NetworkHelperStatus status = NetworkHelpers.WaitForWifi(Logger);
+                _ = NetworkHelpers.WaitForWifi(Logger);
                 //this.EnableDhcp();
                 return true;
             }
@@ -60,7 +58,6 @@ namespace Hoff.Core.Services.WirelessConfig.Ap
         /// <returns></returns>
         public WirelessAPConfiguration LoadConfig(IWifiSettings settings)
         {
-
 
             WapConfig.Ssid = string.IsNullOrEmpty(settings.SSID) ? "" : settings.SSID;
             WapConfig.Password = string.IsNullOrEmpty(settings.Password) ? "" : settings.Password;

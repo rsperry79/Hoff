@@ -64,8 +64,8 @@ namespace Iot.Device.DhcpServer
                     logger = this.GetCurrentClassLogger();
                     // listen socket
                     _dhcplistener = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                    IPAddress dsip = new IPAddress(0xFFFFFFFF);
-                    IPEndPoint ep = new IPEndPoint(dsip, DhcpPort);
+                    IPAddress dsip = new(0xFFFFFFFF);
+                    IPEndPoint ep = new(dsip, DhcpPort);
                     _dhcplistener.Bind(ep);
 
                     _ipAddress = address;
@@ -79,14 +79,19 @@ namespace Iot.Device.DhcpServer
                     _sender.Connect(new IPEndPoint(IPAddress.Parse("255.255.255.255"), DhcpClientPort));
 
                     // make a dynamic ip pool
-                    _dhcpIpList = new ArrayList();
-                    _dhcpIpList.Add(_ipAddress);
-                    _dhcpHardwareAddressList = new ArrayList();
-                    _dhcpHardwareAddressList.Add("ESP32");
-                    _dhcpLastRequest = new ArrayList();
-
-                    // This one never ever expires
-                    _dhcpLastRequest.Add(DateTime.MaxValue);
+                    _dhcpIpList = new ArrayList
+                    {
+                        _ipAddress
+                    };
+                    _dhcpHardwareAddressList = new ArrayList
+                    {
+                        "ESP32"
+                    };
+                    _dhcpLastRequest = new ArrayList
+                    {
+                        // This one never ever expires
+                        DateTime.MaxValue
+                    };
                     _timeToLeave = timeToLeave;
                     _timer = new Timer(CheckAndCleanList, null, timeToLeave * 1000, timeToLeave * 1000);
 
@@ -115,12 +120,12 @@ namespace Iot.Device.DhcpServer
 
         private void CheckAndCleanList(object state)
         {
-            ArrayList toRemove = new ArrayList();
+            ArrayList toRemove = new();
             for (int i = 0; i < _dhcpLastRequest.Count; i++)
             {
                 if ((DateTime)_dhcpLastRequest[i] < DateTime.UtcNow)
                 {
-                    toRemove.Add(i);
+                    _ = toRemove.Add(i);
                 }
             }
 
@@ -164,7 +169,7 @@ namespace Iot.Device.DhcpServer
                         // we have data!
                         // output as string for debug, uncomment below:
                         // Debug.WriteLine(BitConverter.ToString(buffer, 0, bytes));
-                        DhcpMessage dhcpReq = new DhcpMessage();
+                        DhcpMessage dhcpReq = new();
                         dhcpReq.Parse(ref buffer);
                         string sname = dhcpReq.HostName;
                         string macAddress = BitConverter.ToString(dhcpReq.ClientHardwareAddress, 0, dhcpReq.ClientHardwareAddress.Length);
@@ -180,18 +185,11 @@ namespace Iot.Device.DhcpServer
                                 byte[] yourIp;
 
                                 // Do we have an option asking for a specific IP address?
-                                var reqIp = dhcpReq.RequestedIpAddress;
+                                IPAddress reqIp = dhcpReq.RequestedIpAddress;
                                 if (reqIp != new IPAddress(0))
                                 {
                                     // We do have a request for an IP, maybe it was connected before
-                                    if (_dhcpIpList.Contains(reqIp))
-                                    {
-                                        yourIp = reqIp.GetAddressBytes();
-                                    }
-                                    else
-                                    {
-                                        yourIp = GetFirstAvailableIp();
-                                    }
+                                    yourIp = _dhcpIpList.Contains(reqIp) ? reqIp.GetAddressBytes() : GetFirstAvailableIp();
                                 }
                                 else
                                 {
@@ -209,7 +207,7 @@ namespace Iot.Device.DhcpServer
                                     byte[] opt = GetAdditionalOptions();
                                     byte[] offer = dhcpReq.Offer(new IPAddress(yourIp), _mask, _ipAddress, opt);
                                     Debug.WriteLine(BitConverter.ToString(offer, 0, offer.Length));
-                                    _sender.Send(offer);
+                                    _ = _sender.Send(offer);
 
                                 }
                                 catch (Exception ex)
@@ -217,6 +215,7 @@ namespace Iot.Device.DhcpServer
                                     logger.LogCritical(ex, ex.Message);
                                     throw;
                                 }
+
                                 break;
 
                             case DhcpMessageType.Request:
@@ -234,9 +233,9 @@ namespace Iot.Device.DhcpServer
                                 Debug.WriteLine($"DHCP Request: Server Identifier {dhcpReq.DhcpAddress}");
                                 if (!_dhcpIpList.Contains(dhcpReq.RequestedIpAddress))
                                 {
-                                    _dhcpIpList.Add(dhcpReq.RequestedIpAddress);
-                                    _dhcpHardwareAddressList.Add(macAddress);
-                                    _dhcpLastRequest.Add(DateTime.UtcNow);
+                                    _ = _dhcpIpList.Add(dhcpReq.RequestedIpAddress);
+                                    _ = _dhcpHardwareAddressList.Add(macAddress);
+                                    _ = _dhcpLastRequest.Add(DateTime.UtcNow);
                                 }
                                 else
                                 {
@@ -258,13 +257,13 @@ namespace Iot.Device.DhcpServer
                                     else
                                     {
                                         // In this case make a Nack
-                                        _sender.Send(dhcpReq.NotAcknoledge());
+                                        _ = _sender.Send(dhcpReq.NotAcknoledge());
                                         break;
                                     }
                                 }
 
                                 // Finaly send the acknoledge
-                                _sender.Send(dhcpReq.Acknoledge(dhcpReq.RequestedIpAddress, _mask, _ipAddress, GetAdditionalOptions()));
+                                _ = _sender.Send(dhcpReq.Acknoledge(dhcpReq.RequestedIpAddress, _mask, _ipAddress, GetAdditionalOptions()));
 
                                 // Uncommment to see the buffer:
                                 // Debug.WriteLine(BitConverter.ToString(buffer, 0, bytes));
@@ -308,7 +307,7 @@ namespace Iot.Device.DhcpServer
 
             if (!string.IsNullOrEmpty(CaptivePortalUrl))
             {
-                var encoded = Encoding.UTF8.GetBytes(CaptivePortalUrl);
+                byte[] encoded = Encoding.UTF8.GetBytes(CaptivePortalUrl);
                 additionalOptions = new byte[2 + encoded.Length];
                 additionalOptions[0] = (byte)DhcpOptionCode.WwwServer;
                 additionalOptions[1] = (byte)CaptivePortalUrl.Length;

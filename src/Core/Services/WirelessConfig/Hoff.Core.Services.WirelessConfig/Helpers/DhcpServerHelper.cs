@@ -31,8 +31,10 @@ namespace Hoff.Core.Services.WirelessConfig.Helpers
             Logger.LogInformation($"Dhcp Server Addr: {wifiSettings.Address}");
             Logger.LogInformation($"Dhcp Server Mask: {wifiSettings.NetMask}");
 
-            dhcpServer = new DhcpServer();
-            dhcpServer.CaptivePortalUrl = url;
+            dhcpServer = new DhcpServer
+            {
+                CaptivePortalUrl = url
+            };
 
             bool dhcpInitResult = dhcpServer.Start(IPAddress.Parse(wifiSettings.Address), IPAddress.Parse(wifiSettings.NetMask), 1200);
 

@@ -27,12 +27,21 @@ namespace Hoff.Core.Hardware.Storage.Nvs
             bool hasStored = this.HasStored(storageName);
             string temp = !hasStored ? string.Empty : GetString(this.ToUri(storageName));
 
-            if (!hasStored)
-            {
-                _ = this.Write(this.ToUri(storageName), "");
-            }
 
             return temp;
+        }
+
+        public string[] ReadLines(string storageName)
+        {
+            string temp = this.Read(storageName);
+            if (string.IsNullOrEmpty(temp))
+            {
+                return null;
+            }
+
+            // split temp by new line
+            string[] lines = temp.Split(new char[] { '\r', '\n' });
+            return lines;
         }
 
         public bool Write(string storageName, string data)
@@ -58,30 +67,14 @@ namespace Hoff.Core.Hardware.Storage.Nvs
             return temp;
         }
 
-        //private static bool WriteData(string uri, string data)
-        //{
-        //    //using (FileStream file = new(uri, FileMode.Create))
-        //    //{
-        //    //    byte[] buffer = Encoding.UTF8.GetBytes(data);
-        //    //    file.Write(buffer, 0, buffer.Length);
-        //    //    file.Dispose();
-        //    //    temp = true;
-        //    //}
-        //}
+
 
         private static string GetString(string uri)
         {
             try
             {
                 return File.ReadAllText(uri);
-                //using (FileStream stream = new(uri, FileMode.Open))
-                //{
-                //    byte[] buffer = new byte[stream.Length];
-                //    _ = stream.Read(buffer, 0, (int)stream.Length);
 
-                //    string raw = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
-                //    return raw;
-                //}
             }
             catch (Exception ex)
             {
@@ -89,6 +82,7 @@ namespace Hoff.Core.Hardware.Storage.Nvs
                 throw;
             }
         }
+
 
         internal string ToUri(string storageName)
         {

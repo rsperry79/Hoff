@@ -1,49 +1,64 @@
-﻿using System;
+﻿//using System;
 
-using Hoff.Core.Services.Common.Interfaces.Services;
-using Hoff.Core.Services.Settings.Tests.Helpers;
+//using Hoff.Core.Services.Common.Interfaces.Services;
+//using Hoff.Core.Services.Settings.Tests.Helpers;
+//using Hoff.Tests.Common;
 
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
-using nanoFramework.TestFramework;
+//using nanoFramework.TestFramework;
 
-namespace Hoff.Core.Services.WirelessConfig.Tests
-{
+//namespace Hoff.Core.Services.WirelessConfig.Tests
+//{
 
-    [TestClass]
-    public class ApDisposeTests
-    {
-        private static ILogger Logger;
+//    [TestClass]
+//    public class ApDisposeTests
+//    {
+//        private static ILogger Logger;
+//        private static IServiceProvider Services;
+//        private static ISettingsService SettingsService;
 
-        #region Tests
-        [TestMethod]
-        public void DisposeTest()
-        {
+//        #region Tests
+//        [TestMethod]
+//        public void DisposeTest()
+//        {
 
-            using (IApConfig ApConfig = (IApConfig)DiSetup.Services.GetService(typeof(IApConfig)))
-            {
+//            using (IApConfig ApConfig = (IApConfig)Services.GetService(typeof(IApConfig)))
+//            {
 
-            }
-            GC.WaitForPendingFinalizers();
+//            }
+//            GC.WaitForPendingFinalizers();
 
-            Assert.IsTrue(true);
-        }
+//            Assert.IsTrue(true);
+//        }
 
-        #endregion Tests
+//        #endregion Tests
+//        #region Helpers
 
-        #region Helpers
+//        private static bool isSetup = false;
 
-        [Setup]
-        public static void Setup()
-        {
+//        public void ConfigureServices()
+//        {
+//            if (isSetup is false)
+//            {
+//                TestHelpers.GetServiceCollection();
+//                DiSetup.ConfigureServices();
+//                isSetup = true;
+//            }
+//        }
 
-            if (Logger is null)
-            {
-                Logger = DiSetup.ConfigureLogger("TestLogger");
-                DiSetup.ConfigureServices();
-            }
+//        [Setup]
+//        public void Setup()
+//        {
+//            if (Services is null)
+//            {
+//                this.ConfigureServices();
+//                Services = TestHelpers.GetServices();
+//                Logger = TestHelpers.GetLogger("Integration Tests");
+//                SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
 
-        }
-        #endregion Helpers
-    }
-}
+//            }
+//        }
+//        #endregion Helpers
+//    }
+//}

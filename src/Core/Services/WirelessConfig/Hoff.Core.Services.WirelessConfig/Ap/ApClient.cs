@@ -15,7 +15,7 @@ using nanoFramework.Networking;
 
 namespace Hoff.Core.Services.WirelessConfig.Ap
 {
-    internal class ApClient : IApClient
+    internal class ApClient : IApClient, IDisposable
     {
         private static ILogger Logger;
         private static WifiAdapter Wifi;
@@ -154,6 +154,16 @@ namespace Hoff.Core.Services.WirelessConfig.Ap
             }
 
             return null;
+        }
+
+        public void Dispose()
+        {
+
+        }
+
+        ~ApClient()
+        {
+            this.Dispose();
         }
 
     }

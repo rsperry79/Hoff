@@ -14,73 +14,95 @@ using nanoFramework.Logging;
 
 namespace Hoff.Core.Services.Settings
 {
-    internal class SettingsStorage
+    internal class SettingsStorage : IDisposable
     {
         #region Properties
         private static readonly string storageLocation = "settings.json";
         private static ISettingsStorageDriver StorageDriver { get; set; }
+        private static IServiceProvider ServiceProvider;
         private static ILogger Logger;
         private static ArrayList Items { get; set; }
         public int Count => Items.Count;
         #endregion Properties
 
         #region Ctor
-        internal SettingsStorage(ISettingsStorageDriver storageDriver, ILoggerCore loggerCore)
+        internal SettingsStorage(ISettingsStorageDriver storageDriver, IServiceProvider serviceProvider, ILoggerCore loggerCore)
         {
             if (StorageDriver is null)
             {
                 StorageDriver = storageDriver;
                 Logger = loggerCore.GetCurrentClassLogger();
                 SettingsStorageItem.Logger = loggerCore.GetCurrentClassLogger();
+                ServiceProvider = serviceProvider;
             }
 
             if (Items is null)
             {
+#if DEBUG
+                Items = new ArrayList();
+#else
                 this.GetStoredData();
+#endif
             }
         }
-        #endregion Ctor 
+        #endregion Ctor
 
         #region Add
         internal object AddOrUpdate(object payload)
         {
-            object existing = this.Update(payload);
-            if (existing == null)
+            if (payload == null)
             {
-                this.Add(payload);
+                throw new ArgumentNullException(nameof(payload));
+            }
+            int existing = this.FindExistingByType(payload.GetType());
+
+
+            if (existing == -1)
+            {
+                _ = this.Add(payload);
+            }
+            else
+            {
+                _ = this.Update(payload);
             }
 
             return payload;
         }
 
-        internal object Update(object payload)
+        private object Update(object payload)
         {
-            ISettingsStorageItem existing = this.FindExistingByType(payload.GetType());
-            if (existing != null)
+
+            int existing = this.FindExistingByType(payload.GetType());
+            if (existing != -1)
             {
-                existing.Payload = payload;
-                this.Save();
+                ((ISettingsStorageItem)Items[existing]).Payload = payload;
+                _ = this.Save();
             }
             else
             {
                 throw new Exception("Item not found");
             }
+
             return payload;
         }
 
         internal bool Add(object payload)
         {
-            ISettingsStorageItem existing = this.FindExistingByType(payload.GetType());
-            if (existing != null)
+            if (payload == null)
+            {
+                throw new ArgumentNullException(nameof(payload));
+            }
+
+            int existing = this.FindExistingByType(payload.GetType());
+            if (existing != -1) // second check cleans storage errors if they exist w/o throwing an exception
             {
                 throw new Exception("Existing item found");
-
             }
-            SettingsStorageItem newItem = new(payload);
 
+            SettingsStorageItem newItem = new(payload);
             _ = Items.Add(newItem);
-            bool res = this.Save();
-            return res;
+            bool saved = this.Save();
+            return saved;
         }
         #endregion Add
 
@@ -88,10 +110,10 @@ namespace Hoff.Core.Services.Settings
 
         internal object FindByType(Type type)
         {
-            SettingsStorageItem temp = this.FindExistingByType(type);
-            if (temp != null)
+            int temp = this.FindExistingByType(type);
+            if (temp != -1)
             {
-                object result = temp.Payload;
+                object result = ((ISettingsStorageItem)Items[temp]).Payload;
                 return result;
             }
             else
@@ -100,9 +122,9 @@ namespace Hoff.Core.Services.Settings
             }
         }
 
-        private SettingsStorageItem FindExistingByType(Type type)
+        private int FindExistingByType(Type type)
         {
-            SettingsStorageItem temp = null;
+            int temp = -1;
 
             foreach (SettingsStorageItem item in Items)
             {
@@ -110,11 +132,10 @@ namespace Hoff.Core.Services.Settings
 
                 if (isMatch)
                 {
-                    temp = item;
+                    temp = Items.IndexOf(item);
                     break;
                 }
             }
-
 
             return temp;
         }
@@ -126,23 +147,71 @@ namespace Hoff.Core.Services.Settings
             {
 
                 Items = new ArrayList();
-                string raw = StorageDriver.Read(storageLocation);
-                if (!string.IsNullOrEmpty(raw) && raw != "null")
+                string[] lines = StorageDriver.ReadLines(storageLocation);
+                if (lines != null)
                 {
-                    string[] lines = raw.Split('\t');
+                    Logger.LogInformation($"SettingsStorageItem entries: {lines.Length}");
                     foreach (string line in lines)
                     {
                         DebugLine = line;
-                        SettingsStorageItem deser = JsonConvert.DeserializeObject(line, typeof(ISettingsStorageItem)) as SettingsStorageItem;
-                        Items.Add(deser);
-                        Logger.LogInformation($"SettingsStorageItem Added: {deser.ConfigType}");
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            continue;
+                        }
+                        try
+                        {
+
+                            string[] data = line.Split('\t');
+
+                            // Takes the stored IFace and converts it to the concrete type specified in the DI config for deserialization
+                            Type concreteType = ServiceProvider.GetService(Type.GetType(data[0])).GetType();
+
+
+                            if (concreteType == null)
+                            {
+                                throw new Exception("Error getting concrete type for deserialization.");
+                            }
+
+                            // check for existing item and skip if found
+                            int existing = this.FindExistingByType(concreteType);
+                            if (existing == -1)
+                            {
+                                string rawjson = data[1].Trim();
+                                // Deserializes the stored object
+
+                                object toStore = JsonConvert.DeserializeObject(rawjson, concreteType);
+
+                                // Creates a new SettingsStorageItem with the deserialized object
+                                if (toStore != null)
+                                {
+                                    ISettingsStorageItem settingsStorageItem = new SettingsStorageItem(toStore);
+                                    Items.Add(settingsStorageItem); // ensures that the item is added to the list and saved to storage and is not duplicated
+                                    Logger.LogInformation($"SettingsStorageItem Added: {settingsStorageItem.ConfigType}");
+                                }
+                            }
+                            else
+                            {
+                                Logger.LogInformation($"SettingsStorageItem already exists: {concreteType}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+#if DEBUG
+                            Logger.LogError($"{DebugLine}");
+                            Logger.LogError(ex.Message, ex);
+                            //FactoryReset(true);
+                            //throw;
+#else
+           throw;
+#endif
+
+                        }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Logger.LogError($"{DebugLine}");
-                Logger.LogError(ex.Message, ex);
+
                 throw;
             }
         }
@@ -161,12 +230,12 @@ namespace Hoff.Core.Services.Settings
         internal bool Remove(Type type)
         {
             bool removed = false;
-            SettingsStorageItem temp = this.FindExistingByType(type);
+            int existing = this.FindExistingByType(type);
 
-            if (temp != null)
+            if (existing != -1)
             {
-                Items.Remove(temp);
-                this.Save();
+                Items.RemoveAt(existing);
+                _ = this.Save();
                 removed = true;
             }
 
@@ -177,22 +246,27 @@ namespace Hoff.Core.Services.Settings
         #region Save
         internal bool Save()
         {
-            SettingsStorageItem[] settingsStorageItems = Items.ToArray(typeof(SettingsStorageItem)) as SettingsStorageItem[];
-            StringBuilder sb = new StringBuilder();
+            _ = Items.ToArray(typeof(SettingsStorageItem)) as SettingsStorageItem[];
+            StringBuilder sb = new();
 
             foreach (SettingsStorageItem item in Items)
             {
-                string json = JsonConvert.SerializeObject(item);
-                sb.Append(json + '\t');
+                _ = sb.Append(item.ConfigType.FullName + '\t');
+
+                string json = JsonConvert.SerializeObject(item.Payload);
+                _ = sb.AppendLine(json);
             }
 
             string results = sb.ToString();
-            Logger.LogInformation($"Settings Save Payload: {results}");
             bool saved = StorageDriver.Write(storageLocation, results);
 
             return saved;
         }
 
+        public void Dispose()
+        {
+            this.Save();
+        }
 
         #endregion Save
     }

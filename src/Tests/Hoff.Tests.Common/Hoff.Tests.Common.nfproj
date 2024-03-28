@@ -33,13 +33,18 @@
     <Reference Include="nanoFramework.Logging">
       <HintPath>..\..\..\packages\nanoFramework.Logging.1.1.81\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="nanoFramework.System.Collections">
+      <HintPath>..\..\..\packages\nanoFramework.System.Collections.1.5.31\lib\nanoFramework.System.Collections.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Hardware\Storage\Nvs\Hoff.Core.Hardware.Storage.Nvs\Hoff.Core.Hardware.Storage.Nvs.nfproj" />
     <ProjectReference Include="..\..\Core\Logging\src\Hoff.Core.Services.Logging.nfproj" />
     <ProjectReference Include="..\..\Core\Services\Common\Hoff.Core.Services.Common\Hoff.Core.Services.Common.nfproj" />
+    <ProjectReference Include="..\..\Core\Services\Settings\Hoff.Core.Services.Settings\Hoff.Core.Services.Settings.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

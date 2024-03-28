@@ -1,10 +1,11 @@
-﻿namespace Hoff.Core.Services.Settings.Interfaces
+﻿using System;
+
+namespace Hoff.Core.Services.Settings.Interfaces
 {
     public interface ISettingsStorageItem
     {
-        string ConfigType { get; }
+        Type ConfigType { get; }
 
         object Payload { get; set; }
-
     }
 }

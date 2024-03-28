@@ -41,15 +41,14 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests
         {
             // Setup
             ISettingsService SettingsService = (ISettingsService)Services.GetService(typeof(ISettingsService));
-
-            // Arrange
-
-            // Act
-            IWifiSettings result = (IWifiSettings)SettingsService.Add(typeof(IWifiSettings));
-            result.SSID = "Test";
+            SettingsService.FactoryReset(true);
 
             // Act
-            Assert.IsNotNull(result);
+            IWifiSettings wifiResult = (IWifiSettings)SettingsService.Add(typeof(IWifiSettings));
+            wifiResult.SSID = "Test";
+
+            // Assert
+            Assert.IsNotNull(wifiResult);
         }
         #endregion Tests
 
@@ -73,8 +72,8 @@ namespace Hoff.Core.IntegrationTests.Integration.Tests
                 this.ConfigureServices();
                 Services = TestHelpers.GetServices();
                 Logger = TestHelpers.GetLogger("Integration Tests");
-
             }
+
         }
         #endregion Helpers
     }

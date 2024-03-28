@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Diagnostics;
 using System.Net;
 using System.Text;
+
 using Iot.Device.DhcpServer.Enums;
 
 namespace Iot.Device.DhcpServer
@@ -94,14 +94,14 @@ namespace Iot.Device.DhcpServer
         {
             get
             {
-                if (IsOptionsInvalid())
+                if (this.IsOptionsInvalid())
                 {
                     return DhcpMessageType.Unknown;
                 }
 
-                if (OptionsContainsKey(DhcpOptionCode.DhcpMessageType))
+                if (this.OptionsContainsKey(DhcpOptionCode.DhcpMessageType))
                 {
-                    var data = GetOption(DhcpOptionCode.DhcpMessageType)[0];
+                    byte data = this.GetOption(DhcpOptionCode.DhcpMessageType)[0];
                     return (DhcpMessageType)data;
                 }
 
@@ -116,14 +116,14 @@ namespace Iot.Device.DhcpServer
         {
             get
             {
-                if (IsOptionsInvalid())
+                if (this.IsOptionsInvalid())
                 {
                     return string.Empty;
                 }
 
-                if (OptionsContainsKey(DhcpOptionCode.Hostname))
+                if (this.OptionsContainsKey(DhcpOptionCode.Hostname))
                 {
-                    var data = GetOption(DhcpOptionCode.Hostname);
+                    byte[] data = this.GetOption(DhcpOptionCode.Hostname);
                     return Encoding.UTF8.GetString(data, 0, data.Length);
                 }
 
@@ -138,14 +138,14 @@ namespace Iot.Device.DhcpServer
         {
             get
             {
-                if (IsOptionsInvalid())
+                if (this.IsOptionsInvalid())
                 {
                     return new IPAddress(0);
                 }
 
-                if (OptionsContainsKey(DhcpOptionCode.RequestedIpAddress))
+                if (this.OptionsContainsKey(DhcpOptionCode.RequestedIpAddress))
                 {
-                    var data = GetOption(DhcpOptionCode.RequestedIpAddress);
+                    byte[] data = this.GetOption(DhcpOptionCode.RequestedIpAddress);
                     return new IPAddress(data);
                 }
 
@@ -160,14 +160,14 @@ namespace Iot.Device.DhcpServer
         {
             get
             {
-                if (IsOptionsInvalid())
+                if (this.IsOptionsInvalid())
                 {
                     return new IPAddress(0);
                 }
 
-                if (OptionsContainsKey(DhcpOptionCode.DhcpAddress))
+                if (this.OptionsContainsKey(DhcpOptionCode.DhcpAddress))
                 {
-                    var data = GetOption(DhcpOptionCode.DhcpAddress);
+                    byte[] data = this.GetOption(DhcpOptionCode.DhcpAddress);
                     return new IPAddress(data);
                 }
 
@@ -184,32 +184,32 @@ namespace Iot.Device.DhcpServer
             // See the build function for details on a message.
             const int LongSize = 4;
             int inc = 0;
-            OperationCode = (DhcpOperation)dhcppacket[0];
-            HardwareType = (HardwareType)dhcppacket[1];
-            HardwareAddressLength = dhcppacket[2];
-            Hops = dhcppacket[3];
+            this.OperationCode = (DhcpOperation)dhcppacket[0];
+            this.HardwareType = (HardwareType)dhcppacket[1];
+            this.HardwareAddressLength = dhcppacket[2];
+            this.Hops = dhcppacket[3];
             inc += LongSize;
-            TransactionId = BitConverter.ToUInt32(dhcppacket, inc);
+            this.TransactionId = BitConverter.ToUInt32(dhcppacket, inc);
             inc += LongSize;
-            SecondsElapsed = BitConverter.ToUInt16(dhcppacket, inc);
+            this.SecondsElapsed = BitConverter.ToUInt16(dhcppacket, inc);
             inc += 2;
-            Flags = BitConverter.ToUInt16(dhcppacket, inc);
+            this.Flags = BitConverter.ToUInt16(dhcppacket, inc);
             inc += 2;
-            ClientIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
+            this.ClientIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
             inc += LongSize;
-            YourIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
+            this.YourIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
             inc += LongSize;
-            ServerIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
+            this.ServerIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
             inc += LongSize;
-            GatewayIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
+            this.GatewayIPAddress = new IPAddress(BitConverter.GetBytes(BitConverter.ToUInt32(dhcppacket, inc)));
             inc += LongSize;
-            ClientHardwareAddress = new byte[HardwareAddressLength];
-            Array.Copy(dhcppacket, inc, ClientHardwareAddress, 0, HardwareAddressLength);
-            Cookie = new byte[4];
+            this.ClientHardwareAddress = new byte[this.HardwareAddressLength];
+            Array.Copy(dhcppacket, inc, this.ClientHardwareAddress, 0, this.HardwareAddressLength);
+            this.Cookie = new byte[4];
 
             // We directly go to the magic cookie.
             inc = 236;
-            Array.Copy(dhcppacket, inc, Cookie, 0, 4);
+            Array.Copy(dhcppacket, inc, this.Cookie, 0, 4);
 
             // check copy options array
             inc = IndexToOptions;
@@ -218,13 +218,13 @@ namespace Iot.Device.DhcpServer
             {
                 while (dhcppacket[offset] != 0xff)
                 {
-                    byte optcode = dhcppacket[offset++];
+                    _ = dhcppacket[offset++];
                     int optlen = dhcppacket[offset++];
                     offset += optlen;
                 }
 
-                Options = new byte[offset - inc + 1];
-                Array.Copy(dhcppacket, inc, Options, 0, Options.Length);
+                this.Options = new byte[offset - inc + 1];
+                Array.Copy(dhcppacket, inc, this.Options, 0, this.Options.Length);
             }
         }
 
@@ -270,55 +270,55 @@ namespace Iot.Device.DhcpServer
             const int LongSize = 4;
             int inc = 0;
             byte[] dhcpPacket = new byte[DhcppacketSize];
-            dhcpPacket[0] = (byte)OperationCode;
-            dhcpPacket[1] = (byte)HardwareType;
-            dhcpPacket[2] = HardwareAddressLength;
-            dhcpPacket[3] = Hops;
+            dhcpPacket[0] = (byte)this.OperationCode;
+            dhcpPacket[1] = (byte)this.HardwareType;
+            dhcpPacket[2] = this.HardwareAddressLength;
+            dhcpPacket[3] = this.Hops;
             inc += LongSize;
-            BitConverter.GetBytes(TransactionId).CopyTo(dhcpPacket, inc);
+            BitConverter.GetBytes(this.TransactionId).CopyTo(dhcpPacket, inc);
             inc += LongSize;
-            BitConverter.GetBytes(SecondsElapsed).CopyTo(dhcpPacket, inc);
+            BitConverter.GetBytes(this.SecondsElapsed).CopyTo(dhcpPacket, inc);
 
             // Only 2 bytes for the previous one
             inc += 2;
-            BitConverter.GetBytes(Flags).CopyTo(dhcpPacket, inc);
+            BitConverter.GetBytes(this.Flags).CopyTo(dhcpPacket, inc);
             inc += 2;
-            ClientIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
+            this.ClientIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
             inc += LongSize;
-            YourIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
+            this.YourIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
             inc += LongSize;
-            ServerIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
+            this.ServerIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
             inc += LongSize;
-            GatewayIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
+            this.GatewayIPAddress.GetAddressBytes().CopyTo(dhcpPacket, inc);
             inc += LongSize;
-            ClientHardwareAddress.CopyTo(dhcpPacket, inc);
+            this.ClientHardwareAddress.CopyTo(dhcpPacket, inc);
 
             // We directly jump to the Magic cookie
             inc = 236;
-            Cookie.CopyTo(dhcpPacket, inc);
+            this.Cookie.CopyTo(dhcpPacket, inc);
             inc += LongSize;
-            Options.CopyTo(dhcpPacket, inc);
+            this.Options.CopyTo(dhcpPacket, inc);
             return dhcpPacket;
         }
 
         private byte[] BuildType(DhcpMessageType acktype, IPAddress cip, IPAddress mask, IPAddress sip, byte[] additionalOptions = null)
         {
-            OperationCode = DhcpOperation.BootReply;
-            YourIPAddress = cip;
-            ResetOptions();
-            AddOption(DhcpOptionCode.DhcpMessageType, new byte[] { (byte)acktype });
+            this.OperationCode = DhcpOperation.BootReply;
+            this.YourIPAddress = cip;
+            this.ResetOptions();
+            this.AddOption(DhcpOptionCode.DhcpMessageType, new byte[] { (byte)acktype });
             if (acktype != DhcpMessageType.Nak)
             {
-                AddOption(DhcpOptionCode.SubnetMask, mask.GetAddressBytes());
-                AddOption(DhcpOptionCode.DhcpAddress, sip.GetAddressBytes());
+                this.AddOption(DhcpOptionCode.SubnetMask, mask.GetAddressBytes());
+                this.AddOption(DhcpOptionCode.DhcpAddress, sip.GetAddressBytes());
             }
 
             if (additionalOptions != null)
             {
-                AddOptionRaw(ref additionalOptions);
+                this.AddOptionRaw(ref additionalOptions);
             }
 
-            return Build();
+            return this.Build();
         }
 
         /// <summary>
@@ -329,7 +329,10 @@ namespace Iot.Device.DhcpServer
         /// <param name="sip">Server IP address.</param>
         /// <param name="additionalOptions">Additional options to send.</param>
         /// <returns>A byte arry with the message.</returns>
-        public byte[] Offer(IPAddress cip, IPAddress mask, IPAddress sip, byte[] additionalOptions = null) => BuildType(DhcpMessageType.Offer, cip, mask, sip, additionalOptions);
+        public byte[] Offer(IPAddress cip, IPAddress mask, IPAddress sip, byte[] additionalOptions = null)
+        {
+            return this.BuildType(DhcpMessageType.Offer, cip, mask, sip, additionalOptions);
+        }
 
         /// <summary>
         /// Ackanoledge message.
@@ -339,7 +342,10 @@ namespace Iot.Device.DhcpServer
         /// <param name="sip">Server IP address.</param>
         /// <param name="additionalOptions">Additional options to send.</param>
         /// <returns>A byte arry with the message.</returns>
-        public byte[] Acknoledge(IPAddress cip, IPAddress mask, IPAddress sip, byte[] additionalOptions = null) => BuildType(DhcpMessageType.Ack, cip, mask, sip, additionalOptions);
+        public byte[] Acknoledge(IPAddress cip, IPAddress mask, IPAddress sip, byte[] additionalOptions = null)
+        {
+            return this.BuildType(DhcpMessageType.Ack, cip, mask, sip, additionalOptions);
+        }
 
         /// <summary>
         /// Not Ackanoledge message.
@@ -347,8 +353,8 @@ namespace Iot.Device.DhcpServer
         /// <returns>A byte arry with the message.</returns>
         public byte[] NotAcknoledge()
         {
-            YourIPAddress = new IPAddress(0);
-            return BuildType(DhcpMessageType.Nak, new IPAddress(0), new IPAddress(0), new IPAddress(0));
+            this.YourIPAddress = new IPAddress(0);
+            return this.BuildType(DhcpMessageType.Nak, new IPAddress(0), new IPAddress(0), new IPAddress(0));
         }
 
         /// <summary>
@@ -358,17 +364,20 @@ namespace Iot.Device.DhcpServer
         /// <param name="mask">Network mask.</param>
         /// <param name="sip">Server IP address.</param>
         /// <returns>A byte arry with the message.</returns>
-        public byte[] Decline(IPAddress cip, IPAddress mask, IPAddress sip) => BuildType(DhcpMessageType.Decline, cip, mask, sip);
+        public byte[] Decline(IPAddress cip, IPAddress mask, IPAddress sip)
+        {
+            return this.BuildType(DhcpMessageType.Decline, cip, mask, sip);
+        }
 
         private int OptionsFindKey(DhcpOptionCode lookOpt)
         {
             int offset = 0;
-            if (Options[offset] != (byte)DhcpOptionCode.Pad)
+            if (this.Options[offset] != (byte)DhcpOptionCode.Pad)
             {
-                while (Options[offset] != (byte)DhcpOptionCode.End)
+                while (this.Options[offset] != (byte)DhcpOptionCode.End)
                 {
-                    byte optcode = Options[offset++];
-                    int optlen = Options[offset++];
+                    byte optcode = this.Options[offset++];
+                    int optlen = this.Options[offset++];
                     if ((DhcpOptionCode)optcode == lookOpt)
                     {
                         return offset - 2;
@@ -387,8 +396,8 @@ namespace Iot.Device.DhcpServer
         public void ResetOptions()
         {
             // 240 is where the options are starting, right after the magic cookie
-            Options = new byte[DhcppacketSize - IndexToOptions];
-            Options[0] = 0xff;
+            this.Options = new byte[DhcppacketSize - IndexToOptions];
+            this.Options[0] = 0xff;
         }
 
         /// <summary>
@@ -398,15 +407,15 @@ namespace Iot.Device.DhcpServer
         private void AddOptionRaw(ref byte[] optdata)
         {
             int offset = 0;
-            while (Options[offset] != 0xff)
+            while (this.Options[offset] != 0xff)
             {
-                byte optcode = Options[offset++];
-                int optlen = Options[offset++];
+                _ = this.Options[offset++];
+                int optlen = this.Options[offset++];
                 offset += optlen;
             }
 
-            optdata.CopyTo(Options, offset);
-            Options[offset + optdata.Length] = (byte)DhcpOptionCode.End; // set end of options
+            optdata.CopyTo(this.Options, offset);
+            this.Options[offset + optdata.Length] = (byte)DhcpOptionCode.End; // set end of options
         }
 
         /// <summary>
@@ -420,7 +429,7 @@ namespace Iot.Device.DhcpServer
             optTyData[0] = (byte)optType;
             optTyData[1] = (byte)optData.Length;
             optData.CopyTo(optTyData, 2);
-            AddOptionRaw(ref optTyData);
+            this.AddOptionRaw(ref optTyData);
         }
 
         /// <summary>
@@ -428,7 +437,10 @@ namespace Iot.Device.DhcpServer
         /// </summary>
         /// <param name="lookOpt">The option to check.</param>
         /// <returns>True if found.</returns>
-        public bool OptionsContainsKey(DhcpOptionCode lookOpt) => OptionsFindKey(lookOpt) == -1 ? false : true;
+        public bool OptionsContainsKey(DhcpOptionCode lookOpt)
+        {
+            return this.OptionsFindKey(lookOpt) != -1;
+        }
 
         /// <summary>
         /// Gets the option contained in a key.
@@ -437,17 +449,20 @@ namespace Iot.Device.DhcpServer
         /// <returns>The byte array with the raw option value.</returns>
         public byte[] GetOption(DhcpOptionCode lookOpt)
         {
-            int optofs = OptionsFindKey(lookOpt);
+            int optofs = this.OptionsFindKey(lookOpt);
             if (optofs == -1)
             {
                 return null;
             }
 
-            byte[] optVal = new byte[Options[optofs + 1]];
-            Array.Copy(Options, optofs + 2, optVal, 0, optVal.Length);
+            byte[] optVal = new byte[this.Options[optofs + 1]];
+            Array.Copy(this.Options, optofs + 2, optVal, 0, optVal.Length);
             return optVal;
         }
 
-        private bool IsOptionsInvalid() => !((Options != null) && (Options.Length > 0));
+        private bool IsOptionsInvalid()
+        {
+            return !((this.Options != null) && (this.Options.Length > 0));
+        }
     }
 }
